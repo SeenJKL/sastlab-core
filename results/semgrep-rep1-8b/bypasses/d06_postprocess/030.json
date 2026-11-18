@@ -1,0 +1,44 @@
+{
+  "rules": [
+    "formatted-sql-query"
+  ],
+  "oracle": {
+    "ok": true,
+    "outputs": [
+      [
+        [
+          "1",
+          "ALICE",
+          "admin"
+        ]
+      ],
+      [
+        [
+          "1",
+          "ALICE",
+          "admin"
+        ],
+        [
+          "2",
+          "BOB",
+          "user"
+        ],
+        [
+          "3",
+          "CAROL",
+          "user"
+        ]
+      ]
+    ],
+    "seconds": 0.028815614990890026,
+    "equivalent": true
+  },
+  "scan": {
+    "status": "ok",
+    "findings": [],
+    "error": "",
+    "seconds": 2.4809003800619394,
+    "rules": []
+  },
+  "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/b481fdcd96be44daaeb4081bdf093502/d06_postprocess/66e3348e65c861b1061300be5238429ae65e2df414074bcdd5f5e4b4defb6e8c/s1-k13-n10"
+}

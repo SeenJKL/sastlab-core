@@ -1,0 +1,44 @@
+{
+  "rules": [
+    "py/sql-injection"
+  ],
+  "oracle": {
+    "ok": true,
+    "outputs": [
+      [
+        [
+          "1",
+          "alice",
+          "admin"
+        ]
+      ],
+      [
+        [
+          "1",
+          "alice",
+          "admin"
+        ],
+        [
+          "2",
+          "bob",
+          "user"
+        ],
+        [
+          "3",
+          "carol",
+          "user"
+        ]
+      ]
+    ],
+    "seconds": 0.029717887984588742,
+    "equivalent": true
+  },
+  "scan": {
+    "status": "ok",
+    "findings": [],
+    "error": "",
+    "seconds": 12.761503674031701,
+    "rules": []
+  },
+  "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/6b5a0dd728f6415abc183e8f671c36c0/seed_03/77421861c80c5bb7d75dc96ca687e9f31638d2b553c547ccd28d363ac52851e0/s7-k5-n27"
+}

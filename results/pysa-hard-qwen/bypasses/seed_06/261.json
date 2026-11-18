@@ -1,0 +1,41 @@
+{
+  "rules": [
+    "pysa/5005",
+    "pysa/5051"
+  ],
+  "oracle": {
+    "ok": true,
+    "outputs": [
+      [
+        [
+          "alice",
+          "admin"
+        ]
+      ],
+      [
+        [
+          "alice",
+          "admin"
+        ],
+        [
+          "bob",
+          "user"
+        ],
+        [
+          "carol",
+          "user"
+        ]
+      ]
+    ],
+    "seconds": 0.043122039998706896,
+    "equivalent": true
+  },
+  "scan": {
+    "status": "ok",
+    "findings": [],
+    "error": "",
+    "seconds": 5.377623663000122,
+    "rules": []
+  },
+  "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/18351ed7588a44ce95817c9c880d6940/seed_06/c499835b608b25cb0c89b2f6e4b4a301b4a2afe5e76fcae670c07ece437c46dc/s6-k7-n14"
+}

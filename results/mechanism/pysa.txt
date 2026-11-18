@@ -1,0 +1,16 @@
+== 1. call graph of the entry function
+baseline             rules ['pysa/5005', 'pysa/5051'] | references to an sqlite3 execute (call or attribute access): ['sqlite3.Cursor.execute'] | all callees: ['sqlite3.Connection.__call__', 'sqlite3.Connection.cursor', 'sqlite3.Cursor.execute', 'sqlite3.Cursor.fetchall']
+dict_dispatch        rules ['pysa/5051'] | references to an sqlite3 execute (call or attribute access): ['sqlite3.Cursor.execute'] | all callees: ['sqlite3.Connection.__call__', 'sqlite3.Connection.cursor', 'sqlite3.Cursor.execute', 'sqlite3.Cursor.fetchall']
+dynamic_sink         rules ['pysa/5051'] | references to an sqlite3 execute (call or attribute access): [] | all callees: ['sqlite3.Connection.__call__', 'sqlite3.Connection.cursor', 'sqlite3.Cursor.fetchall']
+partial_sink         rules ['pysa/5051'] | references to an sqlite3 execute (call or attribute access): ['sqlite3.Cursor.execute'] | all callees: ['sqlite3.Connection.__call__', 'sqlite3.Connection.cursor', 'sqlite3.Cursor.execute', 'sqlite3.Cursor.fetchall']
+methodcaller_sink    rules ['pysa/5051'] | references to an sqlite3 execute (call or attribute access): [] | all callees: ['sqlite3.Connection.__call__', 'sqlite3.Connection.cursor', 'sqlite3.Cursor.fetchall']
+unbound_sink         rules ['pysa/5051'] | references to an sqlite3 execute (call or attribute access): ['sqlite3.Cursor.execute'] | all callees: ['sqlite3.Connection.__call__', 'sqlite3.Connection.cursor', 'sqlite3.Cursor.execute', 'sqlite3.Cursor.fetchall']
+== 2. model repair
+simplequeue_roundtrip    stock models       status ok rules [] 
+simplequeue_roundtrip    with added models  status ok rules ['pysa/5005', 'pysa/5051'] 
+db_roundtrip             stock models       status ok rules [] 
+db_roundtrip             with added models  status ok rules ['pysa/5005', 'pysa/5051'] 
+== 3. unbound sink, three spellings of the call (rules that fire)
+type(cursor).execute(cursor, query)  [the rewrite]           status ok rules ['pysa/5051'] 
+type(cursor).execute(query)  [bound shape, not runnable]     status ok rules ['pysa/5005', 'pysa/5051'] 
+sqlite3.Cursor.execute(cursor, query)                        status ok rules ['pysa/5005', 'pysa/5051'] 

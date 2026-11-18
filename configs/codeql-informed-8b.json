@@ -1,0 +1,43 @@
+{
+  "engine": "codeql",
+  "seeds": "../seeds_diverse",
+  "corpus_kind": "synthetic",
+  "attempts": 12,
+  "trajectories": 15,
+  "base_seed": 6223,
+  "strategies": [
+    3,
+    5
+  ],
+  "cache": true,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "rule_metadata": "CodeQL py/sql-injection: untrusted user input flows to a SQL query sink.",
+  "llm": {
+    "provider": "soclaas",
+    "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+    "model": "llama3.1:8b",
+    "api_key_env": "SOCLAAS_API_KEY",
+    "env_file": "../.env",
+    "temperature": 0.2,
+    "timeout": 180,
+    "max_prompt_tokens": 3000,
+    "prompt_extra": "Context: the scanner is the CodeQL query py/sql-injection, a data-flow query. It reports user input that flows through the program to the argument of a database execute call. A verdict of clean means the query no longer reports a finding. A candidate is built by adding one operator at a time, and an operator can be added only if it comes later than the last one added in this fixed order: rename, format_swap, literal_slice, dead_padding, extract_1, branch_split, dict_dispatch, char_launder, queue_roundtrip. When no operator is available the search restarts from the original program."
+  },
+  "target_rules": [
+    "py/sql-injection"
+  ],
+  "query": "codeql/python-queries@1.8.11:Security/CWE-089/SqlInjection.ql",
+  "operators": [
+    "rename",
+    "format_swap",
+    "literal_slice",
+    "dead_padding",
+    "extract_1",
+    "branch_split",
+    "dict_dispatch",
+    "char_launder",
+    "queue_roundtrip"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "started": "2026-10-15T13:18:09.055809+00:00",
+  "kind": "exhaustive",
+  "identity": {
+    "engine": "codeql",
+    "scanner_version": "{\n  \"productName\" : \"CodeQL\",\n  \"vendor\" : \"GitHub\",\n  \"version\" : \"2.27.1\",\n  \"sha\" : \"938af3639d0709b587251e45d9f8d2bdc3505696\",\n  \"branches\" : [\n    \"codeql-cli-2.27.1\"\n  ],\n  \"copyright\" : \"Copyright (C) 2019-2026 GitHub, Inc.\",\n  \"unpackedLocation\" : \"/home/agent/CS6223/Project/code/.sastlab/tools/codeql\",\n  \"configFileLocation\" : \"/home/agent/.config/codeql/config\",\n  \"configFileFound\" : false,\n  \"overlayVersion\" : 4,\n  \"features\" : {\n    \"analysisSummaryV2Default\" : true,\n    \"buildModeOption\" : true,\n    \"bundleSupportsIncludeDiagnostics\" : true,\n    \"bundleSupportsIncludeLogs\" : true,\n    \"bundleSupportsOverlay\" : true,\n    \"databaseInterpretResultsSupportsSarifRunProperty\" : true,\n    \"featuresInVersionResult\" : true,\n    \"indirectTracingSupportsStaticBinaries\" : false,\n    \"informsAboutUnsupportedPathFilters\" : true,\n    \"supportsPython312\" : true,\n    \"mrvaPackCreate\" : true,\n    \"threatModelOption\" : true,\n    \"traceCommandUseBuildMode\" : true,\n    \"v2ramSizing\" : true,\n    \"mrvaPackCreateMultipleQueries\" : true,\n    \"setsCodeqlRunnerEnvVar\" : true,\n    \"sarifMergeRunsFromEqualCategory\" : true,\n    \"forceOverwrite\" : true,\n    \"generateSummarySymbolMap\" : true,\n    \"pythonDefaultIsToNotExtractStdlib\" : true,\n    \"queryServerRunQueries\" : true,\n    \"queryServerTrimCacheWithMode\" : true,\n    \"builtinExtractorsSpecifyDefaultQueries\" : true,\n    \"bqrsDiffResultSets\" : true,\n    \"bundleSupportsIncludeOption\" : true,\n    \"suppressesMissingFileBaselineWarning\" : true\n  }\n}",
+    "rule_sha256": null,
+    "query": "codeql/python-queries@1.8.11:Security/CWE-089/SqlInjection.ql",
+    "target_rules": [
+      "py/sql-injection"
+    ],
+    "seed_sha256": {
+      "o03_semgrep.py": "6b348b9af97bb45359eb132516706a02ecdfb8a297ae62d6d563f139f58d5f30",
+      "o04_semgrep.py": "2fa7f5510b77e8a9c76b6b05226716d175c097e94c4d6571842b045b6de0bdbb",
+      "o05_semgrep.py": "a0f72de6bd8a064a2f98baa82ef36f6d7e44f0d761668e9854a6d8dc657df660",
+      "o06_semgrep.py": "40f8cb1deebedbdd98cf47e90d72ad05bbd1c6a5debbb1ec8e4b253f5c27c4cc",
+      "o09_semgrep.py": "4c7b60053596d6618994ca7a19b92463f3a31bc706421e4bac100125928dcdfc",
+      "o10_semgrep.py": "9cdbc24c4f655514efa0511e11e9d393fdcd87f279c0cfd036b15796d167a237",
+      "o18_semgrep.py": "1ce47643bb3638af2ee741d5f4ee5f56132ad70e295656b2a1bb36080d36c1a8",
+      "o23_codeql.py": "ec96ef583946a381e08161bbdcaffec3702acee9efebf2d108871394bd39125a",
+      "o24_codeql.py": "d74f65590ffa2486dfc4d307dc3705328d669ed59c4c940480ab48cb66defced"
+    },
+    "operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "extract_2",
+      "branch_split",
+      "dict_dispatch",
+      "dynamic_sink",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip",
+      "simplequeue_roundtrip",
+      "pickle_roundtrip",
+      "partial_sink",
+      "methodcaller_sink",
+      "unbound_sink"
+    ],
+    "enumerated_operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "extract_2",
+      "branch_split",
+      "dict_dispatch",
+      "dynamic_sink",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip",
+      "simplequeue_roundtrip",
+      "pickle_roundtrip",
+      "partial_sink",
+      "methodcaller_sink",
+      "unbound_sink"
+    ],
+    "max_ops": 1,
+    "oracle_timeout": 5
+  },
+  "python": "3.14.4",
+  "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+  "work_dir": "/home/agent/CS6223/Project/code/.sastlab/runs/25bfd50d56e64a01acc145b2daed7379",
+  "state": "complete",
+  "finished": "2026-10-15T14:01:52.588942+00:00"
+}

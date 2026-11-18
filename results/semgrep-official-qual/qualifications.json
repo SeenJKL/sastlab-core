@@ -1,0 +1,454 @@
+[
+  {
+    "seed": "o03_semgrep",
+    "sha256": "6b348b9af97bb45359eb132516706a02ecdfb8a297ae62d6d563f139f58d5f30",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "seconds": 0.024448938900604844
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o03_semgrep/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    cursor.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.9754058939870447,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o03_semgrep/baseline"
+  },
+  {
+    "seed": "o04_semgrep",
+    "sha256": "2fa7f5510b77e8a9c76b6b05226716d175c097e94c4d6571842b045b6de0bdbb",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.023823386058211327
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o04_semgrep/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 7,
+          "snippet": "    cursor.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.906516927992925,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o04_semgrep/baseline"
+  },
+  {
+    "seed": "o05_semgrep",
+    "sha256": "a0f72de6bd8a064a2f98baa82ef36f6d7e44f0d761668e9854a6d8dc657df660",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.031241655815392733
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o05_semgrep/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 7,
+          "snippet": "    cursor.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.9321198409888893,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o05_semgrep/baseline"
+  },
+  {
+    "seed": "o06_semgrep",
+    "sha256": "40f8cb1deebedbdd98cf47e90d72ad05bbd1c6a5debbb1ec8e4b253f5c27c4cc",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.028025841107591987
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o06_semgrep/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 7,
+          "snippet": "    cursor.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.9781061338726431,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o06_semgrep/baseline"
+  },
+  {
+    "seed": "o09_semgrep",
+    "sha256": "4c7b60053596d6618994ca7a19b92463f3a31bc706421e4bac100125928dcdfc",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.025350011186674237
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o09_semgrep/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    cursor.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.894172419095412,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o09_semgrep/baseline"
+  },
+  {
+    "seed": "o10_semgrep",
+    "sha256": "9cdbc24c4f655514efa0511e11e9d393fdcd87f279c0cfd036b15796d167a237",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.026475355960428715
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o10_semgrep/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    cursor.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.9249012819491327,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o10_semgrep/baseline"
+  },
+  {
+    "seed": "o18_semgrep",
+    "sha256": "1ce47643bb3638af2ee741d5f4ee5f56132ad70e295656b2a1bb36080d36c1a8",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.029854129999876022
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [],
+      "error": "",
+      "seconds": 2.0525988230947405,
+      "rules": []
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o18_semgrep/baseline"
+  },
+  {
+    "seed": "o23_codeql",
+    "sha256": "ec96ef583946a381e08161bbdcaffec3702acee9efebf2d108871394bd39125a",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.03131536487489939
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [],
+      "error": "",
+      "seconds": 2.0280225430615246,
+      "rules": []
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o23_codeql/baseline"
+  },
+  {
+    "seed": "o24_codeql",
+    "sha256": "d74f65590ffa2486dfc4d307dc3705328d669ed59c4c940480ab48cb66defced",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.03219868894666433
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o24_codeql/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 7,
+          "snippet": "    cursor.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.9741231088992208,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bb25fa9baf5c41b1931c1b876869ff27/o24_codeql/baseline"
+  }
+]

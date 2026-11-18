@@ -1,0 +1,68 @@
+{
+  "seeds": {
+    "o03_semgrep": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 696,
+      "evaluated": 466,
+      "invalid": 230,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 337,
+      "detected_masks": 129,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        32768,
+        65536
+      ]
+    },
+    "o18_semgrep": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 696,
+      "evaluated": 578,
+      "invalid": 118,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 449,
+      "detected_masks": 129,
+      "smallest_evading_masks": [
+        2,
+        4,
+        128,
+        256,
+        32768
+      ]
+    },
+    "o24_codeql": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 696,
+      "evaluated": 466,
+      "invalid": 230,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 337,
+      "detected_masks": 129,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        32768,
+        65536
+      ]
+    }
+  },
+  "total_evaluated": 1510,
+  "total_evading": 1123,
+  "total_scan_errors": 0,
+  "complete": true
+}

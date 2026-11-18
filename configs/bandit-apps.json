@@ -1,0 +1,26 @@
+{
+  "engine": "bandit",
+  "seeds": "../corpus_apps/seeds",
+  "corpus_kind": "harvested-adapted",
+  "attempts": 30,
+  "trajectories": 5,
+  "base_seed": 6223,
+  "strategies": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "cache": false,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "rule_metadata": "Bandit B608: SQL built by string formatting or concatenation (CWE-89)",
+  "target_rules": [
+    "bandit/B608"
+  ],
+  "executable": ".sastlab/bandit-venv/bin/bandit"
+}

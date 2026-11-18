@@ -1,0 +1,32 @@
+{
+  "engine": "pysa",
+  "seeds": "../corpus_official/seeds",
+  "corpus_kind": "harvested-adapted",
+  "attempts": 30,
+  "trajectories": 5,
+  "base_seed": 6223,
+  "strategies": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "cache": false,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "rule_metadata": "Pysa stock SQL rules 5005 (user-controlled data reaches an SQL sink) and 5051 (partial sink: user-controlled data and an SQL string literal), models from facebook/pyre-check d5614e0a Source: stock http.server.BaseHTTPRequestHandler.path via a handler method.",
+  "target_rules": [
+    "pysa/5005",
+    "pysa/5051"
+  ],
+  "executable": ".sastlab/pysa-venv/bin/pyre",
+  "pysa_models": [
+    "../third_party/pysa-models/core",
+    "../third_party/pysa-models/common"
+  ],
+  "pysa_source": "http-server"
+}

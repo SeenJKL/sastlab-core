@@ -1,0 +1,293 @@
+{
+  "seeds": {
+    "seed_01": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_02": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_03": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_04": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_05": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_06": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_07": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_08": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_09": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_10": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_11": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_12": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_13": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_14": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    },
+    "seed_15": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 15,
+      "detected_masks": 0,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    }
+  },
+  "total_evaluated": 225,
+  "total_evading": 225,
+  "total_scan_errors": 0,
+  "complete": true
+}

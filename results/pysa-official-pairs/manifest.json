@@ -1,0 +1,78 @@
+{
+  "started": "2026-10-16T05:41:03.851389+00:00",
+  "kind": "exhaustive",
+  "identity": {
+    "engine": "pysa",
+    "scanner_version": "Client version: 0.10.0",
+    "rule_sha256": null,
+    "query": null,
+    "target_rules": [
+      "pysa/5005",
+      "pysa/5051"
+    ],
+    "seed_sha256": {
+      "o03_semgrep.py": "6b348b9af97bb45359eb132516706a02ecdfb8a297ae62d6d563f139f58d5f30",
+      "o04_semgrep.py": "2fa7f5510b77e8a9c76b6b05226716d175c097e94c4d6571842b045b6de0bdbb",
+      "o05_semgrep.py": "a0f72de6bd8a064a2f98baa82ef36f6d7e44f0d761668e9854a6d8dc657df660",
+      "o06_semgrep.py": "40f8cb1deebedbdd98cf47e90d72ad05bbd1c6a5debbb1ec8e4b253f5c27c4cc",
+      "o09_semgrep.py": "4c7b60053596d6618994ca7a19b92463f3a31bc706421e4bac100125928dcdfc",
+      "o10_semgrep.py": "9cdbc24c4f655514efa0511e11e9d393fdcd87f279c0cfd036b15796d167a237",
+      "o18_semgrep.py": "1ce47643bb3638af2ee741d5f4ee5f56132ad70e295656b2a1bb36080d36c1a8",
+      "o23_codeql.py": "ec96ef583946a381e08161bbdcaffec3702acee9efebf2d108871394bd39125a",
+      "o24_codeql.py": "d74f65590ffa2486dfc4d307dc3705328d669ed59c4c940480ab48cb66defced"
+    },
+    "operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "extract_2",
+      "branch_split",
+      "dict_dispatch",
+      "dynamic_sink",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip",
+      "simplequeue_roundtrip",
+      "pickle_roundtrip",
+      "partial_sink",
+      "methodcaller_sink",
+      "unbound_sink"
+    ],
+    "enumerated_operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "extract_2",
+      "branch_split",
+      "dict_dispatch",
+      "dynamic_sink",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip",
+      "simplequeue_roundtrip",
+      "pickle_roundtrip",
+      "partial_sink",
+      "methodcaller_sink",
+      "unbound_sink"
+    ],
+    "max_ops": 2,
+    "oracle_timeout": 5
+  },
+  "python": "3.14.4",
+  "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+  "work_dir": "/home/agent/CS6223/Project/code/.sastlab/runs/cd4d827ba3f6484f86697d3d7be0fab9",
+  "state": "complete",
+  "resumes": [
+    {
+      "at": "2026-10-16T09:12:06.405763+00:00",
+      "work_dir": "/home/agent/CS6223/Project/code/.sastlab/runs/be544893118d454eabd895229ad467a8"
+    }
+  ],
+  "finished": "2026-10-16T11:12:31.194782+00:00"
+}

@@ -1,0 +1,77 @@
+{
+  "engine": "pysa",
+  "report_cards": [
+    {
+      "engine": "pysa",
+      "rule": "pysa/5005",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [],
+      "individual_crossing": null,
+      "portfolio_first_crossing_after_strategy": null
+    },
+    {
+      "engine": "pysa",
+      "rule": "pysa/5051",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [],
+      "individual_crossing": null,
+      "portfolio_first_crossing_after_strategy": null
+    }
+  ],
+  "strategy_metrics": [
+    {
+      "strategy": 5,
+      "attempts": 675,
+      "unique_candidates": 113,
+      "scanner_invocations": 675,
+      "cache_hits": 0,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 0,
+      "distinct_bypass_candidates": 0,
+      "distinct_bypass_per_trajectory": 0.0,
+      "time_to_first_bypass": {},
+      "wall_time_comparable": true
+    }
+  ],
+  "qualification_failures": []
+}

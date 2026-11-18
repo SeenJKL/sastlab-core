@@ -1,0 +1,341 @@
+{
+ "suite_commit": "d5614e0a75f539443225fce3c3c55a77cfbfb72c",
+ "tests": [
+  {
+   "test": "add_breadcrumb_to_state",
+   "exit": 0,
+   "expected": 5,
+   "reported": 5,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.0
+  },
+  {
+   "test": "class_interval",
+   "exit": 0,
+   "expected": 8,
+   "reported": 8,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.2
+  },
+  {
+   "test": "closure",
+   "exit": 0,
+   "expected": 32,
+   "reported": 32,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.4
+  },
+  {
+   "test": "closure_models",
+   "exit": 0,
+   "expected": 17,
+   "reported": 17,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.2
+  },
+  {
+   "test": "conditional",
+   "exit": 0,
+   "expected": 2,
+   "reported": 2,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.9
+  },
+  {
+   "test": "custom_dictionary_model",
+   "exit": 0,
+   "expected": 4,
+   "reported": 4,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.0
+  },
+  {
+   "test": "entrypoint",
+   "exit": 0,
+   "expected": 8,
+   "reported": 9,
+   "pass": false,
+   "missing": [],
+   "extra": [
+    [
+     "entrypoint.this_one_shouldnt_be_found",
+     1006,
+     36
+    ]
+   ],
+   "seconds": 5.3
+  },
+  {
+   "test": "extra_trace",
+   "exit": 0,
+   "expected": 3,
+   "reported": 3,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.1
+  },
+  {
+   "test": "implicit_sinks",
+   "exit": 0,
+   "expected": 8,
+   "reported": 8,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.2
+  },
+  {
+   "test": "implicit_sources",
+   "exit": 0,
+   "expected": 0,
+   "reported": 0,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.3
+  },
+  {
+   "test": "issue_grouping",
+   "exit": 0,
+   "expected": 2,
+   "reported": 2,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.0
+  },
+  {
+   "test": "maximum_tito_depth",
+   "exit": 0,
+   "expected": 1,
+   "reported": 1,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.9
+  },
+  {
+   "test": "maximum_trace_length",
+   "exit": 0,
+   "expected": 3,
+   "reported": 3,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.9
+  },
+  {
+   "test": "model_query",
+   "exit": 0,
+   "expected": 16,
+   "reported": 16,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.3
+  },
+  {
+   "test": "model_query_global_variable",
+   "exit": 0,
+   "expected": 3,
+   "reported": 3,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.0
+  },
+  {
+   "test": "model_query_parameters_where",
+   "exit": 0,
+   "expected": 16,
+   "reported": 16,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.9
+  },
+  {
+   "test": "multi_sink_ports",
+   "exit": 0,
+   "expected": 2,
+   "reported": 2,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.8
+  },
+  {
+   "test": "multi_subkind",
+   "exit": 0,
+   "expected": 1,
+   "reported": 1,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.8
+  },
+  {
+   "test": "multiple_sources",
+   "exit": 0,
+   "expected": 21,
+   "reported": 21,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.9
+  },
+  {
+   "test": "multiple_sources_string_operations",
+   "exit": 0,
+   "expected": 15,
+   "reported": 15,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.0
+  },
+  {
+   "test": "multiple_sources_string_operations_with_filters",
+   "exit": 0,
+   "expected": 5,
+   "reported": 5,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.3
+  },
+  {
+   "test": "multiple_sources_with_filters",
+   "exit": 0,
+   "expected": 3,
+   "reported": 3,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.3
+  },
+  {
+   "test": "obscure_models",
+   "exit": 0,
+   "expected": 5,
+   "reported": 5,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.1
+  },
+  {
+   "test": "overrides",
+   "exit": 0,
+   "expected": 8,
+   "reported": 8,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.9
+  },
+  {
+   "test": "parametric_models",
+   "exit": 0,
+   "expected": 2,
+   "reported": 2,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.0
+  },
+  {
+   "test": "rule",
+   "exit": 0,
+   "expected": 1,
+   "reported": 1,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.0
+  },
+  {
+   "test": "rule_with_filters",
+   "exit": 0,
+   "expected": 2,
+   "reported": 2,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.0
+  },
+  {
+   "test": "sanitize",
+   "exit": 0,
+   "expected": 22,
+   "reported": 22,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.4
+  },
+  {
+   "test": "sanitize_discard_flows",
+   "exit": 0,
+   "expected": 0,
+   "reported": 0,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.9
+  },
+  {
+   "test": "sanitize_obscure",
+   "exit": 0,
+   "expected": 0,
+   "reported": 0,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.9
+  },
+  {
+   "test": "sanitize_parametric",
+   "exit": 0,
+   "expected": 1,
+   "reported": 1,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 4.9
+  },
+  {
+   "test": "sanitize_tito_shaping",
+   "exit": 0,
+   "expected": 14,
+   "reported": 14,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 6.4
+  },
+  {
+   "test": "taint_transform",
+   "exit": 0,
+   "expected": 21,
+   "reported": 21,
+   "pass": true,
+   "missing": [],
+   "extra": [],
+   "seconds": 5.5
+  }
+ ]
+}

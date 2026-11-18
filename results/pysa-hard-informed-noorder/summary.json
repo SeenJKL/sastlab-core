@@ -1,0 +1,104 @@
+{
+  "engine": "pysa",
+  "report_cards": [
+    {
+      "engine": "pysa",
+      "rule": "pysa/5005",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [
+          "seed_06"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "seed_06"
+      ],
+      "individual_crossing": null,
+      "portfolio_first_crossing_after_strategy": null
+    },
+    {
+      "engine": "pysa",
+      "rule": "pysa/5051",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [
+          "seed_06"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "seed_06"
+      ],
+      "individual_crossing": null,
+      "portfolio_first_crossing_after_strategy": null
+    }
+  ],
+  "strategy_metrics": [
+    {
+      "strategy": 3,
+      "attempts": 675,
+      "unique_candidates": 64,
+      "scanner_invocations": 64,
+      "cache_hits": 611,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 0,
+      "distinct_bypass_candidates": 0,
+      "distinct_bypass_per_trajectory": 0.0,
+      "time_to_first_bypass": {},
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 5,
+      "attempts": 675,
+      "unique_candidates": 67,
+      "scanner_invocations": 15,
+      "cache_hits": 660,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 4,
+      "distinct_bypass_candidates": 4,
+      "distinct_bypass_per_trajectory": 0.08888888888888889,
+      "time_to_first_bypass": {
+        "seed_06:12": {
+          "attempt": 3,
+          "wall_seconds": 6.4161649419984315,
+          "charged_seconds": 17.099519040988525
+        }
+      },
+      "wall_time_comparable": false
+    }
+  ],
+  "qualification_failures": []
+}

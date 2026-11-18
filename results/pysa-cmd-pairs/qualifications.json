@@ -1,0 +1,490 @@
+[
+  {
+    "seed": "c01_check_output_fstring",
+    "sha256": "084041d6351028c80b59086ba97aa5a821288a84e2bc44590a684e65be90380c",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.08286868401046377
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/6065",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [ExecArgSink] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 11.619948428007774,
+      "rules": [
+        "pysa/6065"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/6065"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/ac755df148bb4df3879b957ed575fabe/c01_check_output_fstring/baseline"
+  },
+  {
+    "seed": "c02_check_output_format",
+    "sha256": "a64a5ded28be9e9ac6dd2ce6bc882ef50e15b0e321b8425d6c7d17adcb43999b",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03471189099946059
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/6065",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [ExecArgSink] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 9.399034715999733,
+      "rules": [
+        "pysa/6065"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/6065"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/ac755df148bb4df3879b957ed575fabe/c02_check_output_format/baseline"
+  },
+  {
+    "seed": "c03_check_output_percent",
+    "sha256": "c5ab60d6ce7c9163e9d2eca281025d736523103032f7bd787de49f0c0e06d912",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.084191355999792
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/6065",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [ExecArgSink] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 9.499932534992695,
+      "rules": [
+        "pysa/6065"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/6065"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/ac755df148bb4df3879b957ed575fabe/c03_check_output_percent/baseline"
+  },
+  {
+    "seed": "c04_run_concat",
+    "sha256": "c9bec5c5d8d90506f1639a80e0ab0a3d7736e5ea53cfaee32bf589b699e134f9",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.07776473301055375
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/6065",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [ExecArgSink] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 9.873710639993078,
+      "rules": [
+        "pysa/6065"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/6065"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/ac755df148bb4df3879b957ed575fabe/c04_run_concat/baseline"
+  },
+  {
+    "seed": "c05_popen_communicate",
+    "sha256": "94357d7e2a019b01aa7c99d266b7f34a8e6f93ac941447b7c887899d0054eb51",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.07818886400491465
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/6065",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [ExecArgSink] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 9.709907143987948,
+      "rules": [
+        "pysa/6065"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/6065"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/ac755df148bb4df3879b957ed575fabe/c05_popen_communicate/baseline"
+  },
+  {
+    "seed": "c06_preprocess",
+    "sha256": "a22de7e8dc638b03259e7a9273e0f143659bd240860a44da6b173bf633e578e5",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.077169727999717
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/6065",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [ExecArgSink] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 10,
+          "end_line": 10,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 9.805840892004198,
+      "rules": [
+        "pysa/6065"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/6065"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/ac755df148bb4df3879b957ed575fabe/c06_preprocess/baseline"
+  },
+  {
+    "seed": "c07_os_popen",
+    "sha256": "3be2de1ae2a84968e39183dbcf72779ba62e2463db5063da781c864e232f349d",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.1897153969912324
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/5001",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [RemoteCodeExecution] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    output = os.popen(cmd).read()",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 14.607500646001427,
+      "rules": [
+        "pysa/5001"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/5001"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/ac755df148bb4df3879b957ed575fabe/c07_os_popen/baseline"
+  },
+  {
+    "seed": "c08_getoutput",
+    "sha256": "8906a97127502e095da945ac916fe73b29f57a54ef5e829a117c712c86548cd6",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.031797247007489204
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/5001",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [RemoteCodeExecution] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    output = subprocess.getoutput(cmd)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 10.19471200100088,
+      "rules": [
+        "pysa/5001"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/5001"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/ac755df148bb4df3879b957ed575fabe/c08_getoutput/baseline"
+  }
+]

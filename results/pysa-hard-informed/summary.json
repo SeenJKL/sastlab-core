@@ -1,0 +1,483 @@
+{
+  "engine": "pysa",
+  "report_cards": [
+    {
+      "engine": "pysa",
+      "rule": "pysa/5005",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "2": [],
+        "3": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "4": [],
+        "5": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "individual_crossing": 1,
+      "portfolio_first_crossing_after_strategy": 1
+    },
+    {
+      "engine": "pysa",
+      "rule": "pysa/5051",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "2": [],
+        "3": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "4": [],
+        "5": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "individual_crossing": 1,
+      "portfolio_first_crossing_after_strategy": 1
+    }
+  ],
+  "strategy_metrics": [
+    {
+      "strategy": 1,
+      "attempts": 675,
+      "unique_candidates": 267,
+      "scanner_invocations": 267,
+      "cache_hits": 408,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 39,
+      "distinct_bypass_candidates": 36,
+      "distinct_bypass_per_trajectory": 0.8666666666666667,
+      "time_to_first_bypass": {
+        "seed_01:1": {
+          "attempt": 2,
+          "wall_seconds": 10.643067373981467,
+          "charged_seconds": 10.637451691989554
+        },
+        "seed_01:6": {
+          "attempt": 14,
+          "wall_seconds": 41.59469536200049,
+          "charged_seconds": 80.70118502012338
+        },
+        "seed_01:8": {
+          "attempt": 7,
+          "wall_seconds": 11.630529992020456,
+          "charged_seconds": 39.67983704604558
+        },
+        "seed_01:12": {
+          "attempt": 3,
+          "wall_seconds": 5.516695022000931,
+          "charged_seconds": 16.938771081971936
+        },
+        "seed_01:14": {
+          "attempt": 14,
+          "wall_seconds": 0.014050257013877854,
+          "charged_seconds": 79.07174375810428
+        },
+        "seed_06:1": {
+          "attempt": 2,
+          "wall_seconds": 11.082562010007678,
+          "charged_seconds": 11.078599364991533
+        },
+        "seed_06:6": {
+          "attempt": 14,
+          "wall_seconds": 38.9517286119808,
+          "charged_seconds": 78.71487995283678
+        },
+        "seed_06:8": {
+          "attempt": 7,
+          "wall_seconds": 11.508588337979745,
+          "charged_seconds": 39.84403985904646
+        },
+        "seed_06:12": {
+          "attempt": 3,
+          "wall_seconds": 5.75744811099139,
+          "charged_seconds": 16.84518353000749
+        },
+        "seed_06:14": {
+          "attempt": 14,
+          "wall_seconds": 0.017114949005190283,
+          "charged_seconds": 78.88965259506949
+        },
+        "seed_11:1": {
+          "attempt": 2,
+          "wall_seconds": 11.392529404984089,
+          "charged_seconds": 11.38737169399974
+        },
+        "seed_11:6": {
+          "attempt": 14,
+          "wall_seconds": 39.63687834198936,
+          "charged_seconds": 79.00379771791631
+        },
+        "seed_11:8": {
+          "attempt": 7,
+          "wall_seconds": 11.795857975987019,
+          "charged_seconds": 40.11794358000043
+        },
+        "seed_11:12": {
+          "attempt": 3,
+          "wall_seconds": 5.293659025017405,
+          "charged_seconds": 16.625622803956503
+        },
+        "seed_11:14": {
+          "attempt": 14,
+          "wall_seconds": 0.012469420005800202,
+          "charged_seconds": 79.0688279781607
+        }
+      },
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 3,
+      "attempts": 675,
+      "unique_candidates": 216,
+      "scanner_invocations": 178,
+      "cache_hits": 497,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 58,
+      "distinct_bypass_candidates": 47,
+      "distinct_bypass_per_trajectory": 1.288888888888889,
+      "time_to_first_bypass": {
+        "seed_01:1": {
+          "attempt": 4,
+          "wall_seconds": 18.8308810100134,
+          "charged_seconds": 24.50739221900585
+        },
+        "seed_01:5": {
+          "attempt": 12,
+          "wall_seconds": 41.219794304983225,
+          "charged_seconds": 75.67834224106628
+        },
+        "seed_01:6": {
+          "attempt": 15,
+          "wall_seconds": 22.99173577601323,
+          "charged_seconds": 92.92842218803708
+        },
+        "seed_01:10": {
+          "attempt": 4,
+          "wall_seconds": 6.978610320977168,
+          "charged_seconds": 24.091417086921865
+        },
+        "seed_01:14": {
+          "attempt": 4,
+          "wall_seconds": 1.5172299809928518,
+          "charged_seconds": 24.619771147990832
+        },
+        "seed_01:15": {
+          "attempt": 13,
+          "wall_seconds": 10.367903270001989,
+          "charged_seconds": 79.10192713292781
+        },
+        "seed_06:1": {
+          "attempt": 4,
+          "wall_seconds": 18.156560242990963,
+          "charged_seconds": 23.979892059025588
+        },
+        "seed_06:5": {
+          "attempt": 14,
+          "wall_seconds": 27.776049114996567,
+          "charged_seconds": 85.72962872192147
+        },
+        "seed_06:10": {
+          "attempt": 4,
+          "wall_seconds": 1.3236321949807461,
+          "charged_seconds": 24.18356894698809
+        },
+        "seed_06:11": {
+          "attempt": 5,
+          "wall_seconds": 7.851942962006433,
+          "charged_seconds": 30.77823102803086
+        },
+        "seed_06:12": {
+          "attempt": 12,
+          "wall_seconds": 6.009292239003116,
+          "charged_seconds": 76.35961081288406
+        },
+        "seed_06:14": {
+          "attempt": 4,
+          "wall_seconds": 1.3559228340163827,
+          "charged_seconds": 23.815074000041932
+        },
+        "seed_06:15": {
+          "attempt": 13,
+          "wall_seconds": 5.965847356012091,
+          "charged_seconds": 81.20327849496971
+        },
+        "seed_11:1": {
+          "attempt": 4,
+          "wall_seconds": 18.204684653988807,
+          "charged_seconds": 23.70856013696175
+        },
+        "seed_11:5": {
+          "attempt": 12,
+          "wall_seconds": 26.30043260200182,
+          "charged_seconds": 71.68067016085843
+        },
+        "seed_11:8": {
+          "attempt": 13,
+          "wall_seconds": 190.52881373200216,
+          "charged_seconds": 257.6850093389512
+        },
+        "seed_11:10": {
+          "attempt": 4,
+          "wall_seconds": 6.7982929649879225,
+          "charged_seconds": 23.524364973942284
+        },
+        "seed_11:11": {
+          "attempt": 5,
+          "wall_seconds": 7.60119106201455,
+          "charged_seconds": 29.849008443008643
+        },
+        "seed_11:12": {
+          "attempt": 14,
+          "wall_seconds": 4.913039782986743,
+          "charged_seconds": 82.68887087193434
+        },
+        "seed_11:14": {
+          "attempt": 4,
+          "wall_seconds": 1.29046622000169,
+          "charged_seconds": 23.705033591017127
+        }
+      },
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 5,
+      "attempts": 675,
+      "unique_candidates": 211,
+      "scanner_invocations": 75,
+      "cache_hits": 600,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 141,
+      "distinct_bypass_candidates": 94,
+      "distinct_bypass_per_trajectory": 3.1333333333333333,
+      "time_to_first_bypass": {
+        "seed_01:1": {
+          "attempt": 12,
+          "wall_seconds": 10.52398944599554,
+          "charged_seconds": 73.40856296190759
+        },
+        "seed_01:2": {
+          "attempt": 4,
+          "wall_seconds": 1.4342224579886533,
+          "charged_seconds": 24.259609058964998
+        },
+        "seed_01:3": {
+          "attempt": 7,
+          "wall_seconds": 2.7520561709825415,
+          "charged_seconds": 42.56768916093279
+        },
+        "seed_01:4": {
+          "attempt": 8,
+          "wall_seconds": 2.860915405995911,
+          "charged_seconds": 48.4841952919669
+        },
+        "seed_01:7": {
+          "attempt": 10,
+          "wall_seconds": 3.899669063015608,
+          "charged_seconds": 60.86207497603027
+        },
+        "seed_01:8": {
+          "attempt": 13,
+          "wall_seconds": 16.23048999599996,
+          "charged_seconds": 78.60601971001597
+        },
+        "seed_01:9": {
+          "attempt": 12,
+          "wall_seconds": 4.669192930974532,
+          "charged_seconds": 73.22418440095498
+        },
+        "seed_01:10": {
+          "attempt": 9,
+          "wall_seconds": 8.968799082998885,
+          "charged_seconds": 54.41246035406948
+        },
+        "seed_01:11": {
+          "attempt": 12,
+          "wall_seconds": 4.647572843998205,
+          "charged_seconds": 72.94892699201591
+        },
+        "seed_01:12": {
+          "attempt": 12,
+          "wall_seconds": 5.097515285015106,
+          "charged_seconds": 73.76011985895457
+        },
+        "seed_01:13": {
+          "attempt": 4,
+          "wall_seconds": 1.4905952139815781,
+          "charged_seconds": 24.32524106395431
+        },
+        "seed_01:14": {
+          "attempt": 4,
+          "wall_seconds": 1.314640069991583,
+          "charged_seconds": 24.415748792060185
+        },
+        "seed_01:15": {
+          "attempt": 9,
+          "wall_seconds": 3.588702117995126,
+          "charged_seconds": 55.18021834891988
+        },
+        "seed_06:1": {
+          "attempt": 12,
+          "wall_seconds": 4.425672053999733,
+          "charged_seconds": 73.99396134284325
+        },
+        "seed_06:2": {
+          "attempt": 4,
+          "wall_seconds": 2.670431312988512,
+          "charged_seconds": 25.488340787938796
+        },
+        "seed_06:3": {
+          "attempt": 6,
+          "wall_seconds": 2.278290154004935,
+          "charged_seconds": 36.46505017593154
+        },
+        "seed_06:7": {
+          "attempt": 10,
+          "wall_seconds": 3.673674606019631,
+          "charged_seconds": 61.481540854030754
+        },
+        "seed_06:10": {
+          "attempt": 4,
+          "wall_seconds": 1.580486282997299,
+          "charged_seconds": 24.44034623997868
+        },
+        "seed_06:11": {
+          "attempt": 12,
+          "wall_seconds": 4.548857657995541,
+          "charged_seconds": 72.82089718000498
+        },
+        "seed_06:12": {
+          "attempt": 12,
+          "wall_seconds": 4.3994770889985375,
+          "charged_seconds": 73.20332639999106
+        },
+        "seed_06:13": {
+          "attempt": 4,
+          "wall_seconds": 1.443447625002591,
+          "charged_seconds": 24.26433235796867
+        },
+        "seed_06:14": {
+          "attempt": 4,
+          "wall_seconds": 1.4106508730037604,
+          "charged_seconds": 23.867258858983405
+        },
+        "seed_06:15": {
+          "attempt": 9,
+          "wall_seconds": 3.918603077006992,
+          "charged_seconds": 55.23042010597419
+        },
+        "seed_11:1": {
+          "attempt": 12,
+          "wall_seconds": 10.058877395000309,
+          "charged_seconds": 71.46237459193799
+        },
+        "seed_11:3": {
+          "attempt": 7,
+          "wall_seconds": 2.6413524500094354,
+          "charged_seconds": 41.691773745958926
+        },
+        "seed_11:4": {
+          "attempt": 8,
+          "wall_seconds": 8.64987810200546,
+          "charged_seconds": 47.2138374800561
+        },
+        "seed_11:7": {
+          "attempt": 15,
+          "wall_seconds": 6.057136526011163,
+          "charged_seconds": 91.65402483200887
+        },
+        "seed_11:8": {
+          "attempt": 13,
+          "wall_seconds": 27.569814713991946,
+          "charged_seconds": 78.0217754279729
+        },
+        "seed_11:10": {
+          "attempt": 4,
+          "wall_seconds": 1.3188772030116525,
+          "charged_seconds": 23.64703120003105
+        },
+        "seed_11:11": {
+          "attempt": 12,
+          "wall_seconds": 4.265837623999687,
+          "charged_seconds": 72.10344975496992
+        },
+        "seed_11:12": {
+          "attempt": 12,
+          "wall_seconds": 4.9375117309973575,
+          "charged_seconds": 72.97019635493052
+        },
+        "seed_11:13": {
+          "attempt": 4,
+          "wall_seconds": 1.4432292690034956,
+          "charged_seconds": 23.773281245026737
+        },
+        "seed_11:14": {
+          "attempt": 4,
+          "wall_seconds": 1.6349095159966964,
+          "charged_seconds": 24.051249594951514
+        },
+        "seed_11:15": {
+          "attempt": 9,
+          "wall_seconds": 3.2298678630031645,
+          "charged_seconds": 53.709057102008956
+        }
+      },
+      "wall_time_comparable": false
+    }
+  ],
+  "qualification_failures": []
+}

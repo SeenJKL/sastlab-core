@@ -1,0 +1,35 @@
+{
+ "rule": "path-traversal-open",
+ "test_file": "corpus_official/semgrep/python/flask/security/injection/path-traversal-open.py",
+ "passed": true,
+ "expected_lines": [
+  10,
+  22,
+  36,
+  43,
+  49,
+  55,
+  61,
+  67,
+  74,
+  81,
+  88,
+  97
+ ],
+ "reported_lines": [
+  10,
+  22,
+  36,
+  43,
+  49,
+  55,
+  61,
+  67,
+  74,
+  81,
+  88,
+  97
+ ],
+ "errors": [],
+ "semgrep": "1.178.0"
+}

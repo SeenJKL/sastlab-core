@@ -1,0 +1,122 @@
+{
+  "seeds": {
+    "r01_bench_00099": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 108,
+      "detected_masks": 54,
+      "smallest_evading_masks": [
+        16,
+        32,
+        64,
+        128,
+        256
+      ]
+    },
+    "r02_bench_00283": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 108,
+      "detected_masks": 54,
+      "smallest_evading_masks": [
+        16,
+        32,
+        64,
+        128,
+        256
+      ]
+    },
+    "r03_bench_00284": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 108,
+      "detected_masks": 54,
+      "smallest_evading_masks": [
+        16,
+        32,
+        64,
+        128,
+        256
+      ]
+    },
+    "r04_bench_00454": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 108,
+      "detected_masks": 54,
+      "smallest_evading_masks": [
+        16,
+        32,
+        64,
+        128,
+        256
+      ]
+    },
+    "r05_bench_00455": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 108,
+      "detected_masks": 54,
+      "smallest_evading_masks": [
+        16,
+        32,
+        64,
+        128,
+        256
+      ]
+    },
+    "r06_vulpy_login": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 108,
+      "detected_masks": 36,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32,
+        64,
+        128
+      ]
+    }
+  },
+  "total_evaluated": 954,
+  "total_evading": 648,
+  "total_scan_errors": 0,
+  "complete": true
+}

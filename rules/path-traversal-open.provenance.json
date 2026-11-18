@@ -1,0 +1,5 @@
+{
+  "source": "https://raw.githubusercontent.com/semgrep/semgrep-rules/16b9e6d45f10649f6a531ec4838ed9924372c3bc/python/flask/security/injection/path-traversal-open.yaml",
+  "commit": "16b9e6d45f10649f6a531ec4838ed9924372c3bc",
+  "sha256": "6334bed72d7dc051b208c0d0a44c7f492110f31e89b48afe43e486d0dc49ebe1"
+}

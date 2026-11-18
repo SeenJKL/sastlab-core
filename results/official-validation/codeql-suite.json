@@ -1,0 +1,10 @@
+{
+ "query": "codeql/python-queries@1.8.11:Security/CWE-089/SqlInjection.ql",
+ "suite": "corpus_official/codeql/query-tests/CWE-089-SqlInjection",
+ "expected": 20,
+ "reported": 20,
+ "missing_from_scan": [],
+ "unexpected_in_scan": [],
+ "match": true,
+ "codeql": "{\n  \"productName\" : \"CodeQL\",\n  \"vendor\" : \"GitHub\",\n  \"version\" : \"2.27.1\",\n  \"sha\" : \"938af3639d0709b587251e45d9f8d2bdc3505696\",\n  \"branches\" : [\n    \"codeql-cli-2.27.1\"\n  ],\n  \"copyright\" : \"Copyri"
+}

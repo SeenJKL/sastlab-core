@@ -1,0 +1,122 @@
+{
+  "seeds": {
+    "p01_open_fstring": {
+      "qualifying_rules": [
+        "py/path-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 16,
+      "invalid": 2,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 7,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "p02_open_concat": {
+      "qualifying_rules": [
+        "py/path-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 16,
+      "invalid": 2,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 7,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "p03_open_percent": {
+      "qualifying_rules": [
+        "py/path-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 15,
+      "invalid": 3,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 7,
+      "detected_masks": 8,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "p04_open_format": {
+      "qualifying_rules": [
+        "py/path-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 15,
+      "invalid": 3,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 7,
+      "detected_masks": 8,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "p05_with_open": {
+      "qualifying_rules": [
+        "py/path-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 16,
+      "invalid": 2,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 7,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "p06_open_join": {
+      "qualifying_rules": [
+        "py/path-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 15,
+      "invalid": 3,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 7,
+      "detected_masks": 8,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    }
+  },
+  "total_evaluated": 93,
+  "total_evading": 42,
+  "total_scan_errors": 0,
+  "complete": true
+}

@@ -1,0 +1,103 @@
+{
+  "seeds": {
+    "a01_parsl_status_for_workflow": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 108,
+      "detected_masks": 36,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    "a02_parsl_resources_for_task": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 108,
+      "detected_masks": 36,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    "a03_parsl_dag_details": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 108,
+      "detected_masks": 36,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    "a04_scitokens_getkeyinfo": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 60,
+      "invalid": 111,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 36,
+      "detected_masks": 24,
+      "smallest_evading_masks": [
+        128,
+        256,
+        32768,
+        65536,
+        131072
+      ]
+    },
+    "a05_pyload_update_link_info": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 60,
+      "invalid": 111,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 36,
+      "detected_masks": 24,
+      "smallest_evading_masks": [
+        128,
+        256,
+        32768,
+        65536,
+        131072
+      ]
+    }
+  },
+  "total_evaluated": 552,
+  "total_evading": 396,
+  "total_scan_errors": 0,
+  "complete": true
+}

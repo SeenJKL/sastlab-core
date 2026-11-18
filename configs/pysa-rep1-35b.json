@@ -1,0 +1,51 @@
+{
+  "engine": "pysa",
+  "seeds": "../seeds_pysa_hard",
+  "corpus_kind": "synthetic",
+  "attempts": 15,
+  "trajectories": 15,
+  "base_seed": 7001,
+  "strategies": [
+    3,
+    5
+  ],
+  "cache": true,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "rule_metadata": "Pysa SQL injection rules 5005 and 5051: untrusted input reaching a SQL query sink, or untrusted input combined with a SQL string literal. The program counts as evaded only when neither rule fires.",
+  "llm": {
+    "provider": "soclaas",
+    "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+    "model": "qwen3.6:35b",
+    "api_key_env": "SOCLAAS_API_KEY",
+    "env_file": "../.env",
+    "temperature": 0.2,
+    "timeout": 180,
+    "max_prompt_tokens": 3000,
+    "prompt_extra": "Context: the scanner is Pysa, a taint analyzer, and it has 2 rules. Rule 5005 reports user input that flows into the SQL execute call. Rule 5051 reports user input that is combined with a string literal that looks like SQL. The program counts as evaded only when neither rule reports a finding, so a verdict of clean needs both to stop. A candidate is built by adding one operator at a time, and an operator can be added only if it comes later than the last one added in this fixed order: rename, format_swap, literal_slice, dead_padding, extract_1, dict_dispatch, dynamic_sink, char_launder, queue_roundtrip. When no operator is available the search restarts from the original program."
+  },
+  "target_rules": [
+    "pysa/5005",
+    "pysa/5051"
+  ],
+  "operators": [
+    "rename",
+    "format_swap",
+    "literal_slice",
+    "dead_padding",
+    "extract_1",
+    "dict_dispatch",
+    "dynamic_sink",
+    "char_launder",
+    "queue_roundtrip"
+  ],
+  "executable": ".sastlab/pysa-venv/bin/pyre",
+  "pysa_models": [
+    "../third_party/pysa-models/core",
+    "../third_party/pysa-models/common"
+  ],
+  "evasion": "all",
+  "order": "increasing",
+  "scan_cache": ".sastlab/scan-cache"
+}

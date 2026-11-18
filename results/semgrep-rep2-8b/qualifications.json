@@ -1,0 +1,176 @@
+[
+  {
+    "seed": "d04_no_cursor",
+    "sha256": "8047b26c6f6231d84e4fefaaaf150a5e2e99c06f30c6c4471f5af211d0995034",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.024733338970690966
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/b3e2a19c82aa4e0e8ff7c5f86fbe0837/d04_no_cursor/baseline/src/subject.py",
+          "start_line": 4,
+          "end_line": 4,
+          "snippet": "    return db_conn.execute(query).fetchall()",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.9664039320778102,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/b3e2a19c82aa4e0e8ff7c5f86fbe0837/d04_no_cursor/baseline"
+  },
+  {
+    "seed": "d05_preprocess",
+    "sha256": "27599531df2ac9c95fc8098571e6133d3eaa186f6e1e3e703db4c57eb59877e5",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.0259653739631176
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/b3e2a19c82aa4e0e8ff7c5f86fbe0837/d05_preprocess/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 6,
+          "snippet": "    cursor.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.741218538954854,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/b3e2a19c82aa4e0e8ff7c5f86fbe0837/d05_preprocess/baseline"
+  },
+  {
+    "seed": "d06_postprocess",
+    "sha256": "91c6a20e1f432acfefa92b06ea753170bf2a0dc4e37c47ead80f69d144d906db",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "ALICE",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "ALICE",
+            "admin"
+          ],
+          [
+            "2",
+            "BOB",
+            "user"
+          ],
+          [
+            "3",
+            "CAROL",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.028316793963313103
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "formatted-sql-query",
+          "severity": "WARNING",
+          "message": "Detected possible formatted SQL query. Use parameterized queries instead.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/b3e2a19c82aa4e0e8ff7c5f86fbe0837/d06_postprocess/baseline/src/subject.py",
+          "start_line": 5,
+          "end_line": 5,
+          "snippet": "    cursor.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 1.8160974660422653,
+      "rules": [
+        "formatted-sql-query"
+      ]
+    },
+    "qualifying_rules": [
+      "formatted-sql-query"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/b3e2a19c82aa4e0e8ff7c5f86fbe0837/d06_postprocess/baseline"
+  }
+]

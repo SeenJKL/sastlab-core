@@ -1,0 +1,5 @@
+{
+  "source": "https://raw.githubusercontent.com/semgrep/semgrep-rules/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/python/lang/security/audit/formatted-sql-query.yaml",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "sha256": "3543d454e520952116963c7913a2c2bad9bf9192b6c8c80be91ab7529a88ff09"
+}

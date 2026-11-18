@@ -1,0 +1,104 @@
+{
+  "started": "2026-10-20T10:59:57.251432+00:00",
+  "engine": "semgrep",
+  "config": {
+    "engine": "semgrep",
+    "seeds": "/home/agent/CS6223/Project/code/seeds_fstring",
+    "rules": "/home/agent/CS6223/Project/code/rules/formatted-sql-query.yaml",
+    "corpus_kind": "synthetic",
+    "attempts": 15,
+    "trajectories": 30,
+    "base_seed": 6223,
+    "strategies": [
+      3,
+      5
+    ],
+    "cache": true,
+    "scanner_timeout": 120,
+    "oracle_timeout": 5,
+    "metropolis_temperature": 0.25,
+    "rule_metadata": "Semgrep formatted-sql-query: detects f-string, percent or str.format SQL passed directly or via a variable into DB.execute. Use parameterized queries.",
+    "llm": {
+      "provider": "soclaas",
+      "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+      "model": "qwen3-coder-next",
+      "api_key_env": "SOCLAAS_API_KEY",
+      "env_file": "/home/agent/CS6223/Project/code/.env",
+      "temperature": 0.2,
+      "timeout": 180,
+      "max_prompt_tokens": 3000,
+      "prompt_extra": "Context: the scanner is Semgrep with the pattern rule formatted-sql-query. The rule reports a string built with an f-string, the % operator, str.format or concatenation that is passed to a database execute call, directly or through a variable. A verdict of clean means the rule no longer reports a finding. A candidate is built by adding one operator at a time, and an operator can be added only if it comes later than the last one added in this fixed order: rename, format_swap, literal_slice, dead_padding, extract_1, char_launder, deep_nest, db_roundtrip, queue_roundtrip. When no operator is available the search restarts from the original program."
+    },
+    "target_rules": [
+      "formatted-sql-query"
+    ],
+    "operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip"
+    ],
+    "evasion": "any",
+    "config_dir": "/home/agent/CS6223/Project/code/configs"
+  },
+  "scanner_version": "1.178.0",
+  "llm": {
+    "provider": "soclaas",
+    "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+    "model": {
+      "name": "qwen3-coder-next",
+      "digest": null
+    },
+    "identity_verified": false
+  },
+  "python": "3.14.4",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "operators": [
+    "rename",
+    "format_swap",
+    "literal_slice",
+    "dead_padding",
+    "extract_1",
+    "extract_2",
+    "branch_split",
+    "dict_dispatch",
+    "dynamic_sink",
+    "char_launder",
+    "deep_nest",
+    "db_roundtrip",
+    "queue_roundtrip",
+    "simplequeue_roundtrip",
+    "pickle_roundtrip",
+    "partial_sink",
+    "methodcaller_sink",
+    "unbound_sink"
+  ],
+  "work_dir": "/home/agent/CS6223/Project/code/.sastlab/runs/73325242c72f438c93ca772eb6bbeaf3",
+  "state": "complete",
+  "rule_sha256": "3543d454e520952116963c7913a2c2bad9bf9192b6c8c80be91ab7529a88ff09",
+  "framework_sha256": {
+    "__init__.py": "ce9756935dc32cd804f37fbf6c1419dcd17371c13d1df079507982d7eb187aa4",
+    "__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
+    "cli.py": "49c713e93f808d864cb34eb5b3df382a090eb9e06e3a8caae3034f2c4f5ed8db",
+    "exhaustive.py": "2100c888b6f3f4219f4e582d673065f2da3675371b35c1bca24905445d945fec",
+    "llm.py": "fd0034bea158baa4616fdd2aa723ef7c4a8cad6b6fe5c4882d7dd134e30bcf75",
+    "oracle.py": "bbc5ae1ed4499331b28503276d07d116afd98b24333f3556f60adec9c74adb96",
+    "oracle_worker.py": "bd2732cb564c6a8231dc98179795f281d2416866ca9bd7af194816453f6aa44c",
+    "report.py": "6a6f8339d2968d6c4159c621ea3a12890f2ddc9cdfb255ad08773f87736d407e",
+    "runner.py": "8f68e41f3aeaf2a0133798c880c5a99052a78a157f62246cf44dcdf598c86c53",
+    "scanners.py": "9c959c957cd4ea89cf5cb9cd7b4ca7f32de1c251ad29d072eb78db37cba25a06",
+    "search.py": "3133fe9a9863153873a1ee16d86336d2e632ea9ea4c9b29de51b8059f762925e",
+    "transforms.py": "9f308dc773c74a92a7432b9bc8f0749d0f3a0b19c793ff6154f0f1f6486d57a9"
+  },
+  "seed_sha256": {
+    "d04_no_cursor.py": "8047b26c6f6231d84e4fefaaaf150a5e2e99c06f30c6c4471f5af211d0995034",
+    "d05_preprocess.py": "27599531df2ac9c95fc8098571e6133d3eaa186f6e1e3e703db4c57eb59877e5",
+    "d06_postprocess.py": "91c6a20e1f432acfefa92b06ea753170bf2a0dc4e37c47ead80f69d144d906db"
+  },
+  "finished": "2026-10-20T11:46:30.681754+00:00"
+}

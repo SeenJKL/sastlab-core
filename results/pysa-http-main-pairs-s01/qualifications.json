@@ -1,0 +1,72 @@
+[
+  {
+    "seed": "seed_01",
+    "sha256": "38f4e20ff1f2e38ddbc7d0479c21d5ed98eb143808356c5f4b43e364ca91c556",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.03358736900554504
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/5051",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [PartialSink[UserControlledAndStringMayBeSQL[uc]]] sink(s)",
+          "path": "src/entry.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "",
+          "trace": []
+        },
+        {
+          "rule_id": "pysa/5005",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [SQL] sink(s)",
+          "path": "src/entry.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 10.352755821004394,
+      "rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/5005",
+      "pysa/5051"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/29921bd9d0864953bfab59239da78789/seed_01/baseline"
+  }
+]

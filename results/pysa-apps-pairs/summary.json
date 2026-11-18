@@ -1,0 +1,108 @@
+{
+  "seeds": {
+    "a01_parsl_status_for_workflow": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 99,
+      "detected_masks": 45,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "a02_parsl_resources_for_task": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 99,
+      "detected_masks": 45,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "a03_parsl_dag_details": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 99,
+      "detected_masks": 45,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "a04_scitokens_getkeyinfo": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 60,
+      "invalid": 111,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 47,
+      "detected_masks": 13,
+      "smallest_evading_masks": [
+        128,
+        256,
+        2048,
+        8192,
+        32768
+      ]
+    },
+    "a05_pyload_update_link_info": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 60,
+      "invalid": 111,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 47,
+      "detected_masks": 13,
+      "smallest_evading_masks": [
+        128,
+        256,
+        2048,
+        8192,
+        32768
+      ]
+    }
+  },
+  "total_evaluated": 552,
+  "total_evading": 391,
+  "total_scan_errors": 0,
+  "complete": true
+}

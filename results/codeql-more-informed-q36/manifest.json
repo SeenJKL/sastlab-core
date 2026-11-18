@@ -1,0 +1,105 @@
+{
+  "started": "2026-10-24T12:43:34.464691+00:00",
+  "engine": "codeql",
+  "config": {
+    "engine": "codeql",
+    "seeds": "/home/agent/CS6223/Project/code/seeds_diverse",
+    "corpus_kind": "synthetic",
+    "attempts": 12,
+    "trajectories": 15,
+    "base_seed": 6223,
+    "strategies": [
+      3,
+      5
+    ],
+    "cache": true,
+    "scanner_timeout": 120,
+    "oracle_timeout": 5,
+    "metropolis_temperature": 0.25,
+    "rule_metadata": "CodeQL py/sql-injection: untrusted user input flows to a SQL query sink.",
+    "llm": {
+      "provider": "soclaas",
+      "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+      "model": "qwen3.6:35b",
+      "api_key_env": "SOCLAAS_API_KEY",
+      "env_file": "/home/agent/CS6223/Project/code/.env",
+      "temperature": 0.2,
+      "timeout": 180,
+      "max_prompt_tokens": 3000,
+      "prompt_extra": "Context: the scanner is the CodeQL query py/sql-injection, a data-flow query. It reports user input that flows through the program to the argument of a database execute call. A verdict of clean means the query no longer reports a finding. A candidate is built by adding one operator at a time, and an operator can be added only if it comes later than the last one added in this fixed order: rename, format_swap, literal_slice, dead_padding, extract_1, branch_split, dict_dispatch, char_launder, queue_roundtrip. When no operator is available the search restarts from the original program."
+    },
+    "target_rules": [
+      "py/sql-injection"
+    ],
+    "query": "codeql/python-queries@1.8.11:Security/CWE-089/SqlInjection.ql",
+    "operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "branch_split",
+      "dict_dispatch",
+      "char_launder",
+      "queue_roundtrip"
+    ],
+    "scan_cache": ".sastlab/scan-cache",
+    "evasion": "any",
+    "config_dir": "/home/agent/CS6223/Project/code/configs",
+    "seed_limit": 2
+  },
+  "scanner_version": "{\n  \"productName\" : \"CodeQL\",\n  \"vendor\" : \"GitHub\",\n  \"version\" : \"2.27.1\",\n  \"sha\" : \"938af3639d0709b587251e45d9f8d2bdc3505696\",\n  \"branches\" : [\n    \"codeql-cli-2.27.1\"\n  ],\n  \"copyright\" : \"Copyright (C) 2019-2026 GitHub, Inc.\",\n  \"unpackedLocation\" : \"/home/agent/CS6223/Project/code/.sastlab/tools/codeql\",\n  \"configFileLocation\" : \"/home/agent/.config/codeql/config\",\n  \"configFileFound\" : false,\n  \"overlayVersion\" : 4,\n  \"features\" : {\n    \"analysisSummaryV2Default\" : true,\n    \"buildModeOption\" : true,\n    \"bundleSupportsIncludeDiagnostics\" : true,\n    \"bundleSupportsIncludeLogs\" : true,\n    \"bundleSupportsOverlay\" : true,\n    \"databaseInterpretResultsSupportsSarifRunProperty\" : true,\n    \"featuresInVersionResult\" : true,\n    \"indirectTracingSupportsStaticBinaries\" : false,\n    \"informsAboutUnsupportedPathFilters\" : true,\n    \"supportsPython312\" : true,\n    \"mrvaPackCreate\" : true,\n    \"threatModelOption\" : true,\n    \"traceCommandUseBuildMode\" : true,\n    \"v2ramSizing\" : true,\n    \"mrvaPackCreateMultipleQueries\" : true,\n    \"setsCodeqlRunnerEnvVar\" : true,\n    \"sarifMergeRunsFromEqualCategory\" : true,\n    \"forceOverwrite\" : true,\n    \"generateSummarySymbolMap\" : true,\n    \"pythonDefaultIsToNotExtractStdlib\" : true,\n    \"queryServerRunQueries\" : true,\n    \"queryServerTrimCacheWithMode\" : true,\n    \"builtinExtractorsSpecifyDefaultQueries\" : true,\n    \"bqrsDiffResultSets\" : true,\n    \"bundleSupportsIncludeOption\" : true,\n    \"suppressesMissingFileBaselineWarning\" : true\n  }\n}",
+  "llm": {
+    "provider": "soclaas",
+    "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+    "model": {
+      "name": "qwen3.6:35b",
+      "digest": null
+    },
+    "identity_verified": false
+  },
+  "python": "3.14.4",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "operators": [
+    "rename",
+    "format_swap",
+    "literal_slice",
+    "dead_padding",
+    "extract_1",
+    "extract_2",
+    "branch_split",
+    "dict_dispatch",
+    "dynamic_sink",
+    "char_launder",
+    "deep_nest",
+    "db_roundtrip",
+    "queue_roundtrip",
+    "simplequeue_roundtrip",
+    "pickle_roundtrip",
+    "partial_sink",
+    "methodcaller_sink",
+    "unbound_sink"
+  ],
+  "work_dir": "/home/agent/CS6223/Project/code/.sastlab/runs/96f8811858e049cbb672ae5c8ea818f5",
+  "state": "complete",
+  "rule_sha256": null,
+  "framework_sha256": {
+    "__init__.py": "ce9756935dc32cd804f37fbf6c1419dcd17371c13d1df079507982d7eb187aa4",
+    "__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
+    "cli.py": "49c713e93f808d864cb34eb5b3df382a090eb9e06e3a8caae3034f2c4f5ed8db",
+    "exhaustive.py": "2100c888b6f3f4219f4e582d673065f2da3675371b35c1bca24905445d945fec",
+    "llm.py": "fd0034bea158baa4616fdd2aa723ef7c4a8cad6b6fe5c4882d7dd134e30bcf75",
+    "oracle.py": "bbc5ae1ed4499331b28503276d07d116afd98b24333f3556f60adec9c74adb96",
+    "oracle_worker.py": "bd2732cb564c6a8231dc98179795f281d2416866ca9bd7af194816453f6aa44c",
+    "report.py": "6a6f8339d2968d6c4159c621ea3a12890f2ddc9cdfb255ad08773f87736d407e",
+    "runner.py": "71598b5329402e997414aadabecb5d7d569283847d5bf637eba9136444417be7",
+    "scanners.py": "9c959c957cd4ea89cf5cb9cd7b4ca7f32de1c251ad29d072eb78db37cba25a06",
+    "search.py": "3133fe9a9863153873a1ee16d86336d2e632ea9ea4c9b29de51b8059f762925e",
+    "transforms.py": "f55e4b23db82ced04dd53ddcd32c4e2005bb269658e441dd80ddb3aa8b1eac4b"
+  },
+  "seed_sha256": {
+    "d01_concat.py": "d11a3cdb37d676b5e9d507c3c3df89f0288bbf87212ab69c48ea8961ed66a762",
+    "d02_str_format.py": "258550e58f76256cd8aef857a6c5919d8e65aaed283273b09669b80947a425ba"
+  },
+  "finished": "2026-10-24T12:51:18.157449+00:00"
+}

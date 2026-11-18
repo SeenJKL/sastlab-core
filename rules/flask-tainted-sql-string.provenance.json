@@ -1,0 +1,5 @@
+{
+  "source": "https://raw.githubusercontent.com/semgrep/semgrep-rules/17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9/python/flask/security/injection/tainted-sql-string.yaml",
+  "commit": "17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9",
+  "sha256": "d9b562b5eb8bd7efaaa696ebd0db97e47fc498edeec094c6956ba3567bbddd77"
+}

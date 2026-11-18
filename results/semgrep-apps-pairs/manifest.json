@@ -1,0 +1,81 @@
+{
+  "started": "2026-10-20T14:15:40.774585+00:00",
+  "kind": "exhaustive",
+  "identity": {
+    "engine": "semgrep",
+    "scanner_version": "1.178.0",
+    "rule_sha256": "3543d454e520952116963c7913a2c2bad9bf9192b6c8c80be91ab7529a88ff09",
+    "query": null,
+    "target_rules": [
+      "formatted-sql-query"
+    ],
+    "seed_sha256": {
+      "a01_parsl_status_for_workflow.py": "b146131635c5d55736ccdaa26c4c9beb0fd165c86556f042eeda1fe3ab236f42",
+      "a02_parsl_resources_for_task.py": "88e27601b26c874e49a6e529b9932fa66291bdc588dda8a329d799a488392606",
+      "a03_parsl_dag_details.py": "2e4c35f47eead693ef99bce6545221a6ce41f7d675e9b42161179a6cfc26a648",
+      "a04_scitokens_getkeyinfo.py": "fad77b2f7a334799d580d78dd363e4fb348a458f8fe5cb0342af27f6bd49832e",
+      "a05_pyload_update_link_info.py": "59572efc25247089717ac04c7dc5d93084fcbd407d50d27366a15b65c7d97e6c"
+    },
+    "operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "extract_2",
+      "branch_split",
+      "dict_dispatch",
+      "dynamic_sink",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip",
+      "simplequeue_roundtrip",
+      "pickle_roundtrip",
+      "partial_sink",
+      "methodcaller_sink",
+      "unbound_sink"
+    ],
+    "enumerated_operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "extract_2",
+      "branch_split",
+      "dict_dispatch",
+      "dynamic_sink",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip",
+      "simplequeue_roundtrip",
+      "pickle_roundtrip",
+      "partial_sink",
+      "methodcaller_sink",
+      "unbound_sink"
+    ],
+    "max_ops": 2,
+    "oracle_timeout": 5
+  },
+  "python": "3.14.4",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "work_dir": "/home/agent/CS6223/Project/code/.sastlab/runs/a31c11c65fae4045adf4390761a4d77b",
+  "state": "complete",
+  "finished": "2026-10-20T14:48:35.499276+00:00",
+  "resumes": [
+    {
+      "at": "2026-11-13T15:45:59.326615+00:00",
+      "merged_rows": "fresh run of the same config and seeds",
+      "enumerated_operators": [
+        "rename",
+        "dead_padding"
+      ],
+      "max_ops": 2,
+      "replaced_rows": 6,
+      "identical_rows_checked": 9,
+      "note": "rows invalid only for the missing query assignment, re-evaluated after rename and dead_padding stopped requiring it"
+    }
+  ]
+}

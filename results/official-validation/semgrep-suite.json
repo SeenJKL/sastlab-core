@@ -1,0 +1,15 @@
+{
+ "rule": "formatted-sql-query",
+ "test_file": "corpus_official/semgrep/python/lang/security/audit/formatted-sql-query.py",
+ "passed": true,
+ "expected_lines": [
+  32,
+  39
+ ],
+ "reported_lines": [
+  32,
+  39
+ ],
+ "errors": [],
+ "semgrep": "1.178.0"
+}

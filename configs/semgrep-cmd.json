@@ -1,0 +1,26 @@
+{
+  "engine": "semgrep",
+  "seeds": "../seeds_cmd",
+  "rules": "../rules/dangerous-subprocess-use-audit.yaml",
+  "corpus_kind": "synthetic",
+  "attempts": 30,
+  "trajectories": 5,
+  "base_seed": 6223,
+  "strategies": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "cache": false,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "rule_metadata": "Semgrep dangerous-subprocess-use-audit: subprocess call without a static string (CWE-78)",
+  "target_rules": [
+    "dangerous-subprocess-use-audit"
+  ]
+}

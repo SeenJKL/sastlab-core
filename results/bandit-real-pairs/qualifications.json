@@ -1,0 +1,329 @@
+[
+  {
+    "seed": "r01_bench_00099",
+    "sha256": "bef4463c6f9cbfb347958ec674fdb4b5cd58ce2382aaab79582e89057494a224",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.03536774404346943
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r01_bench_00099/baseline/src/subject.py",
+          "start_line": 15,
+          "end_line": 15,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.17540629301220179,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r01_bench_00099/baseline"
+  },
+  {
+    "seed": "r02_bench_00283",
+    "sha256": "e69699f398bd888fa7958992d4b6997031258e21ea2ec8b253954913f9302266",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.03040773281827569
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r02_bench_00283/baseline/src/subject.py",
+          "start_line": 13,
+          "end_line": 13,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.17264437209814787,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r02_bench_00283/baseline"
+  },
+  {
+    "seed": "r03_bench_00284",
+    "sha256": "10ce968524abb2e55239c9260d0ef177ddaa22eca5438b02e10588d393d9ac4b",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.03514917311258614
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r03_bench_00284/baseline/src/subject.py",
+          "start_line": 11,
+          "end_line": 11,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.1841271889861673,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r03_bench_00284/baseline"
+  },
+  {
+    "seed": "r04_bench_00454",
+    "sha256": "f4aae7543874121b405d930e371506ff61e8c8900c10469aaf93f245850b2d0d",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.03482413198798895
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r04_bench_00454/baseline/src/subject.py",
+          "start_line": 11,
+          "end_line": 11,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.1905652459245175,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r04_bench_00454/baseline"
+  },
+  {
+    "seed": "r05_bench_00455",
+    "sha256": "a0758ce29542164de0f057acbb82bccd8593757377a02c2b8caadbe357d2acf7",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.02984841214492917
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r05_bench_00455/baseline/src/subject.py",
+          "start_line": 13,
+          "end_line": 13,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.17482403106987476,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r05_bench_00455/baseline"
+  },
+  {
+    "seed": "r06_vulpy_login",
+    "sha256": "d48c214e449ca662bca10401d1e34537510fe8f49bc20c2d6a0b23181e541f5d",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "secret",
+            0,
+            0,
+            ""
+          ]
+        ],
+        [
+          [
+            "1",
+            "secret",
+            0,
+            0,
+            ""
+          ],
+          [
+            "2",
+            "secret2",
+            0,
+            0,
+            ""
+          ],
+          [
+            "3",
+            "secret3",
+            0,
+            0,
+            ""
+          ]
+        ]
+      ],
+      "seconds": 0.029500080039724708
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B105",
+          "severity": "LOW",
+          "message": "Possible hardcoded password: 'secret'",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r06_vulpy_login/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 6,
+          "snippet": "    password = 'secret'",
+          "trace": []
+        },
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r06_vulpy_login/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 7,
+          "snippet": "    query = \"SELECT * FROM users WHERE username = '{}' and password = '{}'\".format(username, password)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.16189305810257792,
+      "rules": [
+        "bandit/B105",
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/bfc8f2549d494eb1a94546250e0cb169/r06_vulpy_login/baseline"
+  }
+]

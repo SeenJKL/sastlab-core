@@ -1,0 +1,7 @@
+baseline           source nodes 1 | sink nodes in subject.py ['5'] | sinks reached from a source ['5']
+dynamic_sink       source nodes 1 | sink nodes in subject.py [] | sinks reached from a source []
+methodcaller_sink  source nodes 1 | sink nodes in subject.py [] | sinks reached from a source []
+partial_sink       source nodes 1 | sink nodes in subject.py [] | sinks reached from a source []
+unbound_sink       source nodes 1 | sink nodes in subject.py [] | sinks reached from a source []
+deep_nest          source nodes 1 | sink nodes in subject.py ['8'] | sinks reached from a source []
+db_roundtrip       source nodes 1 | sink nodes in subject.py ['6', '7', '8', '11'] | sinks reached from a source []

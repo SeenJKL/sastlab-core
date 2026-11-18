@@ -1,0 +1,308 @@
+{
+  "seeds": {
+    "seed_01": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_02": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_03": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_04": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_05": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_06": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_07": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_08": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_09": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_10": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_11": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_12": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_13": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_14": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "seed_15": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    }
+  },
+  "total_evaluated": 2430,
+  "total_evading": 1605,
+  "total_scan_errors": 0,
+  "complete": true
+}

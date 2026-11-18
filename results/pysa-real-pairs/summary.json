@@ -1,0 +1,119 @@
+{
+  "seeds": {
+    "r01_bench_00099": {
+      "qualifying_rules": [],
+      "masks_recorded": 0,
+      "evaluated": 0,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 0,
+      "smallest_evading_masks": []
+    },
+    "r02_bench_00283": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "r03_bench_00284": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "r04_bench_00454": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "r05_bench_00455": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    },
+    "r06_vulpy_login": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 99,
+      "detected_masks": 45,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    }
+  },
+  "total_evaluated": 792,
+  "total_evading": 527,
+  "total_scan_errors": 0,
+  "complete": true
+}

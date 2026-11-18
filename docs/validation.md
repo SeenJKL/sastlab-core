@@ -1,0 +1,185 @@
+# Validation record
+
+Platform: Linux x86-64 (2 CPU cores, Python 3.14.4), Semgrep 1.178.0, CodeQL CLI 2.27.1 with `codeql/python-queries` 1.8.11, Pysa (pyre-check 0.10.0, stock models at commit `d5614e0a`), `llama3.1:8b`, `qwen3-coder-next` and `qwen3.6:35b` on NUS SoCLaaS.
+
+The analysis, queue and validation scripts and the upstream test suites named below were used to compute and check these results; they are not part of this repository, which keeps the framework, the configs, the seeds and the saved results.
+
+## Does the setup reproduce what the scanners' authors expect?
+
+| Check | Result |
+| --- | --- |
+| Semgrep on the upstream test of `formatted-sql-query` (`scripts/validate_semgrep_suite.py`, `semgrep --test`) | passes: expected and reported match lines are 32 and 39, `ok` cases silent |
+| CodeQL on the upstream query test for `py/sql-injection` (`scripts/validate_codeql_suite.py`, same CLI calls as the harness) | exactly the 20 alerts of `SqlInjection.expected`, same file, line and column, none missing, none extra |
+| Adapted programs from alerts the CodeQL suite expects (`app.py` `unsafe`, `sql_injection.py` `show_user`) | both flagged by the harness (CodeQL and, for `show_user`, Semgrep) |
+| Replication image (`docker run sastlab`) | runs the test suite: 165 tests pass and 3 are skipped (the image has no `results/`). An earlier image, built with the validation scripts that are not part of this repository, also ran both suite validations, the seed harvest and a smoke scan of every single rewrite on one official seed per scanner, with the expected evading rewrites for each scanner |
+
+Outputs of the first two checks are in `results/official-validation/`.
+
+## Can every saved result be traced to a command?
+
+| Check | Result |
+| --- | --- |
+| A command for every folder of `results/` (`scripts/queue_commands.py`) | 115 folders: 111 are written by a stage of a queue script and 4 by one helper script (`path_probe.py`, `prompt_order_probe.py`, `reproduce.sh`, `analysis/run_mechanism.sh`). |
+| The command against the manifest | for the 110 folders that have a manifest, the configuration (search runs) or identity (exhaustive runs: engine, enumerated operators, `max_ops`, number of seeds) that the recorded command produces equals the stored one. `config_dir`, `evasion` and `scan_cache` are not compared: the framework recorded the first two only in later runs, and the scan cache changes compute and never results. The saved manifest of `semgrep-rep1-8b` has no `scan_cache`, its config and the 18 sibling configs have |
+| Runs whose command had been lost: exhaustive `codeql-flow-ops-15seeds`, `codeql-flow-ops-seed01`, `codeql-official-qual`, `semgrep-official-qual`, `semgrep-diverse-singles`; search `semgrep-hard30`, `codeql-hard15`, `codeql-v6-seed05-rerun` | reconstructed from the manifests and added to the queue scripts. The 5 exhaustive commands were started again and the manifest identity equals the saved one (scanner and version, rule or query, seed hashes, enumerated operators, `max_ops`, oracle timeout); the only difference is the toolbox size, 13 operators then and 18 now. Rerun rows equal the saved rows (candidate hash, behavior check, scan verdict, silenced rules, qualifications) for `semgrep-official-qual` (7 of 7), `codeql-flow-ops-seed01` (31 of 31, 30 evading), the first 3 seeds of `semgrep-diverse-singles` (26 of 26) the first 2 seeds of `codeql-official-qual` (2 of 2) and `codeql-flow-ops-15seeds` (225 of 225, all evading; rerun from the delivered archive, resumed once after the job was stopped at 135 rows). For the 3 search runs the stored configuration equals the committed one (`codeql-hard15` with `--seed-limit 1`), and their model-guided strategies are not bit-reproducible |
+| Mechanism checks (`analysis/run_mechanism.sh`) | rerun from the scripts: `pysa.txt`, `pysa_callgraph.txt`, `codeql_library.txt`, `codeql_flow.txt` and `codeql_probe.txt` equal the saved files byte for byte (`codeql_probe.txt` is the one that `result.md` cites) |
+| `analysis/run_all.sh` | 22 scripts, about 3 minutes, from a different working directory: exit 0 for all; the 28 generated files of numbers and table rows are deterministic (a second run gives the same files). The scripts aggregate over every folder in `results/`, so write your own runs to `runs/` |
+
+## Defects found by running the artifact from a clean checkout
+
+The zip was unpacked into an empty directory, the scanners were installed from the README, and every documented command was run. Each report was checked against the code before anything was changed (`tests/test_artifact_fixes.py` holds the regression tests; 13 of its 21 cases fail on the code as it was before the fixes). The last 9 rows come from later reviews of the zip.
+
+| Report | Checked | Change | Evidence |
+|---|---|---|---|
+| `analysis/mechanism_codeql_probe.py` needs a query file that only exists in a development tree | confirmed: exit 1 after 6 s on a clean tree | the script writes its query and pack itself | exit 0 in 113 s, output identical to `results/mechanism/codeql_probe.txt` |
+| path seeds leave temporary directories behind (3 per behavior check, 1 per call in `path_equivalence.py`) | confirmed (12,558 leftovers per `analysis/run_all.sh`) | the behavior check gives each worker its own temporary directory and removes it, also after a timeout; `path_equivalence.py` does the same per call; the seeds are unchanged, so no hash moves | `run_all.sh` leaves 0 directories (184 s, exit 0) |
+| the same seeds leak file handles | not reproduced: CPython closes the handle when the function returns (4 open descriptors before and after 300 calls) | none | |
+| `rename` and `dead_padding` reject seeds whose query is written inline at the call (`a04`, `a05`) | confirmed, but narrower than reported: `rename` never used the assignment and `dead_padding` only needs an anchor, whereas `format_swap`, `literal_slice`, `extract_1`, `extract_2` and `branch_split` do rewrite it and still reject such a seed | `rename` needs no assignment; `dead_padding` anchors on the statement that holds the sink call when there is none | all 13,826 logged candidates regenerate with 0 SHA-256 differences (13,832 after the 28 rows below were re-evaluated, again 0 differences) |
+| `scripts/prompt_order_probe.py` raises `TypeError` | confirmed: its replacement for `system_prompt` took 1 parameter and the call passes 3 | the replacement has the parameters of the original; the script has a `main()` | `tests/test_artifact_fixes.py` compares the two signatures |
+| `unbound_sink` does not see a module imported inside the function or with `from ... import` | confirmed as a latent gap (no seed does this) | the names of every import in the tree are collected | the 13,826 logged candidates are unchanged; a test for both forms |
+| `summarize_exhaustive` ignores `expected` | not true: it decides `complete`; only the default `255` was stale | the parameter is required | test |
+| `summary.json["complete"]` is `false` on finished runs that have seeds whose baseline is not flagged | confirmed for 23 runs; in all 23 every flagged seed recorded all its masks | `complete` covers the flagged seeds (and all seeds processed); the 23 saved summaries were rewritten, only that key changed (false to true) | a test recomputes every saved exhaustive summary |
+| `typed_for_pysa` adds the `sqlite3` annotation on command and path seeds | checked: Pysa reports the same rules with and without it on all 8 command and all 8 path baselines | documented in the docstring, not changed (the saved Pysa runs of those classes stay reproducible) | test on 1 command and 1 path seed |
+| `llm.py` words the prompt for SQL injection and reserves the budget for all operators | the 49 model-guided runs all use SQL seeds; the budget is an upper bound | comments only: reworded prompts would no longer match `docs/prompts.md` and the saved runs | `scripts/export_prompts.py` output unchanged |
+| `report` rewrites `summary.json` | confirmed | prints by default, `--write` saves; it reads the attempts with the same reader as the runner | test |
+| `13,751` candidates in this record; "3 analyzers" in `scripts/reproduce.sh` | confirmed | the count is 13,832 after the re-evaluation below; 4 analyzers | |
+| `python3 -m zipfile -e` drops the executable bit of `run.sh` | confirmed | the README says to use `unzip` or `chmod +x` | |
+| 3 saved files of `results/mechanism/` end with a line `exit 0` that the scripts do not print | confirmed: a capture artifact | the line is removed from `codeql_library.txt`, `codeql_flow.txt` and `pysa.txt` | the 5 files equal the output of `analysis/run_mechanism.sh` byte for byte |
+| a baseline scan that fails (a timeout on the first, cold scan) is recorded as "seed not flagged" and the command exits 0 | confirmed, also for `exhaustive`, where it would have left a finished run without that seed (and, after the `complete` change above, marked `complete`) | `exhaustive` stops with an error and resumes with `--resume`; `run` warns when it happens, names the seeds and exits 1 (`--rerun-errors` repairs them); `complete` needs every baseline scan to be `ok` | all 110 saved runs with a baseline scan have only `ok` ones, so no saved result changes; 4 tests |
+| "0 scanner errors in every campaign" in `docs/validation.md` and `result.md` | confirmed: `codeql-hard-qwen` has 2 timed-out scans (`d02_str_format`, strategy 5, lines 564 and 567 of `attempts.jsonl`); no other search run has one. The analyses use scanned rows only, so no number moves | both documents name the exception | |
+| the command check compares seed and candidate on a shell failure for the input `it's` | confirmed, and wider than the first fix showed: all 8 command seeds fail on it (8 of 96 seed-input pairs; 4 raise, 4 return normally after exit status 2, which only the exception check missed); "0 differences" is unchanged, also with candidates required to match their seed's exit statuses, and the other 11 inputs run a working command | `cmd_equivalence.py` records the exit status of every process a call starts, prints the failing pairs, does not show the shell's message (the 860-line `.err` file no longer appears) and exposes `check()`; the documents give the count | a test over all 8 seeds (4 raise, 4 return normally) and over a same-value, different-exit-status pair; it fails on the exception-only check |
+| two evidence pairs in `results/codeql-v6/bypasses/seed_05` (`1089`, `5185`) match no attempt | confirmed: they belong to rows of the replaced trajectory (`discarded-partial.jsonl`, lines 284 and 285) | kept and documented above; evasions are counted from `attempts.jsonl` | |
+| `tests/test_framework.py` depends on the working directory | true but narrow: run from another directory, every test file fails at import | both `cli.main` calls of the test pass `--config` explicitly | |
+| `analysis/audit_numbers.py` takes the upper bootstrap bound at another index than the table scripts (4875 against 4874 of 5000) | confirmed; the script is not called by `run_all.sh`. `round2_analysis.py` (3 places) did the same and drew all its intervals from one shared generator, and so did `vs_heuristic.py` (index 4874) | `audit_numbers.py`, `round2_analysis.py` and `vs_heuristic.py` use the resampling and index of `informed_other.py` and the other table scripts: one generator (seed 11) per interval, bounds 125 and 4874 of 5000 | the 8B original-prompt intervals are now equal in `round2_analysis.py`, `informed_other.py`, `result.md` and the report; the other changed intervals (25 of 30 in `round2_analysis.py`, which also changes its p-values slightly, and 15 in `vs_heuristic.py`, 7 of them quoted in the report) moved by 0.01 to 0.25, point estimates and signs unchanged |
+| the report's 8B original-prompt intervals (+0.79 [-2.11, +3.58], +0.46 [-2.44, +3.29]) differ from `round2_analysis.py` (+0.79 [-2.10, +3.62], +0.46 [-2.43, +3.41]) | confirmed: same 30 stream differences, two bootstrap setups | see the row above | |
+| README says CodeQL scans take "up to about 25 s" | confirmed false as a bound: `codeql-v6` has 5,250 scans, median 14.4 s, mean 18.6 s, 857 above 25 s, 468 above 30 s, maximum 195.7 s | README and `methodology.md` give median, mean and maximum | |
+| `scripts/generate_tables.py` is missing | not part of the artifact: no file, README or document names it (`git grep`); the documented entry point is `analysis/run_all.sh` | none | |
+| the scan-cache key leaves out `pysa_models` | confirmed, with no effect on saved evidence: all Pysa configs use the same stock models. A later run with other models and a shared cache folder would have reused stale scans | the key of a Pysa run now includes a digest of the model files, independent of where they are; other engines keep their key | `tests/test_artifact_fixes.py::test_scan_cache_key_follows_the_contents_of_the_pysa_models` |
+| `analysis/pysa_search.py` says "stream = seed x trajectory" | confirmed for the docstring only: the code groups the paired values by trajectory index and averages over the seeds (15 streams) | docstring | |
+| the prompt defines `literal_slice` as "split SQL string literals", the operator prefixes each literal with `#` and slices the prefix off | confirmed (`"#SELECT ..."[1:]`, one literal, nothing split) | the report's operator table describes the operator, and the report and `docs/prompts.md` state the looser wording; the prompt text is unchanged, because the saved runs used it | |
+| strategies 6 and 7 restart from the seed without logging it, so they are not the uninterrupted walk the report described (GPT review) | confirmed: `Search.select` sets the mask to 0 when no later operator is left, before the strategy 6/7 branch, and the runner records `restarted` only for strategies 1 to 5. From the saved rows (`analysis/metropolis_restarts.py`, which asserts that every jump goes to the seed and happens exactly when no later operator is left): 0 of 200 trajectories of the full campaigns restart before their first evasion; 42 of 90 in `semgrep-hard30`, 30 of 45 in `pysa-hard-qwen`, 8 of 15 in `codeql-hard15`, 60 of 80 and 24 of 40 in the pilots `semgrep-hard` and `codeql-hard` do | kept as the default so the saved runs replay; config key `metropolis_restart` (`false` = every proposal toggles the current subset); the report and `methodology.md` describe the restart; check reruns without it in `semgrep-hard30-walk` and `pysa-hard-walk` ([results](../result.md#metropolis-restarts)) | test |
+| the harness's `semgrep --version` probe times out without a network (GPT review) | confirmed: in a container started with `--network none`, the bare probe was still running after 90 s (it checks for a newer release); with `SEMGREP_ENABLE_VERSION_CHECK=0` it returns `1.178.0` in 2 s. The scans already pass `--disable-version-check` | the version probe sets that variable; offline, `exhaustive` on one official seed then finished (18 subsets, 17 scanned, 9 evading) | |
+| `semgrep-hard30-walk` records a `runner.py` hash that differs from the committed file (GPT review) | confirmed: the run started while `load_config` still set `metropolis_restart` to `true` by default; that line was removed during the run so that saved configs load unchanged. The recorded hash equals the committed `runner.py` with that line put back, and the run's config sets the key to `false`, so the line had no effect on it. `pysa-hard-walk` records the hashes of all 12 files of the commit that added the flag; later edits of `search.py` and `runner.py` change comments only | documented here; the other manifest fields (scanner version, rule and seed hashes, configuration) equal those of the run they check | |
+
+**Re-evaluated rows.** The 6 exhaustive runs on `corpus_apps` (`semgrep-apps-pairs`, `semgrep-taint-apps-pairs`, `pysa-apps-pairs`, `bandit-apps-pairs`, `codeql-apps-singles`, `codeql-apps-nonflow-pairs`) had 28 rows that were `invalid` only because of the missing assignment: `rename`, `dead_padding` and both together on `a04` and `a05` (where the seed qualifies for the rule). They were evaluated again with the same configuration restricted to `--operators rename dead_padding` (`scripts/merge_rows.py` replaces exactly those rows and stops at any other difference; the 51 other rows of the same masks, including all those of `a01` to `a03`, had identical verdicts). All 28 behave like the original and are detected: no evading count changes, the number of evaluated candidates grows by 6 for Semgrep pattern and Pysa, by 3 for Semgrep taint and Bandit, and by 4 and 6 for the 2 CodeQL runs. The 6 new SQL candidates passed the extended behavior check (21,264 unique candidates, 0 differences). Running the queue commands from scratch now evaluates these masks directly.
+
+## Automated tests
+
+168 tests pass, and 165 pass with 3 skipped in the Docker image, which has no `results/` (`.sastlab/.venv/bin/python -m pytest -q -p no:cacheprovider`, about 1.5 minutes). The tests cover:
+
+- **Behavior preservation of every operator.** All 256 core masks, and every subset of the flow operators both alone and combined with all core operators, give exactly the original outputs on all 15 seeds. This is exact agreement on the oracle inputs, not a proof of general equivalence.
+- **Candidate graph.** Every subset is reachable exactly once by the forward walk; masks 0 to 255 keep their meaning; out-of-range masks are rejected; operators compose.
+- **Oracle.** Fixed, changed and broken programs, timeouts, and per-seed fixtures (`tests/test_harvest.py`): a seed with `SASTLAB_FIXTURE` and `SASTLAB_EXPLOIT` constants is judged on its own database and payload, rewrites keep the constants and stay equivalent, and a seed without them behaves exactly as before.
+- **Scanners.** Report parsing, SARIF failures, fail-closed behavior on scanner errors.
+- **Search.** Full budgets for all seven strategies, seeded replay, identical prompts for strategies 3 and 5 apart from diagnostics, Metropolis on the subset lattice, operator pools.
+- **Pysa adapter** (`tests/test_pysa.py`): the typed scan copy (annotation of the first parameter only, renamed parameters, all 18 single rewrites stay parseable), issue parsing keeps only the 2 SQL rules and fails closed without the entry model, an unavailable binary gives an error scan, and a live scan inside the repository checks that Pyrefly sees only the scanned file (regression: it once adopted the repository's `pyproject.toml` and `.gitignore`, type-checked 84 files and found no entry function, which the harness reported as a scan error and not as a clean result).
+- **Model adapter.** Validation, retries, fallback, credential handling, 429 handling.
+- **Resume and exhaustive evaluation.** Equivalence of an interrupted and resumed run with an uninterrupted one, including pool-restricted runs after the operator list grew. A failed baseline scan stops an exhaustive run, which then resumes to the same rows as an uninterrupted run; a search run with a failed baseline scan exits 1 and `--rerun-errors` repairs it; `complete` is false while any baseline scan did not finish.
+- **Reporting.** Threshold, union and incomplete-budget classification.
+- **Defects found from a clean checkout** (`tests/test_artifact_fixes.py`): the behavior check leaves no temporary directory, also after a timeout; `rename` and `dead_padding` on a seed with an inline query; `unbound_sink` with a locally imported receiver; `report` is read-only by default; Pysa reports the same rules with and without the `sqlite3` annotation on a command and a path seed.
+- **Saved summaries** (`tests/test_reproduction.py`): `summary.json` of every exhaustive run equals the summary recomputed from its `evaluations.jsonl`, `qualifications.json` and the enumeration in its manifest, and its `complete` flag agrees with the manifest state (`complete` ignores seeds whose baseline is not flagged, because they are never enumerated).
+- **Config paths** (`tests/test_reproduction.py`): every path in every config exists.
+
+The oracle was also checked against saved data: for the 30 seeds that have a saved qualification record, the current oracle returns exactly the saved outputs.
+
+## Behavior preservation and verdict checks
+
+The Bandit runs (`bandit-*-pairs`, 656 candidates that appear in no other run) are included in `extended_equivalence.py` and `cmd_equivalence.py` (the Bandit command-injection run adds no new candidate), with 0 differences. The rewrite-catalog and path-probe candidates are not covered.
+
+| Check | Result |
+| --- | --- |
+| Extended behavior check (`extended_equivalence.py`) | all 21,264 unique SQL candidates of all saved campaigns and exhaustive runs (16,562 evading, 4,702 detected; for Pysa evading means at least 1 of its 2 rules stopped firing), including the official-seed, independent-program, deployed-project, taint-mode, newest-release, Pysa (pairs and triples) and agent runs (attempts answered from the scan cache included), regenerated from seed and operator subset and re-run on 20 inputs (empty string, quotes, unicode, a 5,000-character string, OR, UNION, numeric and double-quote payloads) and a larger database: 0 differences in rows or exceptions; 52 of the 54 baseline seed files are exploit-live under the 3 standard OR payloads and the other 2 (`a05_pyload_update_link_info`, `r06_vulpy_login`) under their own exploit strings. Candidates of the rewrite catalog and the path probe were not included |
+| Independent re-scan, earlier runs | 166 candidates (130 Semgrep, 36 CodeQL), regenerated, hash-checked and scanned again: 0 disagreements |
+| Independent re-scan, official-suite runs (`rescan_sample.py`) | 80 Semgrep (40 evading, 40 detected) and 30 CodeQL (15 and 15): 0 hash mismatches, 0 behavior-check disagreements, 0 verdict disagreements |
+| Verdict determinism | no (seed, subset) pair received two different verdicts from the same scanner in any saved run: 12,532 distinct Semgrep pairs (pinned 1.178.0, main, varied and official seeds, `controls_main.py`); 3,945 distinct CodeQL pairs on the same corpora from 26 runs (3,780 without the 2 runs of CodeQL 2.27.3), recomputed by `codeql_rule.py` |
+| Scanner and oracle errors | 0 oracle failures in every saved run; 0 scanner errors in every saved campaign and exhaustive run except `codeql-hard-qwen`, where 2 scans of `d02_str_format` (strategy 5) timed out after 120 s. They are not counted as evasions, the analyses use scanned rows only, and the run's report card is `excluded` (`complete: false`) |
+| Model requests | 0 fallbacks in the two full campaigns; 79 in the later restricted runs, out of 76,045 distinct model decisions (73 with the 8B model: `semgrep-informed-8b` 37, `semgrep-rep1-8b` 25, `pysa-hard-informed-8b` 11; 6 with the 35B model: `pysa-rep1-35b`). Counted over all `results/*/llm.jsonl` records with `fallback: true` |
+
+## Evidence integrity of the search campaigns
+
+| Measurement | `semgrep-v6` | `codeql-v6` |
+| --- | --- | --- |
+| Records | 15,750 attempts | 5,250 attempts |
+| Scanner errors | 0 | 0 (3 timeouts rerun) |
+| Candidates not equivalent to the original | 0 | 0 |
+| Model fallbacks | 0 | 0 (1,525 model records) |
+| Same (seed, subset) with two verdicts | 0 of 5,563 pairs | 0 of 1,873 pairs |
+| Seed hashes match current seeds | yes | yes |
+| Framework file hashes match current source | no | no |
+
+**The framework changed after the two search campaigns.** `cli.py`, `exhaustive.py`, `llm.py`, `runner.py`, `search.py`, `transforms.py` and `oracle_worker.py` were edited after the campaigns ran (the shuffled operator prompt in `llm.py`, operator pools, appended operators, the per-seed fixture constants in the oracle, and later maintenance edits). Their SHA-256 values no longer match the ones recorded in the manifests, and the old files were not kept, so the exact differences beyond the documented ones cannot be listed. Evidence that the changes did not alter earlier behavior: the oracle returns the saved outputs for the 30 seeds with a saved record; the rerun of `seed_05` strategy 1 under the current tree reproduced 145 of 150 original attempts with the same candidate hash, and the 5 that differ follow a failed scan; no verdict differed on the 143 shared scanned candidates.
+
+**The three former CodeQL scanner errors.** After the original run lost attempts to CPU throttling, the failed trajectories were rerun with a 240 s timeout. Three attempts still timed out (`seed_05`, strategy 1, trajectories 3 and 4). Both trajectories were rerun as `results/codeql-v6-seed05-rerun` (same config, restricted to the original 13-operator pool because an unrestricted resume is refused after the toolbox grew) and merged by `scripts/merge_rerun.py`; the replaced rows are kept in `discarded-partial.jsonl` and the manifest records the merge. The report card of `codeql-v6` is now complete (`weak`, exploratory). The evidence pairs `bypasses/seed_05/1089.{py,json}` and `5185.{py,json}` belong to two of the replaced rows (lines 284 and 285 of `discarded-partial.jsonl`; no row of `attempts.jsonl` has those masks for that trajectory). They stay as the record of the replaced rows and are not active findings: count evasions from `attempts.jsonl`, not from the files in `bypasses/`.
+
+## Live integration
+
+- **SoCLaaS.** `./run.sh doctor` confirmed the key and the served models. The two full campaigns had 0 fallbacks; later runs had 79 in about 76,000 decisions (see the integrity table). HTTP 429 handling was exercised in the field during a pilot whose data was later deleted.
+- **CodeQL.** The CLI came from the python-only bundle of the GitHub `codeql-bundle-v2.27.1` release; the SHA-256 (`ea86393c6c812542ae5a3a7122bcc760873707a50b25cc47d2fd7cfd514b0cb0`) matches the published asset digest, in the Dockerfile too. `codeql resolve qlpacks` lists `codeql/python-queries` 1.8.11.
+- **Qualification.** All 15 main seeds are flagged by both scanners; 10 of the 12 varied seeds by CodeQL and 8 by Semgrep; of the 9 official-suite seeds, 9 by CodeQL and 7 by Semgrep.
+
+## Pysa runs
+
+| Check | Result |
+| --- | --- |
+| Scan errors and behavior-check differences in `pysa-*` runs | 0 and 0 over 4,716 rows (3,994 distinct scanned candidates) |
+| Duplicate (seed, mask) rows | 0 |
+| Baseline qualification | 15 of 15 main, 10 of 12 varied, 9 of 9 official seeds; both rules fire on every qualifying seed |
+| Interrupted run | the pair run was killed once (session restart) and resumed from its saved rows; no duplicates |
+| First launch | produced 0 qualifying seeds because every scan failed closed (no entry model); the results were deleted and the adapter fixed, which is the intended behavior of the fail-closed rule |
+| Independent re-scan (`rescan_pysa.py`, fixed RNG seed) | 120 candidates (40 silent, 40 that lost 1 rule, 40 that kept both): 0 hash mismatches, 0 behavior-check disagreements, 0 differences in the set of rules that fire |
+| Verdict determinism | 3,994 distinct (seed, subset) pairs, 428 scanned in 2 runs, 0 with 2 different verdicts |
+| Extended behavior check | Pysa candidates included in the 21,264 above, 0 differences |
+
+Pysa's own integration tests are listed below.
+
+## Further checks: command injection, independent programs, further rules and prompt variants
+
+| Check | Result |
+| --- | --- |
+| Pysa against its own integration tests (`scripts/validate_pysa_suite.py`, pyre-check `d5614e0a`, 33 tests with their own configuration) | 32 of 33 reproduce the expected issues exactly; `entrypoint` reports 1 extra issue (global-state rule 1006) |
+| Semgrep `dangerous-subprocess-use-audit` against its own test | passes (8 expected lines, all reported) |
+| Scan errors and behavior-check differences in `semgrep-real-pairs`, `codeql-real-*`, `pysa-real-pairs`, `semgrep-cmd-pairs`, `codeql-cmd-*`, `pysa-cmd-pairs`, `pysa-hard-qwen*`, `pysa-http-*` | 0 and 0 in every run |
+| SQL candidates before and after generalising `transforms.py` for command injection | 6,192 candidates compared by SHA-256, 0 differences |
+| Extended behavior check, SQL candidates including the independent programs (`extended_equivalence.py`) | 21,264 unique candidates (16,562 evading, 4,702 detected) on 20 inputs, 0 differences; 52 of the 54 baseline seeds are live under the 3 standard injection strings and the other 2 (`r06_vulpy_login`, `a05_pyload_update_link_info`) under their own |
+| Extended behavior check, command-injection candidates (`cmd_equivalence.py`) | 1,150 distinct candidates on 12 inputs (empty, spaces, quotes, `;`, `&&`, `$(...)`, backticks, unicode, 300 characters), 0 differences. The input `it's` makes the shell exit with status 2 for the seed itself on all 8 seeds (4 raise, 4 return normally), so there the seed and its candidates are compared only on that failure; the script prints these 8 of 96 seed-input pairs and requires every candidate to start processes with the same exit statuses as its seed, so each seed is compared on 11 working inputs |
+| Independent re-scan, Semgrep (`rescan_sample.py`) | cmd 25 + 25 and real 25 + 25: 0 hash mismatches, 0 behavior disagreements, 0 verdict disagreements |
+| Independent re-scan, CodeQL | cmd 8 + 8 and real 8 + 8: 0 and 0 and 0 |
+| Independent re-scan, Pysa (`rescan_pysa.py`, 25 silent, 25 lost 1 rule, 25 kept all, from 1,942 candidates of `pysa-real-pairs` and `pysa-cmd-pairs`) | 0 hash mismatches, 0 behavior disagreements, 0 differences in the set of rules that fire |
+| Semgrep taint mode (`semgrep-taint-*`; stock rule, 4,462 candidates) | 0 scan errors, 0 behavior differences; covered by the extended behavior check above; independent re-scan 25 + 25 on the main seeds and 25 + 25 on the official seeds: 0 hash mismatches, 0 behavior disagreements, 0 verdict disagreements |
+| Newer releases (`semgrep-latest-*`, `codeql-latest-*`) | Semgrep 1.182.1: same verdict as 1.178.0 on 392 identical single-rewrite candidates. CodeQL 2.27.3 (zip SHA-256 equals GitHub's digest) with python-queries 1.8.13: 428 candidates, 0 errors, evading iff a flow-changing rewrite is present, re-scan 8 + 8 on each corpus (see result.md) |
+| Pysa agent prompt variants (`pysa-hard-informed*`, `pysa-hard-any*`) | 0 scan errors in every run; the original-prompt run is reproduced exactly by the random strategy of the new runs (15 of 45 streams, same mean 13.33), which checks that the seeds and pool are unchanged |
+| Semgrep `path-traversal-open` and `tainted-sql-string` against their own tests | both pass (12 of 12 expected lines each; `validate_semgrep_suite.py <rule>`) |
+| CodeQL `py/command-line-injection` and `py/path-injection` against their own tests | match (13 of 13 and 21 of 21 expected alerts; `validate_codeql_suite.py cmd|path`) |
+| Transform change for builtin sinks | 12,058 distinct logged candidates regenerated and compared by SHA-256 (`scripts/check_candidates_unchanged.py`), 0 differences before and after |
+| Informed-prompt arms (`semgrep-informed-*`, `codeql-informed-*`, `pysa-hard*-informed*`) | 0 scan errors; random and heuristic baselines come from the original runs on identical streams (the random arm of the new Pysa runs reproduces the original 15 of 45 and mean 13.33 exactly) |
+| `seeds_path` (path traversal, 8 seeds, `semgrep-path-pairs`, `codeql-path-*`, `pysa-path-pairs`) | all exploitable under the oracle; 0 scan errors and 0 behavior differences |
+| `corpus_apps` (5 functions from 3 deployed projects) | all exploitable under the oracle; 0 scan errors and 0 behavior differences in `semgrep-apps-pairs`, `semgrep-taint-apps-pairs`, `codeql-apps-*`, `pysa-apps-pairs` |
+| Pysa triples (`pysa-triples`) | 1,510 candidates, 0 errors, 0 behavior differences |
+| Independent re-scans of the informed-prompt, path-traversal and deployed-project runs | Semgrep path 25 + 25 and apps 25 + 25, CodeQL path 8 + 8 and apps 8 + 8, Pysa 25 per class from 2,812 candidates of `pysa-path-pairs`, `pysa-apps-pairs` and `pysa-triples`: 0 hash mismatches, 0 behavior disagreements, 0 verdict or rule-set disagreements |
+| Stock-source check (`pysa-http-*`) | 576 candidates, same rules everywhere |
+| Mechanism checks (`mechanism_pysa.py`, `mechanism_codeql.py`, `mechanism_codeql_flow.py`) | alert restored by added models for 2 Pysa and 4 CodeQL rewrite types, 6 tool-and-rewrite pairs (2 or 3 entries each), on `seed_01` (the CodeQL library rows also on one official program); `deep_nest` stops alerting at depth 6; the sink-resolution rewrites leave no sink node or call-graph edge, and `unbound_sink` is read as a bound call (the probe in `pysa.txt` section 3). Outputs are saved in `results/mechanism/`. No claim for the other cases; no maintainer has confirmed any finding |
+
+Integrity notes: the first Pysa command-injection run qualified 0 seeds because of a wrong rule code and was deleted and repeated; one CodeQL scan timed out under load and was re-evaluated (`discarded-timeouts.jsonl`). Search runs `pysa-hard-qwen*` have no timing claim because other work shared the machine.
+
+## What remains unverified
+
+- **Real-world validity.** The 5 programs of `corpus_apps` are functions copied from vulnerable releases of 3 projects (Parsl, SciTokens, pyLoad) with database access replaced by a cursor on the oracle's SQLite connection; no full application or CI pipeline was tested. The other seeds are synthetic or adapted from test suites and training applications, and the official-suite seeds keep the query construction of the tests but not their database libraries.
+- **Code provenance of the early campaigns.** See the framework-change paragraph above.
+- **Mechanisms.** The mechanism checks cover 5 rewrite types and 6 tool-and-rewrite pairs on 1 or 2 seeds, plus the sink-node listing and the depth limit of `deep_nest` on CodeQL and the call-graph entries on Pysa. The other evasions were found by the catalog and the exhaustive runs and their cause was not investigated. No maintainer has confirmed any finding.
+- **Model identity.** SoCLaaS exposes no weight digest, and the size of `qwen3-coder-next` is not reported.
+- **General equivalence.** Equivalence is established on 2 inputs during the campaigns and on 20 inputs afterwards, not for all inputs.
+- **Disclosure.** Nothing has been reported to the Semgrep or CodeQL maintainers.
+
+## Path-traversal, command-injection and cache checks
+
+| Check | Result |
+| --- | --- |
+| Path-traversal candidates (`path_equivalence.py`) | 890 distinct candidates of the 4 `*-path-*` runs regenerated and run on 14 inputs (existing and missing names, traversal strings, a null byte, a 300-character name): 0 differences; `../secret` returns the secret file on 7 of 7 baseline seeds |
+| Command-injection candidates (`cmd_equivalence.py`) | 1,150 distinct candidates on 12 inputs (11 of them run a working command: the shell rejects `it's` for every seed): 0 differences |
+| Regeneration of every logged candidate (`scripts/check_candidates_unchanged.py`, including `seeds_path`) | 13,832 distinct logged candidates, 0 without a seed file, 0 SHA-256 differences |
+| Independent re-scan of logged search attempts (`rescan_attempts.py`, fixed RNG seed, no cache) | 228 attempts from 15 agent runs: Semgrep 100 (5 runs), Pysa 96 (6 runs), CodeQL 32 (4 runs); 147 of them were answered from the persistent scan cache in the original run; 0 SHA-256 mismatches, 0 verdict or rule-set disagreements |
+| Scan cache (`scan_cache` config key) | key = hash of the scanner settings; a second identical run gave 8 of 8 cache hits and identical verdicts (`tests/test_extensions.py`); the attempt accounting is unchanged |
+
+## Bandit
+
+`tests/test_bandit.py`: report parsing fails closed (parse errors, missing `subject.py`), and a live check that Bandit flags `seeds/seed_01.py` with B608 and `literal_slice` silences it (skipped without `.sastlab/bandit-venv`). Exhaustive runs of all singles and pairs on 6 corpora: 7,700 candidates, 0 scan errors, 0 behavior differences. `rescan_sample.py` on every run (40 evading and 40 detected each): 0 hash mismatches and 0 disagreements. `scripts/reproduce.sh` has a one-seed Bandit smoke scan (`check_smoke.py` requires exactly `literal_slice` to silence B608). Bandit was not validated against its own test suite; its rule behavior is checked only through the candidates above.

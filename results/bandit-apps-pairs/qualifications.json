@@ -1,0 +1,289 @@
+[
+  {
+    "seed": "a01_parsl_status_for_workflow",
+    "sha256": "b146131635c5d55736ccdaa26c4c9beb0fd165c86556f042eeda1fe3ab236f42",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            0,
+            "running",
+            "t1"
+          ]
+        ],
+        [
+          [
+            "1",
+            0,
+            "running",
+            "t1"
+          ],
+          [
+            "2",
+            0,
+            "running",
+            "t2"
+          ],
+          [
+            "3",
+            0,
+            "done",
+            "t3"
+          ]
+        ]
+      ],
+      "seconds": 0.03466218197718263
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/1e149a2628864b49aca43c1223c42f71/a01_parsl_status_for_workflow/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 10,
+          "snippet": "    query = \"\"\"\n        SELECT run_id, task_id, task_status_name, timestamp\n          FROM status\n         WHERE run_id='%s';\n        \"\"\" % workflow_id",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.1810220959596336,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/1e149a2628864b49aca43c1223c42f71/a01_parsl_status_for_workflow/baseline"
+  },
+  {
+    "seed": "a02_parsl_resources_for_task",
+    "sha256": "88e27601b26c874e49a6e529b9932fa66291bdc588dda8a329d799a488392606",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            0,
+            0,
+            111
+          ]
+        ],
+        [
+          [
+            "1",
+            0,
+            0,
+            111
+          ],
+          [
+            "2",
+            0,
+            0,
+            222
+          ],
+          [
+            "3",
+            0,
+            0,
+            333
+          ]
+        ]
+      ],
+      "seconds": 0.02810614393092692
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/1e149a2628864b49aca43c1223c42f71/a02_parsl_resources_for_task/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 11,
+          "snippet": "    query = \"\"\"\n        SELECT *\n          FROM resource\n         WHERE run_id='%s' AND task_id='%s';\n        \"\"\" % (workflow_id, task_id)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.15802509291097522,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/1e149a2628864b49aca43c1223c42f71/a02_parsl_resources_for_task/baseline"
+  },
+  {
+    "seed": "a03_parsl_dag_details",
+    "sha256": "2e4c35f47eead693ef99bce6545221a6ce41f7d675e9b42161179a6cfc26a648",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            0,
+            "f",
+            "",
+            "done"
+          ]
+        ],
+        [
+          [
+            0,
+            "f",
+            "",
+            "done"
+          ],
+          [
+            0,
+            "g",
+            "",
+            "done"
+          ],
+          [
+            0,
+            "h",
+            "",
+            "done"
+          ]
+        ]
+      ],
+      "seconds": 0.0336900360416621
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/1e149a2628864b49aca43c1223c42f71/a03_parsl_dag_details/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 14,
+          "snippet": "    query = \"\"\"SELECT task.task_id, task.task_func_name, task.task_depends, status.task_status_name\n               FROM task LEFT JOIN status\n               ON task.task_id = status.task_id\n               AND task.run_id = status.run_id\n               AND status.timestamp = (SELECT MAX(status.timestamp)\n                                       FROM status\n                                       WHERE status.task_id = task.task_id and status.run_id = task.run_id\n                                      )\n               WHERE task.run_id='%s'\"\"\" % (workflow_id)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.18838821700774133,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/1e149a2628864b49aca43c1223c42f71/a03_parsl_dag_details/baseline"
+  },
+  {
+    "seed": "a04_scitokens_getkeyinfo",
+    "sha256": "fad77b2f7a334799d580d78dd363e4fb348a458f8fe5cb0342af27f6bd49832e",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ]
+        ],
+        [
+          [
+            "1",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ],
+          [
+            "2",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ],
+          [
+            "3",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ]
+        ]
+      ],
+      "seconds": 0.03043878311291337
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [],
+      "error": "",
+      "seconds": 0.17207536892965436,
+      "rules": []
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/1e149a2628864b49aca43c1223c42f71/a04_scitokens_getkeyinfo/baseline"
+  },
+  {
+    "seed": "a05_pyload_update_link_info",
+    "sha256": "59572efc25247089717ac04c7dc5d93084fcbd407d50d27366a15b65c7d97e6c",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.03157377685420215
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/1e149a2628864b49aca43c1223c42f71/a05_pyload_update_link_info/baseline/src/subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    c.execute(f\"SELECT id FROM links WHERE url IN ('{statuses}')\")",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.16348314587958157,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/1e149a2628864b49aca43c1223c42f71/a05_pyload_update_link_info/baseline"
+  }
+]

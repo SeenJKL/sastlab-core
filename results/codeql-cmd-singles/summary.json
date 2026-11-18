@@ -1,0 +1,160 @@
+{
+  "seeds": {
+    "c01_check_output_fstring": {
+      "qualifying_rules": [
+        "py/command-line-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 8,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "c02_check_output_format": {
+      "qualifying_rules": [
+        "py/command-line-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 16,
+      "invalid": 2,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 8,
+      "detected_masks": 8,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "c03_check_output_percent": {
+      "qualifying_rules": [
+        "py/command-line-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 16,
+      "invalid": 2,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 8,
+      "detected_masks": 8,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "c04_run_concat": {
+      "qualifying_rules": [
+        "py/command-line-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 8,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "c05_popen_communicate": {
+      "qualifying_rules": [
+        "py/command-line-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 8,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "c06_preprocess": {
+      "qualifying_rules": [
+        "py/command-line-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 8,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "c07_os_popen": {
+      "qualifying_rules": [
+        "py/command-line-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 8,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "c08_getoutput": {
+      "qualifying_rules": [
+        "py/command-line-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 8,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    }
+  },
+  "total_evaluated": 134,
+  "total_evading": 64,
+  "total_scan_errors": 0,
+  "complete": true
+}

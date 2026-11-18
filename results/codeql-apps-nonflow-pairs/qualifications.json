@@ -1,0 +1,715 @@
+[
+  {
+    "seed": "a01_parsl_status_for_workflow",
+    "sha256": "b146131635c5d55736ccdaa26c4c9beb0fd165c86556f042eeda1fe3ab236f42",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            0,
+            "running",
+            "t1"
+          ]
+        ],
+        [
+          [
+            "1",
+            0,
+            "running",
+            "t1"
+          ],
+          [
+            "2",
+            0,
+            "running",
+            "t2"
+          ],
+          [
+            "3",
+            0,
+            "done",
+            "t3"
+          ]
+        ]
+      ],
+      "seconds": 0.03335214196704328
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/sql-injection",
+          "severity": "warning",
+          "message": "This SQL query depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 12,
+          "end_line": 12,
+          "snippet": "    cursor.execute(query)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 4,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 5,
+              "message": "ControlFlowNode for workflow_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for query",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 12,
+              "message": "ControlFlowNode for query",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 16.495460553909652,
+      "rules": [
+        "py/sql-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/sql-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/eb2e390fa7064f07b32d0d761b7f00fa/a01_parsl_status_for_workflow/baseline"
+  },
+  {
+    "seed": "a02_parsl_resources_for_task",
+    "sha256": "88e27601b26c874e49a6e529b9932fa66291bdc588dda8a329d799a488392606",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            0,
+            0,
+            111
+          ]
+        ],
+        [
+          [
+            "1",
+            0,
+            0,
+            111
+          ],
+          [
+            "2",
+            0,
+            0,
+            222
+          ],
+          [
+            "3",
+            0,
+            0,
+            333
+          ]
+        ]
+      ],
+      "seconds": 0.028480672976002097
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/sql-injection",
+          "severity": "warning",
+          "message": "This SQL query depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 13,
+          "end_line": 13,
+          "snippet": "    cursor.execute(query)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 4,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 5,
+              "message": "ControlFlowNode for workflow_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 11,
+              "message": "ControlFlowNode for workflow_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 11,
+              "message": "ControlFlowNode for Tuple [Tuple element at index 0]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for BinaryExpr",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for query",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 13,
+              "message": "ControlFlowNode for query",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 15.201156737050042,
+      "rules": [
+        "py/sql-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/sql-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/eb2e390fa7064f07b32d0d761b7f00fa/a02_parsl_resources_for_task/baseline"
+  },
+  {
+    "seed": "a03_parsl_dag_details",
+    "sha256": "2e4c35f47eead693ef99bce6545221a6ce41f7d675e9b42161179a6cfc26a648",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            0,
+            "f",
+            "",
+            "done"
+          ]
+        ],
+        [
+          [
+            0,
+            "f",
+            "",
+            "done"
+          ],
+          [
+            0,
+            "g",
+            "",
+            "done"
+          ],
+          [
+            0,
+            "h",
+            "",
+            "done"
+          ]
+        ]
+      ],
+      "seconds": 0.029952746001072228
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/sql-injection",
+          "severity": "warning",
+          "message": "This SQL query depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 16,
+          "end_line": 16,
+          "snippet": "    cursor.execute(query)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 4,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 5,
+              "message": "ControlFlowNode for workflow_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for query",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 16,
+              "message": "ControlFlowNode for query",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 15.640684720943682,
+      "rules": [
+        "py/sql-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/sql-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/eb2e390fa7064f07b32d0d761b7f00fa/a03_parsl_dag_details/baseline"
+  },
+  {
+    "seed": "a04_scitokens_getkeyinfo",
+    "sha256": "fad77b2f7a334799d580d78dd363e4fb348a458f8fe5cb0342af27f6bd49832e",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ]
+        ],
+        [
+          [
+            "1",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ],
+          [
+            "2",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ],
+          [
+            "3",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ]
+        ]
+      ],
+      "seconds": 0.03315955901052803
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/sql-injection",
+          "severity": "warning",
+          "message": "This SQL query depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 12,
+          "end_line": 12,
+          "snippet": "    curs.execute(key_query.format(issuer=issuer, key_id=key_id))",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 4,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 5,
+              "message": "ControlFlowNode for issuer",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 12,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 15.65811031893827,
+      "rules": [
+        "py/sql-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/sql-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/eb2e390fa7064f07b32d0d761b7f00fa/a04_scitokens_getkeyinfo/baseline"
+  },
+  {
+    "seed": "a05_pyload_update_link_info",
+    "sha256": "59572efc25247089717ac04c7dc5d93084fcbd407d50d27366a15b65c7d97e6c",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.030160547932609916
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/sql-injection",
+          "severity": "warning",
+          "message": "This SQL query depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    c.execute(f\"SELECT id FROM links WHERE url IN ('{statuses}')\")",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 4,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 5,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 5,
+              "message": "ControlFlowNode for Tuple [Tuple element at index 3]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 5,
+              "message": "ControlFlowNode for List [List element, Tuple element at index 3]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 5,
+              "message": "ControlFlowNode for data [List element, Tuple element at index 3]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for data [List element, Tuple element at index 3]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for .0 [List element, Tuple element at index 3]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for x [Tuple element at index 3]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for x [Tuple element at index 3]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for Subscript",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for Yield [List element]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for GeneratorExp [List element]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for statuses",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 9,
+              "message": "ControlFlowNode for Fstring",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 16.293593085021712,
+      "rules": [
+        "py/sql-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/sql-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/eb2e390fa7064f07b32d0d761b7f00fa/a05_pyload_update_link_info/baseline"
+  }
+]

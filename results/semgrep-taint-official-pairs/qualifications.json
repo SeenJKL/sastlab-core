@@ -1,0 +1,484 @@
+[
+  {
+    "seed": "o03_semgrep",
+    "sha256": "6b348b9af97bb45359eb132516706a02ecdfb8a297ae62d6d563f139f58d5f30",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "seconds": 0.03441590798320249
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o03_semgrep/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 7,
+          "snippet": "    query = '\\n          SELECT\\n            id\\n            ,userId\\n            ,stationId\\n            ,stationName\\n            ,duration\\n            ,price\\n            ,createdDate\\n          FROM\\n            rideTransactions\\n          WHERE\\n            userId = \"{}\"\\n          ORDER BY\\n            createdDate DESC;\\n          '.format(user_id)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.347451870999066,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o03_semgrep/baseline"
+  },
+  {
+    "seed": "o04_semgrep",
+    "sha256": "2fa7f5510b77e8a9c76b6b05226716d175c097e94c4d6571842b045b6de0bdbb",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.03138214600039646
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o04_semgrep/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 6,
+          "snippet": "    query = f\"SELECT * FROM foobar WHERE id = '{user_id}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.3419047289935406,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o04_semgrep/baseline"
+  },
+  {
+    "seed": "o05_semgrep",
+    "sha256": "a0f72de6bd8a064a2f98baa82ef36f6d7e44f0d761668e9854a6d8dc657df660",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.03516645100899041
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o05_semgrep/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 6,
+          "snippet": "    query = f'SELECT foo FROM bar WHERE baz = {user_id}'",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.2522517570178024,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o05_semgrep/baseline"
+  },
+  {
+    "seed": "o06_semgrep",
+    "sha256": "40f8cb1deebedbdd98cf47e90d72ad05bbd1c6a5debbb1ec8e4b253f5c27c4cc",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.031322484981501475
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o06_semgrep/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 6,
+          "snippet": "    query = 'SELECT foo FROM bar WHERE baz = %s' % user_id",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.2644466049969196,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o06_semgrep/baseline"
+  },
+  {
+    "seed": "o09_semgrep",
+    "sha256": "4c7b60053596d6618994ca7a19b92463f3a31bc706421e4bac100125928dcdfc",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.025750813976628706
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o09_semgrep/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 7,
+          "snippet": "    query = f'SELECT foo FROM bar WHERE baz = {baz}'",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.361902803997509,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o09_semgrep/baseline"
+  },
+  {
+    "seed": "o10_semgrep",
+    "sha256": "9cdbc24c4f655514efa0511e11e9d393fdcd87f279c0cfd036b15796d167a237",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.03132591498433612
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o10_semgrep/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 7,
+          "snippet": "    query = 'SELECT foo FROM bar WHERE baz = %s' % baz",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.1823914459964726,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o10_semgrep/baseline"
+  },
+  {
+    "seed": "o18_semgrep",
+    "sha256": "1ce47643bb3638af2ee741d5f4ee5f56132ad70e295656b2a1bb36080d36c1a8",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.026891157001955435
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o18_semgrep/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 6,
+          "snippet": "    query = 'SELECT name FROM users WHERE age=' + user_id",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.4912244400184136,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o18_semgrep/baseline"
+  },
+  {
+    "seed": "o23_codeql",
+    "sha256": "ec96ef583946a381e08161bbdcaffec3702acee9efebf2d108871394bd39125a",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.030011230002855882
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o23_codeql/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 6,
+          "snippet": "    query = 'select * from users where name=' + user_id",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.1614656440215185,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o23_codeql/baseline"
+  },
+  {
+    "seed": "o24_codeql",
+    "sha256": "d74f65590ffa2486dfc4d307dc3705328d669ed59c4c940480ab48cb66defced",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.0268298469891306
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o24_codeql/baseline/src/subject.py",
+          "start_line": 6,
+          "end_line": 6,
+          "snippet": "    query = \"SELECT * FROM users WHERE username = '%s'\" % user_id",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.054008315986721,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/663617dd28894be3a87f239bda04ab28/o24_codeql/baseline"
+  }
+]

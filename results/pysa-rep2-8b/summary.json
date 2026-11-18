@@ -1,0 +1,296 @@
+{
+  "engine": "pysa",
+  "report_cards": [
+    {
+      "engine": "pysa",
+      "rule": "pysa/5005",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "4": [],
+        "5": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "individual_crossing": 3,
+      "portfolio_first_crossing_after_strategy": 3
+    },
+    {
+      "engine": "pysa",
+      "rule": "pysa/5051",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "4": [],
+        "5": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "individual_crossing": 3,
+      "portfolio_first_crossing_after_strategy": 3
+    }
+  ],
+  "strategy_metrics": [
+    {
+      "strategy": 3,
+      "attempts": 675,
+      "unique_candidates": 243,
+      "scanner_invocations": 16,
+      "cache_hits": 659,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 34,
+      "distinct_bypass_candidates": 32,
+      "distinct_bypass_per_trajectory": 0.7555555555555555,
+      "time_to_first_bypass": {
+        "seed_01:4": {
+          "attempt": 7,
+          "wall_seconds": 8.346303375903517,
+          "charged_seconds": 45.230333518004045
+        },
+        "seed_01:5": {
+          "attempt": 9,
+          "wall_seconds": 11.235736111993901,
+          "charged_seconds": 59.242811863310635
+        },
+        "seed_01:10": {
+          "attempt": 12,
+          "wall_seconds": 15.392545775976032,
+          "charged_seconds": 78.5261168157449
+        },
+        "seed_01:11": {
+          "attempt": 4,
+          "wall_seconds": 5.254918015911244,
+          "charged_seconds": 26.146914052893408
+        },
+        "seed_01:15": {
+          "attempt": 9,
+          "wall_seconds": 11.56283180997707,
+          "charged_seconds": 60.16061334195547
+        },
+        "seed_06:1": {
+          "attempt": 14,
+          "wall_seconds": 23.333375551039353,
+          "charged_seconds": 93.41790302633308
+        },
+        "seed_06:5": {
+          "attempt": 9,
+          "wall_seconds": 11.791559788049199,
+          "charged_seconds": 62.26027976127807
+        },
+        "seed_06:10": {
+          "attempt": 12,
+          "wall_seconds": 15.273555989027955,
+          "charged_seconds": 83.12143895868212
+        },
+        "seed_06:11": {
+          "attempt": 8,
+          "wall_seconds": 15.1644101269776,
+          "charged_seconds": 54.44146024575457
+        },
+        "seed_06:15": {
+          "attempt": 9,
+          "wall_seconds": 15.438807305996306,
+          "charged_seconds": 66.61121048417408
+        },
+        "seed_11:4": {
+          "attempt": 11,
+          "wall_seconds": 14.102463267976418,
+          "charged_seconds": 71.50130232551601
+        },
+        "seed_11:5": {
+          "attempt": 9,
+          "wall_seconds": 11.190078611019999,
+          "charged_seconds": 57.58407486311626
+        },
+        "seed_11:7": {
+          "attempt": 7,
+          "wall_seconds": 13.689770277007483,
+          "charged_seconds": 45.218557805987075
+        },
+        "seed_11:10": {
+          "attempt": 12,
+          "wall_seconds": 14.451916371937841,
+          "charged_seconds": 76.47204292274546
+        },
+        "seed_11:15": {
+          "attempt": 13,
+          "wall_seconds": 20.916882275021635,
+          "charged_seconds": 84.78557555074804
+        }
+      },
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 5,
+      "attempts": 675,
+      "unique_candidates": 285,
+      "scanner_invocations": 15,
+      "cache_hits": 660,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 61,
+      "distinct_bypass_candidates": 46,
+      "distinct_bypass_per_trajectory": 1.288888888888889,
+      "time_to_first_bypass": {
+        "seed_01:2": {
+          "attempt": 10,
+          "wall_seconds": 12.576872631092556,
+          "charged_seconds": 65.39437748410273
+        },
+        "seed_01:3": {
+          "attempt": 7,
+          "wall_seconds": 8.359426651033573,
+          "charged_seconds": 45.43624291976448
+        },
+        "seed_01:8": {
+          "attempt": 6,
+          "wall_seconds": 7.453549748053774,
+          "charged_seconds": 38.57566788990516
+        },
+        "seed_01:9": {
+          "attempt": 11,
+          "wall_seconds": 14.13680131395813,
+          "charged_seconds": 71.70391918637324
+        },
+        "seed_01:10": {
+          "attempt": 12,
+          "wall_seconds": 14.170213561039418,
+          "charged_seconds": 77.154393207049
+        },
+        "seed_01:11": {
+          "attempt": 8,
+          "wall_seconds": 10.10195212601684,
+          "charged_seconds": 52.00461836636532
+        },
+        "seed_01:13": {
+          "attempt": 12,
+          "wall_seconds": 14.19694687006995,
+          "charged_seconds": 77.52203751076013
+        },
+        "seed_01:15": {
+          "attempt": 8,
+          "wall_seconds": 10.017555313999765,
+          "charged_seconds": 54.178358405828476
+        },
+        "seed_06:1": {
+          "attempt": 8,
+          "wall_seconds": 9.381635060999542,
+          "charged_seconds": 52.97059984644875
+        },
+        "seed_06:3": {
+          "attempt": 7,
+          "wall_seconds": 8.47065862105228,
+          "charged_seconds": 47.38399196323007
+        },
+        "seed_06:7": {
+          "attempt": 15,
+          "wall_seconds": 18.754438686999492,
+          "charged_seconds": 100.68363720318303
+        },
+        "seed_06:8": {
+          "attempt": 6,
+          "wall_seconds": 8.334323578048497,
+          "charged_seconds": 42.21402070228942
+        },
+        "seed_06:14": {
+          "attempt": 11,
+          "wall_seconds": 13.460961889941245,
+          "charged_seconds": 72.07384969235864
+        },
+        "seed_06:15": {
+          "attempt": 9,
+          "wall_seconds": 10.789590978994966,
+          "charged_seconds": 62.07405145734083
+        },
+        "seed_11:2": {
+          "attempt": 5,
+          "wall_seconds": 6.19147293001879,
+          "charged_seconds": 32.787014027591795
+        },
+        "seed_11:3": {
+          "attempt": 7,
+          "wall_seconds": 9.030765448929742,
+          "charged_seconds": 46.104014635435306
+        },
+        "seed_11:4": {
+          "attempt": 11,
+          "wall_seconds": 13.858446703990921,
+          "charged_seconds": 70.5202901205048
+        },
+        "seed_11:7": {
+          "attempt": 15,
+          "wall_seconds": 18.004003233043477,
+          "charged_seconds": 96.24358486535493
+        },
+        "seed_11:8": {
+          "attempt": 6,
+          "wall_seconds": 7.13478588196449,
+          "charged_seconds": 38.25520226638764
+        },
+        "seed_11:14": {
+          "attempt": 11,
+          "wall_seconds": 13.198988037998788,
+          "charged_seconds": 70.4230975098908
+        },
+        "seed_11:15": {
+          "attempt": 8,
+          "wall_seconds": 9.253061111900024,
+          "charged_seconds": 51.91225056373514
+        }
+      },
+      "wall_time_comparable": false
+    }
+  ],
+  "qualification_failures": []
+}

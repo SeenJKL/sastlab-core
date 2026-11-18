@@ -1,0 +1,152 @@
+{
+  "seeds": {
+    "c01_check_output_fstring": {
+      "qualifying_rules": [
+        "dangerous-subprocess-use-audit"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 148,
+      "invalid": 23,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 57,
+      "detected_masks": 91,
+      "smallest_evading_masks": [
+        128,
+        256,
+        32768,
+        65536,
+        129
+      ]
+    },
+    "c02_check_output_format": {
+      "qualifying_rules": [
+        "dangerous-subprocess-use-audit"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 131,
+      "invalid": 40,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 53,
+      "detected_masks": 78,
+      "smallest_evading_masks": [
+        128,
+        256,
+        32768,
+        65536,
+        129
+      ]
+    },
+    "c03_check_output_percent": {
+      "qualifying_rules": [
+        "dangerous-subprocess-use-audit"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 131,
+      "invalid": 40,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 53,
+      "detected_masks": 78,
+      "smallest_evading_masks": [
+        128,
+        256,
+        32768,
+        65536,
+        129
+      ]
+    },
+    "c04_run_concat": {
+      "qualifying_rules": [
+        "dangerous-subprocess-use-audit"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 148,
+      "invalid": 23,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 57,
+      "detected_masks": 91,
+      "smallest_evading_masks": [
+        128,
+        256,
+        32768,
+        65536,
+        129
+      ]
+    },
+    "c05_popen_communicate": {
+      "qualifying_rules": [
+        "dangerous-subprocess-use-audit"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 148,
+      "invalid": 23,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 57,
+      "detected_masks": 91,
+      "smallest_evading_masks": [
+        128,
+        256,
+        32768,
+        65536,
+        129
+      ]
+    },
+    "c06_preprocess": {
+      "qualifying_rules": [
+        "dangerous-subprocess-use-audit"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 148,
+      "invalid": 23,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 57,
+      "detected_masks": 91,
+      "smallest_evading_masks": [
+        128,
+        256,
+        32768,
+        65536,
+        129
+      ]
+    },
+    "c07_os_popen": {
+      "qualifying_rules": [],
+      "masks_recorded": 0,
+      "evaluated": 0,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 0,
+      "smallest_evading_masks": []
+    },
+    "c08_getoutput": {
+      "qualifying_rules": [
+        "dangerous-subprocess-use-audit"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 148,
+      "invalid": 23,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 57,
+      "detected_masks": 91,
+      "smallest_evading_masks": [
+        128,
+        256,
+        32768,
+        65536,
+        129
+      ]
+    }
+  },
+  "total_evaluated": 1002,
+  "total_evading": 391,
+  "total_scan_errors": 0,
+  "complete": true
+}

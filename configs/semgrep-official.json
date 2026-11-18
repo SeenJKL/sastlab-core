@@ -1,0 +1,36 @@
+{
+  "engine": "semgrep",
+  "seeds": "../corpus_official/seeds",
+  "rules": "../rules/formatted-sql-query.yaml",
+  "corpus_kind": "harvested-adapted",
+  "attempts": 30,
+  "trajectories": 5,
+  "base_seed": 6223,
+  "strategies": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "cache": false,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "rule_metadata": "Semgrep formatted-sql-query: detects f-string, percent or str.format SQL passed directly or via a variable into DB.execute. Use parameterized queries.",
+  "llm": {
+    "provider": "soclaas",
+    "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+    "model": "llama3.1:8b",
+    "api_key_env": "SOCLAAS_API_KEY",
+    "env_file": "../.env",
+    "temperature": 0.2,
+    "timeout": 180,
+    "max_prompt_tokens": 2500
+  },
+  "target_rules": [
+    "formatted-sql-query"
+  ]
+}

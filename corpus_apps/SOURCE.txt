@@ -1,0 +1,4 @@
+Real deployed Python projects with a published SQL-injection advisory; each seed is a hand-adapted copy of the vulnerable function from the PyPI wheel below (the last version before the fix). Query text is unchanged; the database access is replaced by a cursor on the oracle's SQLite connection.
+parsl-2025.12.22-py3-none-any.whl (Apache-2.0) sha256 6657d8a1129bfd6e20217803985bf1014c4ee04d0dc6755d3188ba241d96039c -- GHSA-f2mf-q878-gh58 (CVE-2026-21892)
+scitokens-1.8.1-py3-none-any.whl (Apache-2.0) sha256 a5455d85969cd7c7b341ed8691ea89e0e446bd414a734f8443752081b049b46c -- GHSA-rh5m-2482-966c (CVE-2026-32714)
+pyload_ng-0.5.0b3.dev90-py3-none-any.whl (AGPL-3.0) sha256 9ceb7c2164e018b756119aaf806c39d0b9572b15a1d3c240c1979cd335014b18 -- GHSA-pwh4-6r3m-j2rf (CVE-2025-55156)

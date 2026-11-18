@@ -1,0 +1,475 @@
+[
+  {
+    "seed": "c01_check_output_fstring",
+    "sha256": "084041d6351028c80b59086ba97aa5a821288a84e2bc44590a684e65be90380c",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03423504599777516
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "dangerous-subprocess-use-audit",
+          "severity": "ERROR",
+          "message": "Detected subprocess function 'check_output' without a static string. If this data can be controlled by a malicious actor, it may be an instance of command injection. Audit the use of this call to ensure it is not controllable by an external resource. You may consider using 'shlex.escape()'.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c01_check_output_fstring/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.1103472970062285,
+      "rules": [
+        "dangerous-subprocess-use-audit"
+      ]
+    },
+    "qualifying_rules": [
+      "dangerous-subprocess-use-audit"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c01_check_output_fstring/baseline"
+  },
+  {
+    "seed": "c02_check_output_format",
+    "sha256": "a64a5ded28be9e9ac6dd2ce6bc882ef50e15b0e321b8425d6c7d17adcb43999b",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03742325899656862
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "dangerous-subprocess-use-audit",
+          "severity": "ERROR",
+          "message": "Detected subprocess function 'check_output' without a static string. If this data can be controlled by a malicious actor, it may be an instance of command injection. Audit the use of this call to ensure it is not controllable by an external resource. You may consider using 'shlex.escape()'.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c02_check_output_format/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.2306847750005545,
+      "rules": [
+        "dangerous-subprocess-use-audit"
+      ]
+    },
+    "qualifying_rules": [
+      "dangerous-subprocess-use-audit"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c02_check_output_format/baseline"
+  },
+  {
+    "seed": "c03_check_output_percent",
+    "sha256": "c5ab60d6ce7c9163e9d2eca281025d736523103032f7bd787de49f0c0e06d912",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.04022712000005413
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "dangerous-subprocess-use-audit",
+          "severity": "ERROR",
+          "message": "Detected subprocess function 'check_output' without a static string. If this data can be controlled by a malicious actor, it may be an instance of command injection. Audit the use of this call to ensure it is not controllable by an external resource. You may consider using 'shlex.escape()'.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c03_check_output_percent/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.2067353390011704,
+      "rules": [
+        "dangerous-subprocess-use-audit"
+      ]
+    },
+    "qualifying_rules": [
+      "dangerous-subprocess-use-audit"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c03_check_output_percent/baseline"
+  },
+  {
+    "seed": "c04_run_concat",
+    "sha256": "c9bec5c5d8d90506f1639a80e0ab0a3d7736e5ea53cfaee32bf589b699e134f9",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03573560299992096
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "dangerous-subprocess-use-audit",
+          "severity": "ERROR",
+          "message": "Detected subprocess function 'run' without a static string. If this data can be controlled by a malicious actor, it may be an instance of command injection. Audit the use of this call to ensure it is not controllable by an external resource. You may consider using 'shlex.escape()'.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c04_run_concat/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.013364736994845,
+      "rules": [
+        "dangerous-subprocess-use-audit"
+      ]
+    },
+    "qualifying_rules": [
+      "dangerous-subprocess-use-audit"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c04_run_concat/baseline"
+  },
+  {
+    "seed": "c05_popen_communicate",
+    "sha256": "94357d7e2a019b01aa7c99d266b7f34a8e6f93ac941447b7c887899d0054eb51",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.033918817003723234
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "dangerous-subprocess-use-audit",
+          "severity": "ERROR",
+          "message": "Detected subprocess function 'Popen' without a static string. If this data can be controlled by a malicious actor, it may be an instance of command injection. Audit the use of this call to ensure it is not controllable by an external resource. You may consider using 'shlex.escape()'.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c05_popen_communicate/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.0964509719997295,
+      "rules": [
+        "dangerous-subprocess-use-audit"
+      ]
+    },
+    "qualifying_rules": [
+      "dangerous-subprocess-use-audit"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c05_popen_communicate/baseline"
+  },
+  {
+    "seed": "c06_preprocess",
+    "sha256": "a22de7e8dc638b03259e7a9273e0f143659bd240860a44da6b173bf633e578e5",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.04012955199868884
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "dangerous-subprocess-use-audit",
+          "severity": "ERROR",
+          "message": "Detected subprocess function 'check_output' without a static string. If this data can be controlled by a malicious actor, it may be an instance of command injection. Audit the use of this call to ensure it is not controllable by an external resource. You may consider using 'shlex.escape()'.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c06_preprocess/baseline/src/subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.3320351259972085,
+      "rules": [
+        "dangerous-subprocess-use-audit"
+      ]
+    },
+    "qualifying_rules": [
+      "dangerous-subprocess-use-audit"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c06_preprocess/baseline"
+  },
+  {
+    "seed": "c07_os_popen",
+    "sha256": "3be2de1ae2a84968e39183dbcf72779ba62e2463db5063da781c864e232f349d",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.04130216499470407
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [],
+      "error": "",
+      "seconds": 2.084479322002153,
+      "rules": []
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c07_os_popen/baseline"
+  },
+  {
+    "seed": "c08_getoutput",
+    "sha256": "8906a97127502e095da945ac916fe73b29f57a54ef5e829a117c712c86548cd6",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03846665399760241
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "dangerous-subprocess-use-audit",
+          "severity": "ERROR",
+          "message": "Detected subprocess function 'getoutput' without a static string. If this data can be controlled by a malicious actor, it may be an instance of command injection. Audit the use of this call to ensure it is not controllable by an external resource. You may consider using 'shlex.escape()'.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c08_getoutput/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    output = subprocess.getoutput(cmd)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.1145992019955884,
+      "rules": [
+        "dangerous-subprocess-use-audit"
+      ]
+    },
+    "qualifying_rules": [
+      "dangerous-subprocess-use-audit"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/8fb33ffb787a45e49517dfbecfd1b3c7/c08_getoutput/baseline"
+  }
+]

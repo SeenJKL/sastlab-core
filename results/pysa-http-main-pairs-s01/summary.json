@@ -1,0 +1,28 @@
+{
+  "seeds": {
+    "seed_01": {
+      "qualifying_rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 162,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 107,
+      "detected_masks": 55,
+      "smallest_evading_masks": [
+        4,
+        128,
+        256,
+        2048,
+        8192
+      ]
+    }
+  },
+  "total_evaluated": 162,
+  "total_evading": 107,
+  "total_scan_errors": 0,
+  "complete": true
+}

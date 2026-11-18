@@ -1,0 +1,36 @@
+{
+  "engine": "bandit",
+  "seeds": "../corpus_official/seeds",
+  "corpus_kind": "harvested-adapted",
+  "attempts": 30,
+  "trajectories": 5,
+  "base_seed": 6223,
+  "strategies": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "cache": false,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "rule_metadata": "Bandit B608: SQL built by string formatting or concatenation (CWE-89)",
+  "llm": {
+    "provider": "soclaas",
+    "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+    "model": "llama3.1:8b",
+    "api_key_env": "SOCLAAS_API_KEY",
+    "env_file": "../.env",
+    "temperature": 0.2,
+    "timeout": 180,
+    "max_prompt_tokens": 2500
+  },
+  "target_rules": [
+    "bandit/B608"
+  ],
+  "executable": ".sastlab/bandit-venv/bin/bandit"
+}

@@ -1,0 +1,89 @@
+{
+  "seeds": {
+    "a01_parsl_status_for_workflow": {
+      "qualifying_rules": [
+        "bandit/B608"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 17,
+      "detected_masks": 127,
+      "smallest_evading_masks": [
+        4,
+        5,
+        12,
+        20,
+        36
+      ]
+    },
+    "a02_parsl_resources_for_task": {
+      "qualifying_rules": [
+        "bandit/B608"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 17,
+      "detected_masks": 127,
+      "smallest_evading_masks": [
+        4,
+        5,
+        12,
+        20,
+        36
+      ]
+    },
+    "a03_parsl_dag_details": {
+      "qualifying_rules": [
+        "bandit/B608"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 144,
+      "invalid": 27,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 17,
+      "detected_masks": 127,
+      "smallest_evading_masks": [
+        4,
+        5,
+        12,
+        20,
+        36
+      ]
+    },
+    "a04_scitokens_getkeyinfo": {
+      "qualifying_rules": [],
+      "masks_recorded": 0,
+      "evaluated": 0,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 0,
+      "smallest_evading_masks": []
+    },
+    "a05_pyload_update_link_info": {
+      "qualifying_rules": [
+        "bandit/B608"
+      ],
+      "masks_recorded": 171,
+      "evaluated": 60,
+      "invalid": 111,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 60,
+      "smallest_evading_masks": []
+    }
+  },
+  "total_evaluated": 492,
+  "total_evading": 51,
+  "total_scan_errors": 0,
+  "complete": true
+}

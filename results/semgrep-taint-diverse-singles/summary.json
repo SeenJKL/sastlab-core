@@ -1,0 +1,202 @@
+{
+  "seeds": {
+    "d01_concat": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 14,
+      "smallest_evading_masks": [
+        2,
+        4,
+        16,
+        32
+      ]
+    },
+    "d02_str_format": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 3,
+      "detected_masks": 14,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32
+      ]
+    },
+    "d03_percent": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 3,
+      "detected_masks": 14,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32
+      ]
+    },
+    "d04_no_cursor": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 3,
+      "detected_masks": 15,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32
+      ]
+    },
+    "d05_preprocess": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 3,
+      "detected_masks": 15,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32
+      ]
+    },
+    "d06_postprocess": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 3,
+      "detected_masks": 15,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32
+      ]
+    },
+    "d07_two_uses": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 3,
+      "detected_masks": 15,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32
+      ]
+    },
+    "d08_like": {
+      "qualifying_rules": [],
+      "masks_recorded": 0,
+      "evaluated": 0,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 0,
+      "smallest_evading_masks": []
+    },
+    "d09_order_limit": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 3,
+      "detected_masks": 15,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32
+      ]
+    },
+    "d10_early_return": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 3,
+      "detected_masks": 15,
+      "smallest_evading_masks": [
+        4,
+        16,
+        32
+      ]
+    },
+    "d11_fetchone": {
+      "qualifying_rules": [],
+      "masks_recorded": 0,
+      "evaluated": 0,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 0,
+      "smallest_evading_masks": []
+    },
+    "d12_concat_parts": {
+      "qualifying_rules": [
+        "tainted-sql-string"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 14,
+      "smallest_evading_masks": [
+        2,
+        4,
+        16,
+        32
+      ]
+    }
+  },
+  "total_evaluated": 178,
+  "total_evading": 32,
+  "total_scan_errors": 0,
+  "complete": true
+}

@@ -1,0 +1,363 @@
+[
+  {
+    "seed": "r01_bench_00099",
+    "sha256": "bef4463c6f9cbfb347958ec674fdb4b5cd58ce2382aaab79582e89057494a224",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.11104236199753359
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [],
+      "error": "",
+      "seconds": 22.77822749799816,
+      "rules": []
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/3dfa3de5bd4146feb243a26498360297/r01_bench_00099/baseline"
+  },
+  {
+    "seed": "r02_bench_00283",
+    "sha256": "e69699f398bd888fa7958992d4b6997031258e21ea2ec8b253954913f9302266",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.11353011599567253
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/5051",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [PartialSink[UserControlledAndStringMayBeSQL[uc]]] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 14,
+          "end_line": 14,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        },
+        {
+          "rule_id": "pysa/5005",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [SQL] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 16,
+          "end_line": 16,
+          "snippet": "    cur.execute(sql)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 24.50311341599445,
+      "rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/5005",
+      "pysa/5051"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/3dfa3de5bd4146feb243a26498360297/r02_bench_00283/baseline"
+  },
+  {
+    "seed": "r03_bench_00284",
+    "sha256": "10ce968524abb2e55239c9260d0ef177ddaa22eca5438b02e10588d393d9ac4b",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.0768616099958308
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/5051",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [PartialSink[UserControlledAndStringMayBeSQL[uc]]] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 12,
+          "end_line": 12,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        },
+        {
+          "rule_id": "pysa/5005",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [SQL] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 14,
+          "end_line": 14,
+          "snippet": "    cur.execute(sql)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 9.62279993899574,
+      "rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/5005",
+      "pysa/5051"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/3dfa3de5bd4146feb243a26498360297/r03_bench_00284/baseline"
+  },
+  {
+    "seed": "r04_bench_00454",
+    "sha256": "f4aae7543874121b405d930e371506ff61e8c8900c10469aaf93f245850b2d0d",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.02593379899917636
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/5051",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [PartialSink[UserControlledAndStringMayBeSQL[uc]]] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 12,
+          "end_line": 12,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        },
+        {
+          "rule_id": "pysa/5005",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [SQL] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 14,
+          "end_line": 14,
+          "snippet": "    cur.execute(sql)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 10.162940105001326,
+      "rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/5005",
+      "pysa/5051"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/3dfa3de5bd4146feb243a26498360297/r04_bench_00454/baseline"
+  },
+  {
+    "seed": "r05_bench_00455",
+    "sha256": "a0758ce29542164de0f057acbb82bccd8593757377a02c2b8caadbe357d2acf7",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.07609847099229228
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/5051",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [PartialSink[UserControlledAndStringMayBeSQL[uc]]] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 14,
+          "end_line": 14,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        },
+        {
+          "rule_id": "pysa/5005",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [SQL] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 16,
+          "end_line": 16,
+          "snippet": "    cur.execute(sql)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 9.410705416987184,
+      "rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/5005",
+      "pysa/5051"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/3dfa3de5bd4146feb243a26498360297/r05_bench_00455/baseline"
+  },
+  {
+    "seed": "r06_vulpy_login",
+    "sha256": "d48c214e449ca662bca10401d1e34537510fe8f49bc20c2d6a0b23181e541f5d",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "secret",
+            0,
+            0,
+            ""
+          ]
+        ],
+        [
+          [
+            "1",
+            "secret",
+            0,
+            0,
+            ""
+          ],
+          [
+            "2",
+            "secret2",
+            0,
+            0,
+            ""
+          ],
+          [
+            "3",
+            "secret3",
+            0,
+            0,
+            ""
+          ]
+        ]
+      ],
+      "seconds": 0.02622540999436751
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "pysa/5051",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [PartialSink[UserControlledAndStringMayBeSQL[uc]]] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    query = \"SELECT * FROM users WHERE username = '{}' and password = '{}'\".format(username, password)",
+          "trace": []
+        },
+        {
+          "rule_id": "pysa/5005",
+          "severity": "error",
+          "message": "Data from [UserControlled] source(s) may reach [SQL] sink(s)",
+          "path": "src/subject.py",
+          "start_line": 10,
+          "end_line": 10,
+          "snippet": "    c.execute(query)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 10.16013003399712,
+      "rules": [
+        "pysa/5005",
+        "pysa/5051"
+      ]
+    },
+    "qualifying_rules": [
+      "pysa/5005",
+      "pysa/5051"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/3dfa3de5bd4146feb243a26498360297/r06_vulpy_login/baseline"
+  }
+]

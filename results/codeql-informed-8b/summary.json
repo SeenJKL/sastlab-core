@@ -1,0 +1,203 @@
+{
+  "engine": "codeql",
+  "report_cards": [
+    {
+      "engine": "codeql",
+      "rule": "py/sql-injection",
+      "qualifying_seeds": [
+        "d01_concat"
+      ],
+      "S_rule": 1,
+      "threshold": 1,
+      "exploratory": false,
+      "classification": "excluded",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [
+          "d01_concat"
+        ],
+        "4": [],
+        "5": [
+          "d01_concat"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "d01_concat"
+      ],
+      "individual_crossing": 3,
+      "portfolio_first_crossing_after_strategy": 3
+    }
+  ],
+  "strategy_metrics": [
+    {
+      "strategy": 3,
+      "attempts": 180,
+      "unique_candidates": 61,
+      "scanner_invocations": 61,
+      "cache_hits": 119,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 43,
+      "distinct_bypass_candidates": 25,
+      "distinct_bypass_per_trajectory": 2.6,
+      "time_to_first_bypass": {
+        "d01_concat:1": {
+          "attempt": 7,
+          "wall_seconds": 230.61055488599231,
+          "charged_seconds": 266.8234963649884
+        },
+        "d01_concat:2": {
+          "attempt": 7,
+          "wall_seconds": 121.5643024519668,
+          "charged_seconds": 269.43228449486196
+        },
+        "d01_concat:3": {
+          "attempt": 3,
+          "wall_seconds": 113.75263737200294,
+          "charged_seconds": 113.59992679196876
+        },
+        "d01_concat:4": {
+          "attempt": 3,
+          "wall_seconds": 3.387006535951514,
+          "charged_seconds": 112.264692195924
+        },
+        "d01_concat:5": {
+          "attempt": 12,
+          "wall_seconds": 155.54927752399817,
+          "charged_seconds": 457.18675515806535
+        },
+        "d01_concat:6": {
+          "attempt": 2,
+          "wall_seconds": 35.878119351982605,
+          "charged_seconds": 72.3055341229774
+        },
+        "d01_concat:7": {
+          "attempt": 10,
+          "wall_seconds": 92.17464662197744,
+          "charged_seconds": 385.77004887600197
+        },
+        "d01_concat:8": {
+          "attempt": 3,
+          "wall_seconds": 42.24208883801475,
+          "charged_seconds": 117.52518012211658
+        },
+        "d01_concat:9": {
+          "attempt": 4,
+          "wall_seconds": 78.77538945199922,
+          "charged_seconds": 152.16991444601445
+        },
+        "d01_concat:10": {
+          "attempt": 8,
+          "wall_seconds": 126.9643019399955,
+          "charged_seconds": 312.1907861281652
+        },
+        "d01_concat:11": {
+          "attempt": 10,
+          "wall_seconds": 168.8299405510188,
+          "charged_seconds": 389.2937309461995
+        },
+        "d01_concat:12": {
+          "attempt": 3,
+          "wall_seconds": 42.583386887970846,
+          "charged_seconds": 116.01291137206135
+        },
+        "d01_concat:13": {
+          "attempt": 5,
+          "wall_seconds": 42.882332891982514,
+          "charged_seconds": 196.11488635995192
+        },
+        "d01_concat:15": {
+          "attempt": 4,
+          "wall_seconds": 40.98396665096516,
+          "charged_seconds": 153.5634943409823
+        }
+      },
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 5,
+      "attempts": 180,
+      "unique_candidates": 67,
+      "scanner_invocations": 61,
+      "cache_hits": 119,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 39,
+      "distinct_bypass_candidates": 28,
+      "distinct_bypass_per_trajectory": 2.6,
+      "time_to_first_bypass": {
+        "d01_concat:2": {
+          "attempt": 4,
+          "wall_seconds": 33.120915484963916,
+          "charged_seconds": 145.0834451788105
+        },
+        "d01_concat:3": {
+          "attempt": 6,
+          "wall_seconds": 58.04096196003957,
+          "charged_seconds": 206.90239059994929
+        },
+        "d01_concat:4": {
+          "attempt": 3,
+          "wall_seconds": 3.299008412985131,
+          "charged_seconds": 112.17794840992428
+        },
+        "d01_concat:5": {
+          "attempt": 9,
+          "wall_seconds": 60.393934949999675,
+          "charged_seconds": 327.47751556296134
+        },
+        "d01_concat:6": {
+          "attempt": 3,
+          "wall_seconds": 3.506986079039052,
+          "charged_seconds": 89.90559157298412
+        },
+        "d01_concat:7": {
+          "attempt": 10,
+          "wall_seconds": 64.16210866300389,
+          "charged_seconds": 350.2270839489065
+        },
+        "d01_concat:8": {
+          "attempt": 9,
+          "wall_seconds": 10.65729610499693,
+          "charged_seconds": 346.1506042999099
+        },
+        "d01_concat:9": {
+          "attempt": 10,
+          "wall_seconds": 36.74048266798491,
+          "charged_seconds": 335.8234391740989
+        },
+        "d01_concat:11": {
+          "attempt": 7,
+          "wall_seconds": 73.31123018101789,
+          "charged_seconds": 122.41712688154075
+        },
+        "d01_concat:12": {
+          "attempt": 3,
+          "wall_seconds": 35.109370709978975,
+          "charged_seconds": 51.36002855410334
+        },
+        "d01_concat:13": {
+          "attempt": 4,
+          "wall_seconds": 35.746439234004356,
+          "charged_seconds": 68.13765515666455
+        },
+        "d01_concat:14": {
+          "attempt": 6,
+          "wall_seconds": 58.99220473202877,
+          "charged_seconds": 106.17139609402511
+        },
+        "d01_concat:15": {
+          "attempt": 4,
+          "wall_seconds": 37.264532309025526,
+          "charged_seconds": 69.64437832101248
+        }
+      },
+      "wall_time_comparable": false
+    }
+  ],
+  "qualification_failures": []
+}

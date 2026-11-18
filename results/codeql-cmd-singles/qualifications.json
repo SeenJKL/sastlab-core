@@ -1,0 +1,953 @@
+[
+  {
+    "seed": "c01_check_output_fstring",
+    "sha256": "084041d6351028c80b59086ba97aa5a821288a84e2bc44590a684e65be90380c",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.0357457920035813
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/command-line-injection",
+          "severity": "warning",
+          "message": "This command line depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 25.457193681002536,
+      "rules": [
+        "py/command-line-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/command-line-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/93af018bbe864dc5981dd26a521115e1/c01_check_output_fstring/baseline"
+  },
+  {
+    "seed": "c02_check_output_format",
+    "sha256": "a64a5ded28be9e9ac6dd2ce6bc882ef50e15b0e321b8425d6c7d17adcb43999b",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03491874999599531
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/command-line-injection",
+          "severity": "warning",
+          "message": "This command line depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 24.760216376002063,
+      "rules": [
+        "py/command-line-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/command-line-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/93af018bbe864dc5981dd26a521115e1/c02_check_output_format/baseline"
+  },
+  {
+    "seed": "c03_check_output_percent",
+    "sha256": "c5ab60d6ce7c9163e9d2eca281025d736523103032f7bd787de49f0c0e06d912",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03561704200546956
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/command-line-injection",
+          "severity": "warning",
+          "message": "This command line depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 25.263301674000104,
+      "rules": [
+        "py/command-line-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/command-line-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/93af018bbe864dc5981dd26a521115e1/c03_check_output_percent/baseline"
+  },
+  {
+    "seed": "c04_run_concat",
+    "sha256": "c9bec5c5d8d90506f1639a80e0ab0a3d7736e5ea53cfaee32bf589b699e134f9",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03752214799897047
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/command-line-injection",
+          "severity": "warning",
+          "message": "This command line depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 25.01202649699553,
+      "rules": [
+        "py/command-line-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/command-line-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/93af018bbe864dc5981dd26a521115e1/c04_run_concat/baseline"
+  },
+  {
+    "seed": "c05_popen_communicate",
+    "sha256": "94357d7e2a019b01aa7c99d266b7f34a8e6f93ac941447b7c887899d0054eb51",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03658919400186278
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/command-line-injection",
+          "severity": "warning",
+          "message": "This command line depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, text=True)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 25.50843705599982,
+      "rules": [
+        "py/command-line-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/command-line-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/93af018bbe864dc5981dd26a521115e1/c05_popen_communicate/baseline"
+  },
+  {
+    "seed": "c06_preprocess",
+    "sha256": "a22de7e8dc638b03259e7a9273e0f143659bd240860a44da6b173bf633e578e5",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.04157385300641181
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/command-line-injection",
+          "severity": "warning",
+          "message": "This command line depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 9,
+          "end_line": 9,
+          "snippet": "    output = subprocess.check_output(cmd, shell=True, text=True)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for name",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 9,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 25.999756805002107,
+      "rules": [
+        "py/command-line-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/command-line-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/93af018bbe864dc5981dd26a521115e1/c06_preprocess/baseline"
+  },
+  {
+    "seed": "c07_os_popen",
+    "sha256": "3be2de1ae2a84968e39183dbcf72779ba62e2463db5063da781c864e232f349d",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.03675983499852009
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/command-line-injection",
+          "severity": "warning",
+          "message": "This command line depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    output = os.popen(cmd).read()",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 26.88573001799523,
+      "rules": [
+        "py/command-line-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/command-line-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/93af018bbe864dc5981dd26a521115e1/c07_os_popen/baseline"
+  },
+  {
+    "seed": "c08_getoutput",
+    "sha256": "8906a97127502e095da945ac916fe73b29f57a54ef5e829a117c712c86548cd6",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ]
+        ],
+        [
+          [
+            "u",
+            "s",
+            "e",
+            "r",
+            "-",
+            "1"
+          ],
+          [
+            "P",
+            "W",
+            "N",
+            "E",
+            "D"
+          ]
+        ]
+      ],
+      "seconds": 0.034986099002708215
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/command-line-injection",
+          "severity": "warning",
+          "message": "This command line depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    output = subprocess.getoutput(cmd)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 6,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 7,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 8,
+              "message": "ControlFlowNode for cmd",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 25.03837768700032,
+      "rules": [
+        "py/command-line-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/command-line-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/93af018bbe864dc5981dd26a521115e1/c08_getoutput/baseline"
+  }
+]

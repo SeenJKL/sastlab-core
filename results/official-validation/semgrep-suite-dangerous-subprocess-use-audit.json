@@ -1,0 +1,27 @@
+{
+ "rule": "dangerous-subprocess-use-audit",
+ "test_file": "corpus_official/semgrep/python/lang/security/audit/dangerous-subprocess-use-audit.py",
+ "passed": true,
+ "expected_lines": [
+  22,
+  27,
+  30,
+  33,
+  36,
+  39,
+  46,
+  61
+ ],
+ "reported_lines": [
+  22,
+  27,
+  30,
+  33,
+  36,
+  39,
+  46,
+  61
+ ],
+ "errors": [],
+ "semgrep": "1.178.0"
+}

@@ -1,0 +1,68 @@
+{
+  "started": "2026-10-18T19:23:13.834969+00:00",
+  "kind": "exhaustive",
+  "identity": {
+    "engine": "semgrep",
+    "scanner_version": "1.178.0",
+    "rule_sha256": "d9b562b5eb8bd7efaaa696ebd0db97e47fc498edeec094c6956ba3567bbddd77",
+    "query": null,
+    "target_rules": [
+      "tainted-sql-string"
+    ],
+    "seed_sha256": {
+      "r01_bench_00099.py": "bef4463c6f9cbfb347958ec674fdb4b5cd58ce2382aaab79582e89057494a224",
+      "r02_bench_00283.py": "e69699f398bd888fa7958992d4b6997031258e21ea2ec8b253954913f9302266",
+      "r03_bench_00284.py": "10ce968524abb2e55239c9260d0ef177ddaa22eca5438b02e10588d393d9ac4b",
+      "r04_bench_00454.py": "f4aae7543874121b405d930e371506ff61e8c8900c10469aaf93f245850b2d0d",
+      "r05_bench_00455.py": "a0758ce29542164de0f057acbb82bccd8593757377a02c2b8caadbe357d2acf7",
+      "r06_vulpy_login.py": "d48c214e449ca662bca10401d1e34537510fe8f49bc20c2d6a0b23181e541f5d"
+    },
+    "operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "extract_2",
+      "branch_split",
+      "dict_dispatch",
+      "dynamic_sink",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip",
+      "simplequeue_roundtrip",
+      "pickle_roundtrip",
+      "partial_sink",
+      "methodcaller_sink",
+      "unbound_sink"
+    ],
+    "enumerated_operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "extract_2",
+      "branch_split",
+      "dict_dispatch",
+      "dynamic_sink",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip",
+      "simplequeue_roundtrip",
+      "pickle_roundtrip",
+      "partial_sink",
+      "methodcaller_sink",
+      "unbound_sink"
+    ],
+    "max_ops": 2,
+    "oracle_timeout": 5
+  },
+  "python": "3.14.4",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "work_dir": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a",
+  "state": "complete",
+  "finished": "2026-10-18T19:41:17.573506+00:00"
+}

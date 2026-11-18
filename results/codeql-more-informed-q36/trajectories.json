@@ -1,0 +1,1202 @@
+[
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 1,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 2,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 1
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 3,
+    "masks": [
+      4,
+      516,
+      4612,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 4,
+    "masks": [
+      1,
+      513,
+      4609,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 5,
+    "masks": [
+      16,
+      4112,
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 6,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 1
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 7,
+    "masks": [
+      8,
+      24,
+      536,
+      4632,
+      4096,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 8,
+    "masks": [
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      4096,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 9,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 1
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 10,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 1
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 11,
+    "masks": [
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 12,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      16,
+      4112,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 13,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 1
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 14,
+    "masks": [
+      8,
+      520,
+      4616,
+      512,
+      4608,
+      512,
+      4608,
+      16,
+      528,
+      4624,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 3,
+    "trajectory": 15,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 1
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 1,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      16,
+      4112,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 2,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 3,
+    "masks": [
+      16,
+      80,
+      592,
+      4688,
+      512,
+      4608,
+      4,
+      516,
+      4612,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 4,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      4,
+      12
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 5,
+    "masks": [
+      16,
+      4112,
+      8,
+      520,
+      4616,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 6,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      8,
+      520,
+      4616,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 7,
+    "masks": [
+      8,
+      520,
+      4616,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 8,
+    "masks": [
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 9,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      8,
+      520,
+      4616,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 10,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 2
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 11,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 2
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 12,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      16,
+      4112,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 13,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      8,
+      520,
+      4616,
+      4096
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 14,
+    "masks": [
+      8,
+      520,
+      4616,
+      512,
+      4608,
+      16,
+      4112,
+      16,
+      528,
+      4624,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d01_concat",
+    "strategy": 5,
+    "trajectory": 15,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 2
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 1,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      8,
+      520,
+      4616,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 2,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 3,
+    "masks": [
+      4,
+      516,
+      4612,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 4,
+    "masks": [
+      1,
+      513,
+      4609,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 5,
+    "masks": [
+      16,
+      4112,
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 6,
+    "masks": [
+      512,
+      4608,
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 7,
+    "masks": [
+      8,
+      24,
+      536,
+      4632,
+      4096,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 8,
+    "masks": [
+      16,
+      528,
+      4624,
+      4096,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 9,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 2
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 10,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 2
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 11,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 2
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 12,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      16,
+      4112,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 13,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 2
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 14,
+    "masks": [
+      8,
+      520,
+      4616,
+      512,
+      4608,
+      512,
+      4608,
+      16,
+      528,
+      4624,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 3,
+    "trajectory": 15,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 2
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 1,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      16,
+      4112,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 2,
+    "masks": [
+      512,
+      4608,
+      4,
+      516,
+      4612,
+      4,
+      516,
+      4612,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 3,
+    "masks": [
+      16,
+      80,
+      592,
+      4688,
+      512,
+      4608,
+      4,
+      516,
+      4612,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 4,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      4,
+      12
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 5,
+    "masks": [
+      16,
+      4112,
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 6,
+    "masks": [
+      512,
+      4608,
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 7,
+    "masks": [
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 8,
+    "masks": [
+      16,
+      528,
+      4624,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512
+    ],
+    "duplicate_of_trajectory": 7
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 9,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      8,
+      520,
+      4616,
+      512
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 10,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 11,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 10
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 12,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      16,
+      4112,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 13,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      8,
+      4104,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": null
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 14,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 10
+  },
+  {
+    "seed": "d02_str_format",
+    "strategy": 5,
+    "trajectory": 15,
+    "masks": [
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608,
+      512,
+      4608
+    ],
+    "duplicate_of_trajectory": 10
+  }
+]

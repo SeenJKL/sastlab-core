@@ -1,0 +1,45 @@
+{
+ "calls_per_condition": 60,
+ "conditions": {
+  "fixed_order": {
+   "picks": {
+    "rename": 34,
+    "literal_slice": 6,
+    "format_swap": 5,
+    "extract_2": 4,
+    "deep_nest": 4,
+    "queue_roundtrip": 3,
+    "dynamic_sink": 2,
+    "extract_1": 1,
+    "db_roundtrip": 1
+   },
+   "pick_rename": 34,
+   "in_codeql_sufficient": 7,
+   "in_semgrep_sufficient": 7,
+   "errors": 1,
+   "fallbacks": 0
+  },
+  "shuffled_order": {
+   "picks": {
+    "rename": 13,
+    "literal_slice": 6,
+    "extract_1": 6,
+    "db_roundtrip": 6,
+    "deep_nest": 5,
+    "queue_roundtrip": 4,
+    "format_swap": 4,
+    "dynamic_sink": 4,
+    "dict_dispatch": 4,
+    "extract_2": 4,
+    "dead_padding": 2,
+    "branch_split": 1,
+    "char_launder": 1
+   },
+   "pick_rename": 13,
+   "in_codeql_sufficient": 16,
+   "in_semgrep_sufficient": 19,
+   "errors": 0,
+   "fallbacks": 0
+  }
+ }
+}

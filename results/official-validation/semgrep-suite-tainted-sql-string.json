@@ -1,0 +1,35 @@
+{
+ "rule": "tainted-sql-string",
+ "test_file": "corpus_official/semgrep/python/flask/security/injection/tainted-sql-string.py",
+ "passed": true,
+ "expected_lines": [
+  17,
+  20,
+  27,
+  30,
+  37,
+  41,
+  64,
+  67,
+  74,
+  77,
+  84,
+  88
+ ],
+ "reported_lines": [
+  17,
+  20,
+  27,
+  30,
+  37,
+  41,
+  64,
+  67,
+  74,
+  77,
+  84,
+  88
+ ],
+ "errors": [],
+ "semgrep": "1.178.0"
+}

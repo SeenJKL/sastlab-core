@@ -1,0 +1,32 @@
+{
+  "engine": "semgrep",
+  "seeds": "../seeds_fstring",
+  "rules": "../rules/formatted-sql-query.yaml",
+  "corpus_kind": "synthetic",
+  "attempts": 15,
+  "trajectories": 30,
+  "base_seed": 6223,
+  "strategies": [
+    6
+  ],
+  "cache": false,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "target_rules": [
+    "formatted-sql-query"
+  ],
+  "operators": [
+    "rename",
+    "format_swap",
+    "literal_slice",
+    "dead_padding",
+    "extract_1",
+    "char_launder",
+    "deep_nest",
+    "db_roundtrip",
+    "queue_roundtrip"
+  ],
+  "metropolis_restart": false,
+  "work_dir": "~/.cache/sastlab-runs"
+}

@@ -1,0 +1,289 @@
+[
+  {
+    "seed": "a01_parsl_status_for_workflow",
+    "sha256": "b146131635c5d55736ccdaa26c4c9beb0fd165c86556f042eeda1fe3ab236f42",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            0,
+            "running",
+            "t1"
+          ]
+        ],
+        [
+          [
+            "1",
+            0,
+            "running",
+            "t1"
+          ],
+          [
+            "2",
+            0,
+            "running",
+            "t2"
+          ],
+          [
+            "3",
+            0,
+            "done",
+            "t3"
+          ]
+        ]
+      ],
+      "seconds": 0.05575682898052037
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/2be4752301874b79ba7228304aa2ac77/a01_parsl_status_for_workflow/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 11,
+          "snippet": "    query = \"\"\"\n        SELECT run_id, task_id, task_status_name, timestamp\n          FROM status\n         WHERE run_id='%s';\n        \"\"\" % workflow_id",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 3.4446209219750017,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/2be4752301874b79ba7228304aa2ac77/a01_parsl_status_for_workflow/baseline"
+  },
+  {
+    "seed": "a02_parsl_resources_for_task",
+    "sha256": "88e27601b26c874e49a6e529b9932fa66291bdc588dda8a329d799a488392606",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            0,
+            0,
+            111
+          ]
+        ],
+        [
+          [
+            "1",
+            0,
+            0,
+            111
+          ],
+          [
+            "2",
+            0,
+            0,
+            222
+          ],
+          [
+            "3",
+            0,
+            0,
+            333
+          ]
+        ]
+      ],
+      "seconds": 0.027186775987502187
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/2be4752301874b79ba7228304aa2ac77/a02_parsl_resources_for_task/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 12,
+          "snippet": "    query = \"\"\"\n        SELECT *\n          FROM resource\n         WHERE run_id='%s' AND task_id='%s';\n        \"\"\" % (workflow_id, task_id)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 3.0315792330075055,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/2be4752301874b79ba7228304aa2ac77/a02_parsl_resources_for_task/baseline"
+  },
+  {
+    "seed": "a03_parsl_dag_details",
+    "sha256": "2e4c35f47eead693ef99bce6545221a6ce41f7d675e9b42161179a6cfc26a648",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            0,
+            "f",
+            "",
+            "done"
+          ]
+        ],
+        [
+          [
+            0,
+            "f",
+            "",
+            "done"
+          ],
+          [
+            0,
+            "g",
+            "",
+            "done"
+          ],
+          [
+            0,
+            "h",
+            "",
+            "done"
+          ]
+        ]
+      ],
+      "seconds": 0.06537325604585931
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/2be4752301874b79ba7228304aa2ac77/a03_parsl_dag_details/baseline/src/subject.py",
+          "start_line": 7,
+          "end_line": 15,
+          "snippet": "    query = \"\"\"SELECT task.task_id, task.task_func_name, task.task_depends, status.task_status_name\n               FROM task LEFT JOIN status\n               ON task.task_id = status.task_id\n               AND task.run_id = status.run_id\n               AND status.timestamp = (SELECT MAX(status.timestamp)\n                                       FROM status\n                                       WHERE status.task_id = task.task_id and status.run_id = task.run_id\n                                      )\n               WHERE task.run_id='%s'\"\"\" % (workflow_id)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 3.246039194986224,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/2be4752301874b79ba7228304aa2ac77/a03_parsl_dag_details/baseline"
+  },
+  {
+    "seed": "a04_scitokens_getkeyinfo",
+    "sha256": "fad77b2f7a334799d580d78dd363e4fb348a458f8fe5cb0342af27f6bd49832e",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ]
+        ],
+        [
+          [
+            "1",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ],
+          [
+            "2",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ],
+          [
+            "3",
+            "0",
+            "key-1",
+            "{}",
+            "0"
+          ]
+        ]
+      ],
+      "seconds": 0.06504415400559083
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [],
+      "error": "",
+      "seconds": 3.647295931004919,
+      "rules": []
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/2be4752301874b79ba7228304aa2ac77/a04_scitokens_getkeyinfo/baseline"
+  },
+  {
+    "seed": "a05_pyload_update_link_info",
+    "sha256": "59572efc25247089717ac04c7dc5d93084fcbd407d50d27366a15b65c7d97e6c",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "seconds": 0.06409366999287158
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/2be4752301874b79ba7228304aa2ac77/a05_pyload_update_link_info/baseline/src/subject.py",
+          "start_line": 10,
+          "end_line": 10,
+          "snippet": "    c.execute(f\"SELECT id FROM links WHERE url IN ('{statuses}')\")",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 3.933661784976721,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/2be4752301874b79ba7228304aa2ac77/a05_pyload_update_link_info/baseline"
+  }
+]

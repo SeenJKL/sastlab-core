@@ -1,0 +1,5 @@
+{
+  "source": "https://raw.githubusercontent.com/semgrep/semgrep-rules/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/python/lang/security/audit/dangerous-subprocess-use-audit.yaml",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "sha256": "50f69dc35f47e405633559f54fc2b3bd344707221742400e74b1c902c1f76faa"
+}

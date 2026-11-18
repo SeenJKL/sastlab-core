@@ -1,0 +1,27 @@
+{
+  "seeds": {
+    "seed_01": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 31,
+      "evaluated": 31,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 30,
+      "detected_masks": 1,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        768
+      ]
+    }
+  },
+  "total_evaluated": 31,
+  "total_evading": 30,
+  "total_scan_errors": 0,
+  "complete": true
+}

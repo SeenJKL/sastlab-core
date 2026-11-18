@@ -1,0 +1,114 @@
+{
+  "seeds": {
+    "r01_bench_00099": {
+      "qualifying_rules": [],
+      "masks_recorded": 0,
+      "evaluated": 0,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 0,
+      "smallest_evading_masks": []
+    },
+    "r02_bench_00283": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "r03_bench_00284": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "r04_bench_00454": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "r05_bench_00455": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 18,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 9,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "r06_vulpy_login": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 8,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    }
+  },
+  "total_evaluated": 89,
+  "total_evading": 45,
+  "total_scan_errors": 0,
+  "complete": true
+}

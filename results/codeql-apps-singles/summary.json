@@ -1,0 +1,103 @@
+{
+  "seeds": {
+    "a01_parsl_status_for_workflow": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 8,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "a02_parsl_resources_for_task": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 8,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "a03_parsl_dag_details": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 17,
+      "invalid": 1,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 8,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "a04_scitokens_getkeyinfo": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 13,
+      "invalid": 5,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 4,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    },
+    "a05_pyload_update_link_info": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 18,
+      "evaluated": 13,
+      "invalid": 5,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 9,
+      "detected_masks": 4,
+      "smallest_evading_masks": [
+        256,
+        512,
+        1024,
+        2048,
+        8192
+      ]
+    }
+  },
+  "total_evaluated": 77,
+  "total_evading": 45,
+  "total_scan_errors": 0,
+  "complete": true
+}

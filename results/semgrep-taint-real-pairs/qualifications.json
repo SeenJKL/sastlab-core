@@ -1,0 +1,273 @@
+[
+  {
+    "seed": "r01_bench_00099",
+    "sha256": "bef4463c6f9cbfb347958ec674fdb4b5cd58ce2382aaab79582e89057494a224",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.03867694499786012
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [],
+      "error": "",
+      "seconds": 2.1435541230021045,
+      "rules": []
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a/r01_bench_00099/baseline"
+  },
+  {
+    "seed": "r02_bench_00283",
+    "sha256": "e69699f398bd888fa7958992d4b6997031258e21ea2ec8b253954913f9302266",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.02984573901630938
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [],
+      "error": "",
+      "seconds": 2.256716123985825,
+      "rules": []
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a/r02_bench_00283/baseline"
+  },
+  {
+    "seed": "r03_bench_00284",
+    "sha256": "10ce968524abb2e55239c9260d0ef177ddaa22eca5438b02e10588d393d9ac4b",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.029582467977888882
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a/r03_bench_00284/baseline/src/subject.py",
+          "start_line": 12,
+          "end_line": 12,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.2375997369817924,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a/r03_bench_00284/baseline"
+  },
+  {
+    "seed": "r04_bench_00454",
+    "sha256": "f4aae7543874121b405d930e371506ff61e8c8900c10469aaf93f245850b2d0d",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.03550132201053202
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a/r04_bench_00454/baseline/src/subject.py",
+          "start_line": 12,
+          "end_line": 12,
+          "snippet": "    sql = f\"SELECT username from USERS where password = '{bar}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.3002349470043555,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a/r04_bench_00454/baseline"
+  },
+  {
+    "seed": "r05_bench_00455",
+    "sha256": "a0758ce29542164de0f057acbb82bccd8593757377a02c2b8caadbe357d2acf7",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "alice"
+          ]
+        ],
+        [
+          [
+            "alice"
+          ],
+          [
+            "bob"
+          ],
+          [
+            "carol"
+          ]
+        ]
+      ],
+      "seconds": 0.03028584099956788
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [],
+      "error": "",
+      "seconds": 2.2665002629801165,
+      "rules": []
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a/r05_bench_00455/baseline"
+  },
+  {
+    "seed": "r06_vulpy_login",
+    "sha256": "d48c214e449ca662bca10401d1e34537510fe8f49bc20c2d6a0b23181e541f5d",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "secret",
+            0,
+            0,
+            ""
+          ]
+        ],
+        [
+          [
+            "1",
+            "secret",
+            0,
+            0,
+            ""
+          ],
+          [
+            "2",
+            "secret2",
+            0,
+            0,
+            ""
+          ],
+          [
+            "3",
+            "secret3",
+            0,
+            0,
+            ""
+          ]
+        ]
+      ],
+      "seconds": 0.03642374600167386
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "tainted-sql-string",
+          "severity": "ERROR",
+          "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a/r06_vulpy_login/baseline/src/subject.py",
+          "start_line": 8,
+          "end_line": 8,
+          "snippet": "    query = \"SELECT * FROM users WHERE username = '{}' and password = '{}'\".format(username, password)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 2.4759326909843367,
+      "rules": [
+        "tainted-sql-string"
+      ]
+    },
+    "qualifying_rules": [
+      "tainted-sql-string"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/460179d309dc4344b18fa274ab0ca43a/r06_vulpy_login/baseline"
+  }
+]

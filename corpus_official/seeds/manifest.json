@@ -1,0 +1,362 @@
+[
+ {
+  "id": "o01_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/aws-lambda/security/mysql-sqli.py",
+  "function": "lambda_handler",
+  "line": 14,
+  "input": "external expression rooted at event",
+  "original_sink_statement": "mydbCursor.execute(sql)",
+  "dropped": "column publicIP of unknown table"
+ },
+ {
+  "id": "o02_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/aws-lambda/security/pymssql-sqli.py",
+  "function": "lambda_handler",
+  "line": 27,
+  "input": "external expression rooted at event",
+  "original_sink_statement": "cursor.execute(query)",
+  "dropped": "fixture derivation did not converge"
+ },
+ {
+  "id": "o03_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/aws-lambda/security/pymysql-sqli.py",
+  "function": "lambda_handler",
+  "line": 51,
+  "input": "external expression rooted at event",
+  "original_sink_statement": "cur.execute(sql)",
+  "tables": {
+   "rideTransactions": [
+    "id",
+    "userId",
+    "stationId",
+    "stationName",
+    "duration",
+    "price",
+    "createdDate"
+   ]
+  },
+  "exploit": "1\" OR \"1\"=\"1",
+  "seed": "o03_semgrep.py"
+ },
+ {
+  "id": "o04_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/aws-lambda/security/sqlalchemy-sqli.py",
+  "function": "handler",
+  "line": 46,
+  "input": "external expression rooted at event",
+  "original_sink_statement": "connection.execute(f\"SELECT * FROM foobar WHERE id = '{event['id']}'\")",
+  "tables": {
+   "foobar": [
+    "id"
+   ]
+  },
+  "exploit": "1' OR '1'='1",
+  "seed": "o04_semgrep.py"
+ },
+ {
+  "id": "o05_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/django/security/injection/sql/sql-injection-using-db-cursor-execute.py",
+  "function": "fetch_name_0",
+  "line": 7,
+  "input": "external expression rooted at request",
+  "original_sink_statement": "cursor.execute(f\"SELECT foo FROM bar WHERE baz = {request.data.get('baz')}\")",
+  "tables": {
+   "bar": [
+    "id",
+    "foo",
+    "baz"
+   ]
+  },
+  "exploit": "1 OR 1=1",
+  "seed": "o05_semgrep.py"
+ },
+ {
+  "id": "o06_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/django/security/injection/sql/sql-injection-using-db-cursor-execute.py",
+  "function": "fetch_name_0",
+  "line": 9,
+  "input": "external expression rooted at request",
+  "original_sink_statement": "cursor.execute(\"SELECT foo FROM bar WHERE baz = %s\" % request.data.get('baz'))",
+  "tables": {
+   "bar": [
+    "id",
+    "foo",
+    "baz"
+   ]
+  },
+  "exploit": "1 OR 1=1",
+  "seed": "o06_semgrep.py"
+ },
+ {
+  "id": "o07_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/django/security/injection/sql/sql-injection-using-db-cursor-execute.py",
+  "function": "fetch_name_0",
+  "line": 11,
+  "input": "external expression rooted at request",
+  "original_sink_statement": "cursor.execute(\"SELECT foo FROM bar WHERE baz = %s\".format(request.data.get('baz')))",
+  "dropped": "SQLite: near \"%\": syntax error"
+ },
+ {
+  "id": "o08_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/django/security/injection/sql/sql-injection-using-db-cursor-execute.py",
+  "function": "fetch_name_1",
+  "line": 19,
+  "input": "external expression rooted at request",
+  "original_sink_statement": "cursor.execute(f\"UPDATE bar SET foo = 1 WHERE baz = {baz}\")",
+  "dropped": "nominal input returns 0 rows"
+ },
+ {
+  "id": "o09_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/django/security/injection/sql/sql-injection-using-db-cursor-execute.py",
+  "function": "fetch_name_1",
+  "line": 20,
+  "input": "external expression rooted at request",
+  "original_sink_statement": "cursor.execute(f\"SELECT foo FROM bar WHERE baz = {baz}\")",
+  "tables": {
+   "bar": [
+    "id",
+    "foo",
+    "baz"
+   ]
+  },
+  "exploit": "1 OR 1=1",
+  "seed": "o09_semgrep.py"
+ },
+ {
+  "id": "o10_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/django/security/injection/sql/sql-injection-using-db-cursor-execute.py",
+  "function": "fetch_name_2",
+  "line": 28,
+  "input": "external expression rooted at request",
+  "original_sink_statement": "cursor.execute(\"SELECT foo FROM bar WHERE baz = %s\" % baz)",
+  "tables": {
+   "bar": [
+    "id",
+    "foo",
+    "baz"
+   ]
+  },
+  "exploit": "1 OR 1=1",
+  "seed": "o10_semgrep.py"
+ },
+ {
+  "id": "o11_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/django/security/injection/sql/sql-injection-using-db-cursor-execute.py",
+  "function": "fetch_name_3",
+  "line": 36,
+  "input": "external expression rooted at request",
+  "original_sink_statement": "cursor.execute(\"SELECT foo FROM bar WHERE baz = %s\".format(baz))",
+  "dropped": "SQLite: near \"%\": syntax error"
+ },
+ {
+  "id": "o12_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/flask/security/injection/tainted-sql-string.py",
+  "function": "insert_person",
+  "line": 17,
+  "input": "external expression rooted at flask",
+  "original_sink_statement": "engine.execute(\"INSERT INTO person (name) VALUES ('\" + name + \"')\")",
+  "dropped": "nominal input returns 0 rows"
+ },
+ {
+  "id": "o13_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/flask/security/injection/tainted-sql-string.py",
+  "function": "insert_person",
+  "line": 20,
+  "input": "external expression rooted at flask",
+  "original_sink_statement": "engine.execute(\"INSERT INTO person (firstname, lastname) VALUES ('\" + name + \"','\" + lastname + \"')\")",
+  "dropped": "SQLite: near \"t\": syntax error"
+ },
+ {
+  "id": "o14_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/flask/security/injection/tainted-sql-string.py",
+  "function": "insert_person",
+  "line": 27,
+  "input": "external expression rooted at flask",
+  "original_sink_statement": "engine.execute(\"INSERT INTO person (name) VALUES ('%s')\" % (name))",
+  "dropped": "nominal input returns 0 rows"
+ },
+ {
+  "id": "o15_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/flask/security/injection/tainted-sql-string.py",
+  "function": "insert_person",
+  "line": 30,
+  "input": "external expression rooted at flask",
+  "original_sink_statement": "engine.execute(\"INSERT INTO person (name) VALUES ('%s')\" % (flask.request.args.get(\"name\")))",
+  "dropped": "nominal input returns 0 rows"
+ },
+ {
+  "id": "o16_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/flask/security/injection/tainted-sql-string.py",
+  "function": "insert_person",
+  "line": 37,
+  "input": "external expression rooted at flask",
+  "original_sink_statement": "engine.execute(\"INSERT INTO person (name) VALUES ('{}')\".format(name))",
+  "dropped": "nominal input returns 0 rows"
+ },
+ {
+  "id": "o17_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/flask/security/injection/tainted-sql-string.py",
+  "function": "insert_person",
+  "line": 41,
+  "input": "external expression rooted at flask",
+  "original_sink_statement": "engine.execute(f\"SELECT FROM person WHERE name='{name}'\")",
+  "dropped": "SQLite: near \"FROM\": syntax error"
+ },
+ {
+  "id": "o18_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/lang/security/audit/sqli/aiopg-sqli.py",
+  "function": "bad1",
+  "line": 12,
+  "input": "external expression rooted at req",
+  "original_sink_statement": "await cur.execute(query)",
+  "tables": {
+   "users": [
+    "id",
+    "name",
+    "age"
+   ]
+  },
+  "exploit": "1 OR 1=1",
+  "seed": "o18_semgrep.py"
+ },
+ {
+  "id": "o19_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/lang/security/audit/sqli/aiopg-sqli.py",
+  "function": "bad2",
+  "line": 20,
+  "input": "unbound name user_input",
+  "original_sink_statement": "await cur.execute(sql_query)",
+  "dropped": "SQLite: near \"1\": syntax error"
+ },
+ {
+  "id": "o20_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/lang/security/audit/sqli/aiopg-sqli.py",
+  "function": "bad3",
+  "line": 30,
+  "input": "unbound name user_input",
+  "original_sink_statement": "await cur.execute(sql_query)",
+  "dropped": "SQLite: near \"1\": syntax error"
+ },
+ {
+  "id": "o21_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/lang/security/audit/sqli/aiopg-sqli.py",
+  "function": "bad4",
+  "line": 41,
+  "input": "parameter user_input",
+  "original_sink_statement": "await cur.execute(sql_query)",
+  "dropped": "SQLite: near \"1\": syntax error"
+ },
+ {
+  "id": "o22_semgrep",
+  "suite": "semgrep",
+  "repo": "https://github.com/semgrep/semgrep-rules",
+  "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+  "file": "python/lang/security/audit/sqli/psycopg-sqli.py",
+  "function": "ok11",
+  "line": 144,
+  "input": "external expression rooted at sql",
+  "original_sink_statement": "cur.execute(query)",
+  "dropped": "SQLite: near \"1\": syntax error"
+ },
+ {
+  "id": "o23_codeql",
+  "suite": "codeql",
+  "repo": "https://github.com/github/codeql",
+  "commit": "6e9f9e38390175c41b99070a423c875f450759ca",
+  "file": "query-tests/CWE-089-SqlInjection/app.py",
+  "function": "unsafe",
+  "line": 23,
+  "input": "parameter name",
+  "original_sink_statement": "cursor.execute(query)",
+  "tables": {
+   "users": [
+    "id",
+    "name"
+   ]
+  },
+  "exploit": "1 OR 1=1",
+  "seed": "o23_codeql.py"
+ },
+ {
+  "id": "o24_codeql",
+  "suite": "codeql",
+  "repo": "https://github.com/github/codeql",
+  "commit": "6e9f9e38390175c41b99070a423c875f450759ca",
+  "file": "query-tests/CWE-089-SqlInjection/sql_injection.py",
+  "function": "show_user",
+  "line": 21,
+  "input": "parameter username",
+  "original_sink_statement": "cursor.execute(\"SELECT * FROM users WHERE username = '%s'\" % username)",
+  "tables": {
+   "users": [
+    "id",
+    "username"
+   ]
+  },
+  "exploit": "1' OR '1'='1",
+  "seed": "o24_codeql.py"
+ }
+]

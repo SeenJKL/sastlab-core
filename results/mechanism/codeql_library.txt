@@ -1,0 +1,10 @@
+== seeds/seed_01.py: baseline alerts 1
+queue_roundtrip          stock pack: 1 alert(s) | with added standard-library steps: -
+simplequeue_roundtrip    stock pack: 0 alert(s) | with added standard-library steps: 1
+pickle_roundtrip         stock pack: 0 alert(s) | with added standard-library steps: 1
+char_launder             stock pack: 0 alert(s) | with added standard-library steps: 1
+== corpus_official/seeds/o05_semgrep.py: baseline alerts 1
+queue_roundtrip          stock pack: 1 alert(s) | with added standard-library steps: -
+simplequeue_roundtrip    stock pack: 0 alert(s) | with added standard-library steps: 1
+pickle_roundtrip         stock pack: 0 alert(s) | with added standard-library steps: 1
+char_launder             stock pack: 0 alert(s) | with added standard-library steps: 1

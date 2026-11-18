@@ -1,0 +1,749 @@
+[
+  {
+    "seed": "p01_open_fstring",
+    "sha256": "895e6b8daa060476b082e76a2bcbe4133985aa1603de08d8544c7526103a825e",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ]
+        ],
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ],
+          [
+            "T",
+            "O",
+            "P",
+            " ",
+            "S",
+            "E",
+            "C",
+            "R",
+            "E",
+            "T"
+          ]
+        ]
+      ],
+      "seconds": 0.03294045198708773
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/path-injection",
+          "severity": "warning",
+          "message": "This path depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 16,
+          "end_line": 16,
+          "snippet": "    handle = open(path)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 14,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 15,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 16,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 17.004073877935298,
+      "rules": [
+        "py/path-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/path-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/7581b868ae294bbcb11bfc4fb16909e6/p01_open_fstring/baseline"
+  },
+  {
+    "seed": "p02_open_concat",
+    "sha256": "66e35710589167ffcb8db91e455d946278902df63d2508b4dc2873b6d5815ae6",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ]
+        ],
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ],
+          [
+            "T",
+            "O",
+            "P",
+            " ",
+            "S",
+            "E",
+            "C",
+            "R",
+            "E",
+            "T"
+          ]
+        ]
+      ],
+      "seconds": 0.03711676795501262
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/path-injection",
+          "severity": "warning",
+          "message": "This path depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 16,
+          "end_line": 16,
+          "snippet": "    handle = open(path)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 14,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 15,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 16,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 15.796792360953987,
+      "rules": [
+        "py/path-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/path-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/7581b868ae294bbcb11bfc4fb16909e6/p02_open_concat/baseline"
+  },
+  {
+    "seed": "p03_open_percent",
+    "sha256": "188bb5e05afcf470a15f923dc6e518f5a3a49d22c88366b95863c4541338163c",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ]
+        ],
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ],
+          [
+            "T",
+            "O",
+            "P",
+            " ",
+            "S",
+            "E",
+            "C",
+            "R",
+            "E",
+            "T"
+          ]
+        ]
+      ],
+      "seconds": 0.03850281308405101
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/path-injection",
+          "severity": "warning",
+          "message": "This path depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 16,
+          "end_line": 16,
+          "snippet": "    handle = open(path)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 14,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 15,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 15,
+              "message": "ControlFlowNode for Tuple [Tuple element at index 1]",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 15,
+              "message": "ControlFlowNode for BinaryExpr",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 15,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 16,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 17.373352781054564,
+      "rules": [
+        "py/path-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/path-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/7581b868ae294bbcb11bfc4fb16909e6/p03_open_percent/baseline"
+  },
+  {
+    "seed": "p04_open_format",
+    "sha256": "2b6c70d546f59515c52f4fb85c635c3460ef7565997a008f82b2b0d0c319b97f",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ]
+        ],
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ],
+          [
+            "T",
+            "O",
+            "P",
+            " ",
+            "S",
+            "E",
+            "C",
+            "R",
+            "E",
+            "T"
+          ]
+        ]
+      ],
+      "seconds": 0.03928350703790784
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/path-injection",
+          "severity": "warning",
+          "message": "This path depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 16,
+          "end_line": 16,
+          "snippet": "    handle = open(path)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 14,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 15,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 16,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 15.9694708409952,
+      "rules": [
+        "py/path-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/path-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/7581b868ae294bbcb11bfc4fb16909e6/p04_open_format/baseline"
+  },
+  {
+    "seed": "p05_with_open",
+    "sha256": "9180aaf5385e0c236c2e2af8a0867171196a54e293a6efd393678d0b75fa90c3",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ]
+        ],
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ],
+          [
+            "T",
+            "O",
+            "P",
+            " ",
+            "S",
+            "E",
+            "C",
+            "R",
+            "E",
+            "T"
+          ]
+        ]
+      ],
+      "seconds": 0.03451034799218178
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/path-injection",
+          "severity": "warning",
+          "message": "This path depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 16,
+          "end_line": 16,
+          "snippet": "    with open(path) as handle:",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 14,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 15,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 16,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 14.897366230026819,
+      "rules": [
+        "py/path-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/path-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/7581b868ae294bbcb11bfc4fb16909e6/p05_with_open/baseline"
+  },
+  {
+    "seed": "p06_open_join",
+    "sha256": "c3e9a99f8e56a8418e89fd42fe268fd19b3634c50c116b09c2f73daf6afe7d47",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ]
+        ],
+        [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ],
+          [
+            "T",
+            "O",
+            "P",
+            " ",
+            "S",
+            "E",
+            "C",
+            "R",
+            "E",
+            "T"
+          ]
+        ]
+      ],
+      "seconds": 0.03556333191227168
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "py/path-injection",
+          "severity": "warning",
+          "message": "This path depends on a [user-provided value](1).",
+          "path": "subject.py",
+          "start_line": 16,
+          "end_line": 16,
+          "snippet": "    handle = open(path)",
+          "trace": [
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for ImportMember",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 2,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for request",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "web_entry.py",
+              "line": 8,
+              "message": "ControlFlowNode for Attribute()",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 14,
+              "message": "ControlFlowNode for user_id",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 15,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            },
+            {
+              "path": "subject.py",
+              "line": 16,
+              "message": "ControlFlowNode for path",
+              "kinds": [],
+              "call_boundary": false
+            }
+          ]
+        }
+      ],
+      "error": "",
+      "seconds": 16.972676127916202,
+      "rules": [
+        "py/path-injection"
+      ]
+    },
+    "qualifying_rules": [
+      "py/path-injection"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/7581b868ae294bbcb11bfc4fb16909e6/p06_open_join/baseline"
+  }
+]

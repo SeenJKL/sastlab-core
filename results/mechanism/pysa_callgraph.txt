@@ -1,0 +1,52 @@
+Pysa call-graph entries of get_user_profile (seed_01 with one rewrite), written by mechanism_pysa.py.
+Format: location | kind | resolved targets, or UNRESOLVED and the reason.
+
+## baseline
+  4:12-4:74|format-string-artificial | format_string_artificial | Obj{<format-string>}
+  5:13-5:20|identifier|db_conn       | identifier           | sqlite3.Connection.__call__
+  5:13-5:29                          | call                 | sqlite3.Connection.cursor
+  6:4-6:25                           | call                 | sqlite3.Cursor.execute
+  7:11-7:28                          | call                 | sqlite3.Cursor.fetchall
+
+## dict_dispatch
+  5:12-5:74|format-string-artificial | format_string_artificial | Obj{<format-string>}
+  6:13-6:20|identifier|db_conn       | identifier           | sqlite3.Connection.__call__
+  6:13-6:29                          | call                 | sqlite3.Connection.cursor
+  7:4-7:34|artificial-call|subscript-get-item | call                 | builtins.dict.__getitem__
+  7:4-7:41                           | call                 | UNRESOLVED UnexpectedCalleeExpression
+  7:12-7:26                          | attribute_access     | sqlite3.Cursor.execute
+  8:11-8:28                          | call                 | sqlite3.Cursor.fetchall
+
+## dynamic_sink
+  5:12-5:74|format-string-artificial | format_string_artificial | Obj{<format-string>}
+  6:13-6:20|identifier|db_conn       | identifier           | sqlite3.Connection.__call__
+  6:13-6:29                          | call                 | sqlite3.Connection.cursor
+  7:4-7:35                           | call                 | builtins.getattr
+  7:4-7:42                           | call                 | UNRESOLVED UnexpectedCalleeExpression
+  7:20-7:34|artificial-call|binary   | call                 | builtins.str.__add__
+  8:11-8:28                          | call                 | sqlite3.Cursor.fetchall
+
+## partial_sink
+  6:12-6:74|format-string-artificial | format_string_artificial | Obj{<format-string>}
+  7:13-7:20|identifier|db_conn       | identifier           | sqlite3.Connection.__call__
+  7:13-7:29                          | call                 | sqlite3.Connection.cursor
+  8:4-8:41                           | call                 | functools.partial.__new__; builtins.object.__init__; sqlite3.Cursor.execute
+  8:4-8:48                           | call                 | UNRESOLVED UnexpectedCalleeExpression
+  8:26-8:40                          | attribute_access     | sqlite3.Cursor.execute
+  9:11-9:28                          | call                 | sqlite3.Cursor.fetchall
+
+## methodcaller_sink
+  6:12-6:74|format-string-artificial | format_string_artificial | Obj{<format-string>}
+  7:13-7:20|identifier|db_conn       | identifier           | sqlite3.Connection.__call__
+  7:13-7:29                          | call                 | sqlite3.Connection.cursor
+  8:4-8:47                           | call                 | operator.methodcaller.__new__; builtins.object.__init__
+  8:4-8:55                           | call                 | UNRESOLVED UnexpectedCalleeExpression
+  9:11-9:28                          | call                 | sqlite3.Cursor.fetchall
+
+## unbound_sink
+  5:12-5:74|format-string-artificial | format_string_artificial | Obj{<format-string>}
+  6:13-6:20|identifier|db_conn       | identifier           | sqlite3.Connection.__call__
+  6:13-6:29                          | call                 | sqlite3.Connection.cursor
+  7:4-7:16                           | call                 | builtins.type.__new__; builtins.type.__init__; UNRESOLVED UnexpectedDefiningClass
+  7:4-7:39                           | call                 | sqlite3.Cursor.execute
+  8:11-8:28                          | call                 | sqlite3.Cursor.fetchall

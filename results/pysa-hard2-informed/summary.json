@@ -1,0 +1,755 @@
+{
+  "engine": "pysa",
+  "report_cards": [
+    {
+      "engine": "pysa",
+      "rule": "pysa/5005",
+      "qualifying_seeds": [
+        "o03_semgrep",
+        "o18_semgrep",
+        "o24_codeql"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [
+          "o03_semgrep",
+          "o18_semgrep",
+          "o24_codeql"
+        ],
+        "2": [
+          "o03_semgrep",
+          "o18_semgrep",
+          "o24_codeql"
+        ],
+        "3": [
+          "o03_semgrep",
+          "o18_semgrep",
+          "o24_codeql"
+        ],
+        "4": [],
+        "5": [
+          "o03_semgrep",
+          "o18_semgrep",
+          "o24_codeql"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "o03_semgrep",
+        "o18_semgrep",
+        "o24_codeql"
+      ],
+      "individual_crossing": 1,
+      "portfolio_first_crossing_after_strategy": 1
+    },
+    {
+      "engine": "pysa",
+      "rule": "pysa/5051",
+      "qualifying_seeds": [
+        "o03_semgrep",
+        "o18_semgrep",
+        "o24_codeql"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [
+          "o03_semgrep",
+          "o18_semgrep",
+          "o24_codeql"
+        ],
+        "2": [
+          "o03_semgrep",
+          "o18_semgrep",
+          "o24_codeql"
+        ],
+        "3": [
+          "o03_semgrep",
+          "o18_semgrep",
+          "o24_codeql"
+        ],
+        "4": [],
+        "5": [
+          "o03_semgrep",
+          "o18_semgrep",
+          "o24_codeql"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "o03_semgrep",
+        "o18_semgrep",
+        "o24_codeql"
+      ],
+      "individual_crossing": 1,
+      "portfolio_first_crossing_after_strategy": 1
+    }
+  ],
+  "strategy_metrics": [
+    {
+      "strategy": 1,
+      "attempts": 675,
+      "unique_candidates": 249,
+      "scanner_invocations": 247,
+      "cache_hits": 410,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 63,
+      "distinct_bypass_candidates": 54,
+      "distinct_bypass_per_trajectory": 1.4,
+      "time_to_first_bypass": {
+        "o03_semgrep:1": {
+          "attempt": 2,
+          "wall_seconds": 12.231010627991054,
+          "charged_seconds": 12.222055068938062
+        },
+        "o03_semgrep:6": {
+          "attempt": 14,
+          "wall_seconds": 70.39981781505048,
+          "charged_seconds": 118.4588550637709
+        },
+        "o03_semgrep:8": {
+          "attempt": 7,
+          "wall_seconds": 23.23052425100468,
+          "charged_seconds": 56.20325455971761
+        },
+        "o03_semgrep:9": {
+          "attempt": 3,
+          "wall_seconds": 0.009827959001995623,
+          "charged_seconds": 19.406775268900674
+        },
+        "o03_semgrep:10": {
+          "attempt": 8,
+          "wall_seconds": 13.24473300302634,
+          "charged_seconds": 36.69275614101207
+        },
+        "o03_semgrep:12": {
+          "attempt": 3,
+          "wall_seconds": 0.0037721749977208674,
+          "charged_seconds": 19.136876241012942
+        },
+        "o03_semgrep:14": {
+          "attempt": 13,
+          "wall_seconds": 5.644177513022441,
+          "charged_seconds": 94.99757390574086
+        },
+        "o03_semgrep:15": {
+          "attempt": 9,
+          "wall_seconds": 16.748221581045073,
+          "charged_seconds": 58.208224529691506
+        },
+        "o18_semgrep:1": {
+          "attempt": 2,
+          "wall_seconds": 10.284576039994135,
+          "charged_seconds": 10.279811990971211
+        },
+        "o18_semgrep:6": {
+          "attempt": 14,
+          "wall_seconds": 38.00815154699376,
+          "charged_seconds": 75.10472236800706
+        },
+        "o18_semgrep:8": {
+          "attempt": 7,
+          "wall_seconds": 11.319401679036673,
+          "charged_seconds": 37.46019084996078
+        },
+        "o18_semgrep:11": {
+          "attempt": 15,
+          "wall_seconds": 15.64370058401255,
+          "charged_seconds": 79.62945979903452
+        },
+        "o18_semgrep:12": {
+          "attempt": 3,
+          "wall_seconds": 5.41129117901437,
+          "charged_seconds": 15.609589070023503
+        },
+        "o18_semgrep:14": {
+          "attempt": 14,
+          "wall_seconds": 0.014667018025647849,
+          "charged_seconds": 74.99343440384837
+        },
+        "o18_semgrep:15": {
+          "attempt": 12,
+          "wall_seconds": 27.32452830299735,
+          "charged_seconds": 64.4940696299891
+        },
+        "o24_codeql:1": {
+          "attempt": 2,
+          "wall_seconds": 10.659831637982279,
+          "charged_seconds": 10.65483768802369
+        },
+        "o24_codeql:6": {
+          "attempt": 14,
+          "wall_seconds": 38.08991098497063,
+          "charged_seconds": 75.18199380178703
+        },
+        "o24_codeql:8": {
+          "attempt": 7,
+          "wall_seconds": 10.901984109019395,
+          "charged_seconds": 38.311938751954585
+        },
+        "o24_codeql:9": {
+          "attempt": 3,
+          "wall_seconds": 0.002532759972382337,
+          "charged_seconds": 10.74101435492048
+        },
+        "o24_codeql:10": {
+          "attempt": 8,
+          "wall_seconds": 10.74843963503372,
+          "charged_seconds": 32.82411144883372
+        },
+        "o24_codeql:12": {
+          "attempt": 3,
+          "wall_seconds": 0.0031128930277191103,
+          "charged_seconds": 16.092914552951697
+        },
+        "o24_codeql:14": {
+          "attempt": 13,
+          "wall_seconds": 5.640180546033662,
+          "charged_seconds": 65.12482407584321
+        },
+        "o24_codeql:15": {
+          "attempt": 9,
+          "wall_seconds": 16.059125958010554,
+          "charged_seconds": 42.48274789581774
+        }
+      },
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 2,
+      "attempts": 675,
+      "unique_candidates": 319,
+      "scanner_invocations": 151,
+      "cache_hits": 494,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 121,
+      "distinct_bypass_candidates": 94,
+      "distinct_bypass_per_trajectory": 2.688888888888889,
+      "time_to_first_bypass": {
+        "o03_semgrep:1": {
+          "attempt": 2,
+          "wall_seconds": 0.0024448500480502844,
+          "charged_seconds": 12.222083218919579
+        },
+        "o03_semgrep:3": {
+          "attempt": 4,
+          "wall_seconds": 0.004626519046723843,
+          "charged_seconds": 23.356708092964254
+        },
+        "o03_semgrep:5": {
+          "attempt": 6,
+          "wall_seconds": 0.007664720993489027,
+          "charged_seconds": 48.57750170095824
+        },
+        "o03_semgrep:6": {
+          "attempt": 15,
+          "wall_seconds": 17.076016673992854,
+          "charged_seconds": 98.1242653838708
+        },
+        "o03_semgrep:7": {
+          "attempt": 9,
+          "wall_seconds": 5.252626156026963,
+          "charged_seconds": 65.15019294701051
+        },
+        "o03_semgrep:8": {
+          "attempt": 12,
+          "wall_seconds": 22.587170306011103,
+          "charged_seconds": 85.40215833391994
+        },
+        "o03_semgrep:9": {
+          "attempt": 6,
+          "wall_seconds": 0.008048710995353758,
+          "charged_seconds": 40.00604329089401
+        },
+        "o03_semgrep:12": {
+          "attempt": 3,
+          "wall_seconds": 0.0033005430013872683,
+          "charged_seconds": 19.136904141982086
+        },
+        "o03_semgrep:13": {
+          "attempt": 5,
+          "wall_seconds": 0.0058405830059200525,
+          "charged_seconds": 31.026010051951744
+        },
+        "o03_semgrep:14": {
+          "attempt": 12,
+          "wall_seconds": 11.612973480951041,
+          "charged_seconds": 94.59816035995027
+        },
+        "o03_semgrep:15": {
+          "attempt": 15,
+          "wall_seconds": 39.04818537895335,
+          "charged_seconds": 107.99200742185349
+        },
+        "o18_semgrep:1": {
+          "attempt": 2,
+          "wall_seconds": 0.002282978966832161,
+          "charged_seconds": 10.279818168957718
+        },
+        "o18_semgrep:2": {
+          "attempt": 9,
+          "wall_seconds": 5.360913521028124,
+          "charged_seconds": 48.077046840044204
+        },
+        "o18_semgrep:3": {
+          "attempt": 4,
+          "wall_seconds": 0.004158407042268664,
+          "charged_seconds": 21.12808544008294
+        },
+        "o18_semgrep:4": {
+          "attempt": 13,
+          "wall_seconds": 16.454802327032667,
+          "charged_seconds": 69.27348665130557
+        },
+        "o18_semgrep:5": {
+          "attempt": 5,
+          "wall_seconds": 0.007950261002406478,
+          "charged_seconds": 26.94598066789331
+        },
+        "o18_semgrep:6": {
+          "attempt": 15,
+          "wall_seconds": 33.772371769999154,
+          "charged_seconds": 82.41000126994913
+        },
+        "o18_semgrep:7": {
+          "attempt": 9,
+          "wall_seconds": 5.5298751260270365,
+          "charged_seconds": 48.37579943804303
+        },
+        "o18_semgrep:8": {
+          "attempt": 12,
+          "wall_seconds": 22.95941946603125,
+          "charged_seconds": 65.33239799400326
+        },
+        "o18_semgrep:9": {
+          "attempt": 6,
+          "wall_seconds": 0.0068022559862583876,
+          "charged_seconds": 32.06171166605782
+        },
+        "o18_semgrep:11": {
+          "attempt": 6,
+          "wall_seconds": 5.5703698840225115,
+          "charged_seconds": 32.40468136413256
+        },
+        "o18_semgrep:12": {
+          "attempt": 3,
+          "wall_seconds": 0.0032729629892855883,
+          "charged_seconds": 15.609628951002378
+        },
+        "o18_semgrep:13": {
+          "attempt": 5,
+          "wall_seconds": 5.738924715027679,
+          "charged_seconds": 27.115438925044145
+        },
+        "o18_semgrep:14": {
+          "attempt": 14,
+          "wall_seconds": 11.119115818000864,
+          "charged_seconds": 74.78846269589849
+        },
+        "o18_semgrep:15": {
+          "attempt": 8,
+          "wall_seconds": 11.158712229982484,
+          "charged_seconds": 43.0744275530451
+        },
+        "o24_codeql:1": {
+          "attempt": 2,
+          "wall_seconds": 0.002025638008490205,
+          "charged_seconds": 10.654857898072805
+        },
+        "o24_codeql:3": {
+          "attempt": 4,
+          "wall_seconds": 0.0052872299565933645,
+          "charged_seconds": 21.79568944388302
+        },
+        "o24_codeql:5": {
+          "attempt": 6,
+          "wall_seconds": 0.005203238979447633,
+          "charged_seconds": 26.831728914869018
+        },
+        "o24_codeql:6": {
+          "attempt": 15,
+          "wall_seconds": 15.290337700978853,
+          "charged_seconds": 73.95570034894627
+        },
+        "o24_codeql:7": {
+          "attempt": 9,
+          "wall_seconds": 5.106663001992274,
+          "charged_seconds": 47.566941065946594
+        },
+        "o24_codeql:8": {
+          "attempt": 12,
+          "wall_seconds": 21.72734172496712,
+          "charged_seconds": 64.93386631796602
+        },
+        "o24_codeql:9": {
+          "attempt": 6,
+          "wall_seconds": 0.004921139974612743,
+          "charged_seconds": 26.486587822786532
+        },
+        "o24_codeql:12": {
+          "attempt": 3,
+          "wall_seconds": 0.0041472960147075355,
+          "charged_seconds": 16.092973751889076
+        },
+        "o24_codeql:13": {
+          "attempt": 5,
+          "wall_seconds": 0.006542095972690731,
+          "charged_seconds": 26.7013887448702
+        },
+        "o24_codeql:14": {
+          "attempt": 12,
+          "wall_seconds": 10.880289213033393,
+          "charged_seconds": 58.68934547819663
+        },
+        "o24_codeql:15": {
+          "attempt": 15,
+          "wall_seconds": 22.25742740900023,
+          "charged_seconds": 75.18171585793607
+        }
+      },
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 3,
+      "attempts": 675,
+      "unique_candidates": 150,
+      "scanner_invocations": 85,
+      "cache_hits": 526,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 72,
+      "distinct_bypass_candidates": 45,
+      "distinct_bypass_per_trajectory": 1.6,
+      "time_to_first_bypass": {
+        "o03_semgrep:1": {
+          "attempt": 12,
+          "wall_seconds": 17.36570283101173,
+          "charged_seconds": 89.71316413069144
+        },
+        "o03_semgrep:5": {
+          "attempt": 14,
+          "wall_seconds": 14.845929445000365,
+          "charged_seconds": 94.76499458478065
+        },
+        "o03_semgrep:9": {
+          "attempt": 12,
+          "wall_seconds": 4.692873371008318,
+          "charged_seconds": 79.015378406737
+        },
+        "o03_semgrep:10": {
+          "attempt": 4,
+          "wall_seconds": 1.7233890009811148,
+          "charged_seconds": 30.385724042076617
+        },
+        "o03_semgrep:11": {
+          "attempt": 13,
+          "wall_seconds": 17.091232925013173,
+          "charged_seconds": 93.30512150691357
+        },
+        "o03_semgrep:12": {
+          "attempt": 4,
+          "wall_seconds": 1.7689280310296454,
+          "charged_seconds": 30.435270364920143
+        },
+        "o03_semgrep:15": {
+          "attempt": 13,
+          "wall_seconds": 18.448114397004247,
+          "charged_seconds": 94.4178508928162
+        },
+        "o18_semgrep:1": {
+          "attempt": 14,
+          "wall_seconds": 41.89313181996113,
+          "charged_seconds": 85.34365615196293
+        },
+        "o18_semgrep:5": {
+          "attempt": 14,
+          "wall_seconds": 14.316853888973128,
+          "charged_seconds": 84.41222350555472
+        },
+        "o18_semgrep:7": {
+          "attempt": 4,
+          "wall_seconds": 7.395453924022149,
+          "charged_seconds": 23.433849685126916
+        },
+        "o18_semgrep:9": {
+          "attempt": 12,
+          "wall_seconds": 4.3959685119916685,
+          "charged_seconds": 70.37264722178224
+        },
+        "o18_semgrep:10": {
+          "attempt": 4,
+          "wall_seconds": 1.6584055289858952,
+          "charged_seconds": 23.567884908872657
+        },
+        "o18_semgrep:11": {
+          "attempt": 5,
+          "wall_seconds": 9.475728310004342,
+          "charged_seconds": 31.091944607906044
+        },
+        "o18_semgrep:12": {
+          "attempt": 4,
+          "wall_seconds": 2.8915958700235933,
+          "charged_seconds": 24.803141276992392
+        },
+        "o18_semgrep:14": {
+          "attempt": 4,
+          "wall_seconds": 1.7618200370343402,
+          "charged_seconds": 23.526740788074676
+        },
+        "o18_semgrep:15": {
+          "attempt": 8,
+          "wall_seconds": 28.01842671696795,
+          "charged_seconds": 48.9351200388046
+        },
+        "o24_codeql:1": {
+          "attempt": 14,
+          "wall_seconds": 27.409128951956518,
+          "charged_seconds": 74.45017504657153
+        },
+        "o24_codeql:5": {
+          "attempt": 14,
+          "wall_seconds": 12.911609280970879,
+          "charged_seconds": 72.06328026886331
+        },
+        "o24_codeql:10": {
+          "attempt": 4,
+          "wall_seconds": 1.6534580700099468,
+          "charged_seconds": 22.942115284968168
+        },
+        "o24_codeql:11": {
+          "attempt": 5,
+          "wall_seconds": 2.703952810028568,
+          "charged_seconds": 23.947030285024084
+        },
+        "o24_codeql:12": {
+          "attempt": 4,
+          "wall_seconds": 3.9839264320326038,
+          "charged_seconds": 25.272897308052052
+        },
+        "o24_codeql:14": {
+          "attempt": 13,
+          "wall_seconds": 7.365300424979068,
+          "charged_seconds": 57.29307729698485
+        }
+      },
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 5,
+      "attempts": 675,
+      "unique_candidates": 155,
+      "scanner_invocations": 29,
+      "cache_hits": 611,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 151,
+      "distinct_bypass_candidates": 69,
+      "distinct_bypass_per_trajectory": 3.2444444444444445,
+      "time_to_first_bypass": {
+        "o03_semgrep:1": {
+          "attempt": 12,
+          "wall_seconds": 5.318848367023747,
+          "charged_seconds": 91.75532013672637
+        },
+        "o03_semgrep:3": {
+          "attempt": 6,
+          "wall_seconds": 2.61338810401503,
+          "charged_seconds": 53.81931118085049
+        },
+        "o03_semgrep:4": {
+          "attempt": 5,
+          "wall_seconds": 2.443669736967422,
+          "charged_seconds": 23.823232368857134
+        },
+        "o03_semgrep:6": {
+          "attempt": 3,
+          "wall_seconds": 2.438371187017765,
+          "charged_seconds": 29.28858063084772
+        },
+        "o03_semgrep:7": {
+          "attempt": 15,
+          "wall_seconds": 11.568602045997977,
+          "charged_seconds": 103.6261704977369
+        },
+        "o03_semgrep:8": {
+          "attempt": 11,
+          "wall_seconds": 9.74318858596962,
+          "charged_seconds": 92.63935888488777
+        },
+        "o03_semgrep:9": {
+          "attempt": 5,
+          "wall_seconds": 2.374737646023277,
+          "charged_seconds": 23.754704842867795
+        },
+        "o03_semgrep:10": {
+          "attempt": 9,
+          "wall_seconds": 7.282801911002025,
+          "charged_seconds": 75.33408174902434
+        },
+        "o03_semgrep:11": {
+          "attempt": 12,
+          "wall_seconds": 8.441583598032594,
+          "charged_seconds": 97.37908679182874
+        },
+        "o03_semgrep:12": {
+          "attempt": 12,
+          "wall_seconds": 10.48642370000016,
+          "charged_seconds": 100.56828183174366
+        },
+        "o03_semgrep:13": {
+          "attempt": 4,
+          "wall_seconds": 2.9100096249603666,
+          "charged_seconds": 28.968264346942306
+        },
+        "o03_semgrep:14": {
+          "attempt": 4,
+          "wall_seconds": 3.0525791259715334,
+          "charged_seconds": 22.758916368940845
+        },
+        "o03_semgrep:15": {
+          "attempt": 8,
+          "wall_seconds": 6.528995099011809,
+          "charged_seconds": 69.55818879767321
+        },
+        "o18_semgrep:1": {
+          "attempt": 12,
+          "wall_seconds": 8.454966125020292,
+          "charged_seconds": 73.2695421774988
+        },
+        "o18_semgrep:2": {
+          "attempt": 4,
+          "wall_seconds": 2.570286729023792,
+          "charged_seconds": 24.19892949599307
+        },
+        "o18_semgrep:3": {
+          "attempt": 6,
+          "wall_seconds": 9.549048978020437,
+          "charged_seconds": 41.320610515831504
+        },
+        "o18_semgrep:4": {
+          "attempt": 8,
+          "wall_seconds": 16.650142169033643,
+          "charged_seconds": 49.05362252914347
+        },
+        "o18_semgrep:5": {
+          "attempt": 13,
+          "wall_seconds": 10.066583916952368,
+          "charged_seconds": 81.38785292056855
+        },
+        "o18_semgrep:7": {
+          "attempt": 10,
+          "wall_seconds": 5.294912030978594,
+          "charged_seconds": 58.67822839191649
+        },
+        "o18_semgrep:8": {
+          "attempt": 11,
+          "wall_seconds": 20.066499679989647,
+          "charged_seconds": 68.1870862559299
+        },
+        "o18_semgrep:10": {
+          "attempt": 10,
+          "wall_seconds": 5.582072908990085,
+          "charged_seconds": 58.9658962629037
+        },
+        "o18_semgrep:11": {
+          "attempt": 6,
+          "wall_seconds": 2.830019377055578,
+          "charged_seconds": 34.9699088659836
+        },
+        "o18_semgrep:12": {
+          "attempt": 12,
+          "wall_seconds": 9.726291914004833,
+          "charged_seconds": 75.31305864476599
+        },
+        "o18_semgrep:13": {
+          "attempt": 4,
+          "wall_seconds": 2.5128082130104303,
+          "charged_seconds": 24.13949250400765
+        },
+        "o18_semgrep:14": {
+          "attempt": 4,
+          "wall_seconds": 2.5454917800379917,
+          "charged_seconds": 24.31056090898346
+        },
+        "o18_semgrep:15": {
+          "attempt": 9,
+          "wall_seconds": 6.949137112998869,
+          "charged_seconds": 56.65965638082707
+        },
+        "o24_codeql:1": {
+          "attempt": 12,
+          "wall_seconds": 10.664919687027577,
+          "charged_seconds": 75.01923217281
+        },
+        "o24_codeql:2": {
+          "attempt": 15,
+          "wall_seconds": 12.196804767998401,
+          "charged_seconds": 86.98815381189343
+        },
+        "o24_codeql:3": {
+          "attempt": 6,
+          "wall_seconds": 4.498839614971075,
+          "charged_seconds": 36.72102004894987
+        },
+        "o24_codeql:4": {
+          "attempt": 12,
+          "wall_seconds": 10.631218902999535,
+          "charged_seconds": 69.74692152981879
+        },
+        "o24_codeql:7": {
+          "attempt": 10,
+          "wall_seconds": 8.426183358009439,
+          "charged_seconds": 61.85012900084257
+        },
+        "o24_codeql:8": {
+          "attempt": 11,
+          "wall_seconds": 8.787057426001411,
+          "charged_seconds": 62.216550163924694
+        },
+        "o24_codeql:10": {
+          "attempt": 9,
+          "wall_seconds": 5.868025917967316,
+          "charged_seconds": 53.67182158480864
+        },
+        "o24_codeql:11": {
+          "attempt": 5,
+          "wall_seconds": 4.322007114009466,
+          "charged_seconds": 25.564730237878393
+        },
+        "o24_codeql:12": {
+          "attempt": 12,
+          "wall_seconds": 10.024202387023252,
+          "charged_seconds": 76.12111676076893
+        },
+        "o24_codeql:13": {
+          "attempt": 4,
+          "wall_seconds": 2.8796326700248756,
+          "charged_seconds": 24.124135550053325
+        },
+        "o24_codeql:14": {
+          "attempt": 4,
+          "wall_seconds": 11.815207919979002,
+          "charged_seconds": 27.288000844884664
+        },
+        "o24_codeql:15": {
+          "attempt": 9,
+          "wall_seconds": 7.387034719984513,
+          "charged_seconds": 50.28824922890635
+        }
+      },
+      "wall_time_comparable": false
+    }
+  ],
+  "qualification_failures": []
+}

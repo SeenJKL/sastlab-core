@@ -1,0 +1,99 @@
+{
+  "started": "2026-10-09T11:26:31.350532+00:00",
+  "engine": "semgrep",
+  "config": {
+    "engine": "semgrep",
+    "seeds": "/home/agent/CS6223/Project/code/seeds_fstring",
+    "rules": "/home/agent/CS6223/Project/code/rules/formatted-sql-query.yaml",
+    "corpus_kind": "synthetic",
+    "attempts": 15,
+    "trajectories": 30,
+    "base_seed": 6223,
+    "strategies": [
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "cache": false,
+    "scanner_timeout": 120,
+    "oracle_timeout": 5,
+    "metropolis_temperature": 0.25,
+    "rule_metadata": "Semgrep formatted-sql-query: detects f-string, percent or str.format SQL passed directly or via a variable into DB.execute. Use parameterized queries.",
+    "llm": {
+      "provider": "soclaas",
+      "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+      "model": "llama3.1:8b",
+      "api_key_env": "SOCLAAS_API_KEY",
+      "env_file": "/home/agent/CS6223/Project/code/.env",
+      "temperature": 0.2,
+      "timeout": 180,
+      "max_prompt_tokens": 2500
+    },
+    "target_rules": [
+      "formatted-sql-query"
+    ],
+    "operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip"
+    ]
+  },
+  "scanner_version": "1.178.0",
+  "llm": {
+    "provider": "soclaas",
+    "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+    "model": {
+      "name": "llama3.1:8b",
+      "digest": null
+    },
+    "identity_verified": false
+  },
+  "python": "3.14.4",
+  "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+  "operators": [
+    "rename",
+    "format_swap",
+    "literal_slice",
+    "dead_padding",
+    "extract_1",
+    "extract_2",
+    "branch_split",
+    "dict_dispatch",
+    "dynamic_sink",
+    "char_launder",
+    "deep_nest",
+    "db_roundtrip",
+    "queue_roundtrip"
+  ],
+  "work_dir": "/home/agent/CS6223/Project/code/.sastlab/runs/a5714089632a47c2a6c20530d9ad4aac",
+  "state": "complete",
+  "rule_sha256": "3543d454e520952116963c7913a2c2bad9bf9192b6c8c80be91ab7529a88ff09",
+  "framework_sha256": {
+    "__init__.py": "ce9756935dc32cd804f37fbf6c1419dcd17371c13d1df079507982d7eb187aa4",
+    "__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
+    "cli.py": "49c713e93f808d864cb34eb5b3df382a090eb9e06e3a8caae3034f2c4f5ed8db",
+    "exhaustive.py": "2100c888b6f3f4219f4e582d673065f2da3675371b35c1bca24905445d945fec",
+    "llm.py": "32300df4cc24879cf38ae4f884c0ef726556c3c3003c31718dea8057b0701bfd",
+    "oracle.py": "bbc5ae1ed4499331b28503276d07d116afd98b24333f3556f60adec9c74adb96",
+    "oracle_worker.py": "701e0e6aa3083754187e0857c1c52438e2de7f76457259c53b43164d76f6623c",
+    "report.py": "6a6f8339d2968d6c4159c621ea3a12890f2ddc9cdfb255ad08773f87736d407e",
+    "runner.py": "7a6999b3469e4efe4e6361f37cf03944eebd7b167a1ed2ba4423623f0d0796c1",
+    "scanners.py": "2f6fe8c85fbd26eebd710788d611e724c4464e6d4dcbfbecef0d3aec1de74ed3",
+    "search.py": "b2ad4f72579198488792e2aac78baceb8f79c3af552ba502d757bb5ed517a954",
+    "transforms.py": "c448203b9d8d69bf1248bd3ea350c23fbb6a6a737f3822396ff7d8755d9ca7e1"
+  },
+  "seed_sha256": {
+    "d04_no_cursor.py": "8047b26c6f6231d84e4fefaaaf150a5e2e99c06f30c6c4471f5af211d0995034",
+    "d05_preprocess.py": "27599531df2ac9c95fc8098571e6133d3eaa186f6e1e3e703db4c57eb59877e5",
+    "d06_postprocess.py": "91c6a20e1f432acfefa92b06ea753170bf2a0dc4e37c47ead80f69d144d906db"
+  },
+  "finished": "2026-10-09T19:23:59.830564+00:00"
+}

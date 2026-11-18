@@ -1,0 +1,73 @@
+{
+  "seeds": {
+    "a01_parsl_status_for_workflow": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 45,
+      "evaluated": 36,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 36,
+      "smallest_evading_masks": []
+    },
+    "a02_parsl_resources_for_task": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 45,
+      "evaluated": 36,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 36,
+      "smallest_evading_masks": []
+    },
+    "a03_parsl_dag_details": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 45,
+      "evaluated": 36,
+      "invalid": 9,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 36,
+      "smallest_evading_masks": []
+    },
+    "a04_scitokens_getkeyinfo": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 45,
+      "evaluated": 6,
+      "invalid": 39,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 6,
+      "smallest_evading_masks": []
+    },
+    "a05_pyload_update_link_info": {
+      "qualifying_rules": [
+        "py/sql-injection"
+      ],
+      "masks_recorded": 45,
+      "evaluated": 6,
+      "invalid": 39,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 0,
+      "detected_masks": 6,
+      "smallest_evading_masks": []
+    }
+  },
+  "total_evaluated": 120,
+  "total_evading": 0,
+  "total_scan_errors": 0,
+  "complete": true
+}

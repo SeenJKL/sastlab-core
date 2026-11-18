@@ -1,0 +1,278 @@
+{
+  "seeds": {
+    "seed_01": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_02": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_03": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_04": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_05": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_06": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_07": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_08": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_09": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_10": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_11": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_12": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_13": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_14": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    },
+    "seed_15": {
+      "qualifying_rules": [
+        "formatted-sql-query"
+      ],
+      "masks_recorded": 15,
+      "evaluated": 15,
+      "invalid": 0,
+      "oracle_not_equivalent": 0,
+      "scan_errors": 0,
+      "evading_masks": 4,
+      "detected_masks": 11,
+      "smallest_evading_masks": [
+        6,
+        7,
+        14,
+        15
+      ]
+    }
+  },
+  "total_evaluated": 225,
+  "total_evading": 60,
+  "total_scan_errors": 0,
+  "complete": true
+}

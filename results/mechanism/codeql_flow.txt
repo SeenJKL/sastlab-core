@@ -1,0 +1,15 @@
+== deep_nest depth sweep
+depth 1: 1 alert(s)
+depth 2: 1 alert(s)
+depth 3: 1 alert(s)
+depth 4: 1 alert(s)
+depth 5: 1 alert(s)
+depth 6: 0 alert(s)
+depth 7: 0 alert(s)
+depth 8: 0 alert(s)
+== db_roundtrip, stock pack and with added sqlite3 models
+stock: 0
+connect-path, tuple element: 1
+connect-path, whole argument: 0
+tuple-as-argument: 0
+tuple-element: 0

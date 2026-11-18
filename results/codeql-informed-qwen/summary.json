@@ -1,0 +1,213 @@
+{
+  "engine": "codeql",
+  "report_cards": [
+    {
+      "engine": "codeql",
+      "rule": "py/sql-injection",
+      "qualifying_seeds": [
+        "d01_concat"
+      ],
+      "S_rule": 1,
+      "threshold": 1,
+      "exploratory": false,
+      "classification": "excluded",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [
+          "d01_concat"
+        ],
+        "4": [],
+        "5": [
+          "d01_concat"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "d01_concat"
+      ],
+      "individual_crossing": 3,
+      "portfolio_first_crossing_after_strategy": 3
+    }
+  ],
+  "strategy_metrics": [
+    {
+      "strategy": 3,
+      "attempts": 180,
+      "unique_candidates": 68,
+      "scanner_invocations": 68,
+      "cache_hits": 112,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 54,
+      "distinct_bypass_candidates": 36,
+      "distinct_bypass_per_trajectory": 3.6,
+      "time_to_first_bypass": {
+        "d01_concat:1": {
+          "attempt": 3,
+          "wall_seconds": 56.02438797900686,
+          "charged_seconds": 55.95895618200302
+        },
+        "d01_concat:2": {
+          "attempt": 6,
+          "wall_seconds": 92.17262819304597,
+          "charged_seconds": 112.23217093583662
+        },
+        "d01_concat:3": {
+          "attempt": 3,
+          "wall_seconds": 1.22797653300222,
+          "charged_seconds": 55.42885314702289
+        },
+        "d01_concat:4": {
+          "attempt": 9,
+          "wall_seconds": 165.96011734497733,
+          "charged_seconds": 201.84168089879677
+        },
+        "d01_concat:5": {
+          "attempt": 5,
+          "wall_seconds": 44.668228384980466,
+          "charged_seconds": 100.00525613990612
+        },
+        "d01_concat:6": {
+          "attempt": 5,
+          "wall_seconds": 41.3295607350301,
+          "charged_seconds": 96.67046479595592
+        },
+        "d01_concat:7": {
+          "attempt": 6,
+          "wall_seconds": 268.5440943739959,
+          "charged_seconds": 304.45575728587573
+        },
+        "d01_concat:8": {
+          "attempt": 8,
+          "wall_seconds": 44.98577488400042,
+          "charged_seconds": 166.80383267410798
+        },
+        "d01_concat:9": {
+          "attempt": 3,
+          "wall_seconds": 2.061060477979481,
+          "charged_seconds": 56.26332603493938
+        },
+        "d01_concat:10": {
+          "attempt": 5,
+          "wall_seconds": 21.317162098013796,
+          "charged_seconds": 100.9462586750742
+        },
+        "d01_concat:11": {
+          "attempt": 8,
+          "wall_seconds": 59.921991228009574,
+          "charged_seconds": 152.45965084672207
+        },
+        "d01_concat:12": {
+          "attempt": 3,
+          "wall_seconds": 2.8967577959992923,
+          "charged_seconds": 57.098669225000776
+        },
+        "d01_concat:13": {
+          "attempt": 10,
+          "wall_seconds": 4.776889082975686,
+          "charged_seconds": 209.53432881494518
+        },
+        "d01_concat:14": {
+          "attempt": 5,
+          "wall_seconds": 2.3634724040166475,
+          "charged_seconds": 96.85602318192832
+        },
+        "d01_concat:15": {
+          "attempt": 4,
+          "wall_seconds": 23.8139854670153,
+          "charged_seconds": 79.17801882093772
+        }
+      },
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 5,
+      "attempts": 180,
+      "unique_candidates": 65,
+      "scanner_invocations": 26,
+      "cache_hits": 154,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 63,
+      "distinct_bypass_candidates": 33,
+      "distinct_bypass_per_trajectory": 4.2,
+      "time_to_first_bypass": {
+        "d01_concat:1": {
+          "attempt": 3,
+          "wall_seconds": 1.2304095190484077,
+          "charged_seconds": 55.43217505607754
+        },
+        "d01_concat:2": {
+          "attempt": 4,
+          "wall_seconds": 41.29947092302609,
+          "charged_seconds": 84.86276920995442
+        },
+        "d01_concat:3": {
+          "attempt": 3,
+          "wall_seconds": 2.3980391790391877,
+          "charged_seconds": 56.5985654219985
+        },
+        "d01_concat:4": {
+          "attempt": 3,
+          "wall_seconds": 1.484204193984624,
+          "charged_seconds": 65.92608668108005
+        },
+        "d01_concat:5": {
+          "attempt": 4,
+          "wall_seconds": 2.3553782539675012,
+          "charged_seconds": 81.97919981286395
+        },
+        "d01_concat:6": {
+          "attempt": 4,
+          "wall_seconds": 2.4799037020420656,
+          "charged_seconds": 79.0754811350489
+        },
+        "d01_concat:7": {
+          "attempt": 6,
+          "wall_seconds": 3.1693886159919202,
+          "charged_seconds": 123.2667863300303
+        },
+        "d01_concat:8": {
+          "attempt": 3,
+          "wall_seconds": 1.6658027970115654,
+          "charged_seconds": 90.68700136506232
+        },
+        "d01_concat:9": {
+          "attempt": 3,
+          "wall_seconds": 1.4078530560364015,
+          "charged_seconds": 55.5884654900874
+        },
+        "d01_concat:10": {
+          "attempt": 5,
+          "wall_seconds": 3.3692386700422503,
+          "charged_seconds": 102.20050804602215
+        },
+        "d01_concat:12": {
+          "attempt": 5,
+          "wall_seconds": 3.1191336199990474,
+          "charged_seconds": 101.9760095149395
+        },
+        "d01_concat:13": {
+          "attempt": 6,
+          "wall_seconds": 4.370482939004432,
+          "charged_seconds": 124.45057013601763
+        },
+        "d01_concat:14": {
+          "attempt": 5,
+          "wall_seconds": 96.9633223299752,
+          "charged_seconds": 152.28479158994742
+        },
+        "d01_concat:15": {
+          "attempt": 4,
+          "wall_seconds": 1.6044687190442346,
+          "charged_seconds": 78.18545953510329
+        }
+      },
+      "wall_time_comparable": false
+    }
+  ],
+  "qualification_failures": []
+}

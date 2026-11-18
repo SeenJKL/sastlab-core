@@ -1,0 +1,674 @@
+[
+  {
+    "seed": "d01_concat",
+    "sha256": "d11a3cdb37d676b5e9d507c3c3df89f0288bbf87212ab69c48ea8961ed66a762",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.032746242824941874
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d01_concat/baseline/src/subject.py",
+          "start_line": 3,
+          "end_line": 3,
+          "snippet": "    query = \"SELECT id, username, role FROM users WHERE id = '\" + user_id + \"'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.1782685238867998,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d01_concat/baseline"
+  },
+  {
+    "seed": "d02_str_format",
+    "sha256": "258550e58f76256cd8aef857a6c5919d8e65aaed283273b09669b80947a425ba",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.03175631910562515
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d02_str_format/baseline/src/subject.py",
+          "start_line": 3,
+          "end_line": 3,
+          "snippet": "    query = \"SELECT id, username, role FROM users WHERE id = '{}'\".format(user_id)",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.17519671213813126,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d02_str_format/baseline"
+  },
+  {
+    "seed": "d03_percent",
+    "sha256": "323e2f00def714da23a95aec5b59406ec2ff84b584993d7fa6e1a184d47dec55",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.030217292020097375
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d03_percent/baseline/src/subject.py",
+          "start_line": 3,
+          "end_line": 3,
+          "snippet": "    query = \"SELECT id, username, role FROM users WHERE id = '%s'\" % user_id",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.16780603281222284,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d03_percent/baseline"
+  },
+  {
+    "seed": "d04_no_cursor",
+    "sha256": "8047b26c6f6231d84e4fefaaaf150a5e2e99c06f30c6c4471f5af211d0995034",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.03087061597034335
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d04_no_cursor/baseline/src/subject.py",
+          "start_line": 3,
+          "end_line": 3,
+          "snippet": "    query = f\"SELECT id, username, role FROM users WHERE id = '{user_id}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.17777413316071033,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d04_no_cursor/baseline"
+  },
+  {
+    "seed": "d05_preprocess",
+    "sha256": "27599531df2ac9c95fc8098571e6133d3eaa186f6e1e3e703db4c57eb59877e5",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.033350415993481874
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d05_preprocess/baseline/src/subject.py",
+          "start_line": 4,
+          "end_line": 4,
+          "snippet": "    query = f\"SELECT id, username, role FROM users WHERE id = '{user_id}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.17946955817751586,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d05_preprocess/baseline"
+  },
+  {
+    "seed": "d06_postprocess",
+    "sha256": "91c6a20e1f432acfefa92b06ea753170bf2a0dc4e37c47ead80f69d144d906db",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "ALICE",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "ALICE",
+            "admin"
+          ],
+          [
+            "2",
+            "BOB",
+            "user"
+          ],
+          [
+            "3",
+            "CAROL",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.03992367209866643
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d06_postprocess/baseline/src/subject.py",
+          "start_line": 3,
+          "end_line": 3,
+          "snippet": "    query = f\"SELECT id, username, role FROM users WHERE id = '{user_id}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.18941259989514947,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d06_postprocess/baseline"
+  },
+  {
+    "seed": "d07_two_uses",
+    "sha256": "a945b84644deddc2fa8a3e62f1451c9b24992c713893c8a5a3d5a2d2571866bf",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.031212796922773123
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d07_two_uses/baseline/src/subject.py",
+          "start_line": 3,
+          "end_line": 3,
+          "snippet": "    query = f\"SELECT id, username, role FROM users WHERE id = '{user_id}' OR username = '{user_id}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.1833855570293963,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d07_two_uses/baseline"
+  },
+  {
+    "seed": "d08_like",
+    "sha256": "7b162414a56379422e41cbf259aa493e6f09737618b06de63a54bdaab79749a2",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ]
+      ],
+      "seconds": 0.03613106603734195
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d08_like/baseline/src/subject.py",
+          "start_line": 3,
+          "end_line": 3,
+          "snippet": "    query = f\"SELECT id, username, role FROM users WHERE id LIKE '{user_id}%'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.17952155019156635,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d08_like/baseline"
+  },
+  {
+    "seed": "d09_order_limit",
+    "sha256": "3007430108ef257b8eee8ca34fb6e6620384acf83e05dde099c1d695ade87f41",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.03471294115297496
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d09_order_limit/baseline/src/subject.py",
+          "start_line": 3,
+          "end_line": 3,
+          "snippet": "    query = f\"SELECT id, username, role FROM users WHERE id = '{user_id}' ORDER BY username LIMIT 10\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.1906643051188439,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d09_order_limit/baseline"
+  },
+  {
+    "seed": "d10_early_return",
+    "sha256": "15cde4ca1e33694830f1922e042b3102991753093c8326c64352a8374b8eafcb",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.03159536700695753
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d10_early_return/baseline/src/subject.py",
+          "start_line": 5,
+          "end_line": 5,
+          "snippet": "    query = f\"SELECT id, username, role FROM users WHERE id = '{user_id}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.163355085067451,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d10_early_return/baseline"
+  },
+  {
+    "seed": "d11_fetchone",
+    "sha256": "c157b857595c0a8d68ea97d5ff0cacc878934f006b716b05421f915904aefd1e",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ]
+      ],
+      "seconds": 0.0322325611487031
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d11_fetchone/baseline/src/subject.py",
+          "start_line": 3,
+          "end_line": 3,
+          "snippet": "    query = f\"SELECT id, username, role FROM users WHERE id = '{user_id}'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.15210128808394074,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d11_fetchone/baseline"
+  },
+  {
+    "seed": "d12_concat_parts",
+    "sha256": "69ff8dfb9a04fe3a4ba9a89965bf03e5f681e450a994d7dcd47ba2efe56f6269",
+    "oracle": {
+      "ok": true,
+      "outputs": [
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ]
+        ],
+        [
+          [
+            "1",
+            "alice",
+            "admin"
+          ],
+          [
+            "2",
+            "bob",
+            "user"
+          ],
+          [
+            "3",
+            "carol",
+            "user"
+          ]
+        ]
+      ],
+      "seconds": 0.03214598004706204
+    },
+    "scan": {
+      "status": "ok",
+      "findings": [
+        {
+          "rule_id": "bandit/B608",
+          "severity": "MEDIUM",
+          "message": "Possible SQL injection vector through string-based query construction.",
+          "path": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d12_concat_parts/baseline/src/subject.py",
+          "start_line": 4,
+          "end_line": 4,
+          "snippet": "    query = \"SELECT id, username, role FROM \" + table + \" WHERE id = '\" + user_id + \"'\"",
+          "trace": []
+        }
+      ],
+      "error": "",
+      "seconds": 0.1739446970168501,
+      "rules": [
+        "bandit/B608"
+      ]
+    },
+    "qualifying_rules": [
+      "bandit/B608"
+    ],
+    "artifacts": "/home/agent/CS6223/Project/code/.sastlab/runs/c6ac87c1d0a046e5b066a76dda125c8b/d12_concat_parts/baseline"
+  }
+]

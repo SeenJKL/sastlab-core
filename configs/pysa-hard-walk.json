@@ -1,0 +1,38 @@
+{
+  "engine": "pysa",
+  "seeds": "../seeds_pysa_hard",
+  "corpus_kind": "synthetic",
+  "attempts": 15,
+  "trajectories": 15,
+  "base_seed": 6223,
+  "strategies": [
+    6
+  ],
+  "cache": false,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "target_rules": [
+    "pysa/5005",
+    "pysa/5051"
+  ],
+  "operators": [
+    "rename",
+    "format_swap",
+    "literal_slice",
+    "dead_padding",
+    "extract_1",
+    "dict_dispatch",
+    "dynamic_sink",
+    "char_launder",
+    "queue_roundtrip"
+  ],
+  "executable": ".sastlab/pysa-venv/bin/pyre",
+  "pysa_models": [
+    "../third_party/pysa-models/core",
+    "../third_party/pysa-models/common"
+  ],
+  "evasion": "all",
+  "metropolis_restart": false,
+  "work_dir": "~/.cache/sastlab-runs"
+}

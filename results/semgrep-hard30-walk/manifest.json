@@ -1,0 +1,85 @@
+{
+  "started": "2026-11-18T11:23:43.508461+00:00",
+  "engine": "semgrep",
+  "config": {
+    "engine": "semgrep",
+    "seeds": "/home/agent/CS6223/Project/code/seeds_fstring",
+    "rules": "/home/agent/CS6223/Project/code/rules/formatted-sql-query.yaml",
+    "corpus_kind": "synthetic",
+    "attempts": 15,
+    "trajectories": 30,
+    "base_seed": 6223,
+    "strategies": [
+      6
+    ],
+    "cache": false,
+    "scanner_timeout": 120,
+    "oracle_timeout": 5,
+    "metropolis_temperature": 0.25,
+    "target_rules": [
+      "formatted-sql-query"
+    ],
+    "operators": [
+      "rename",
+      "format_swap",
+      "literal_slice",
+      "dead_padding",
+      "extract_1",
+      "char_launder",
+      "deep_nest",
+      "db_roundtrip",
+      "queue_roundtrip"
+    ],
+    "metropolis_restart": false,
+    "work_dir": "~/.cache/sastlab-runs",
+    "evasion": "any",
+    "config_dir": "/home/agent/CS6223/Project/code/configs"
+  },
+  "scanner_version": "1.178.0",
+  "llm": null,
+  "python": "3.14.4",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "operators": [
+    "rename",
+    "format_swap",
+    "literal_slice",
+    "dead_padding",
+    "extract_1",
+    "extract_2",
+    "branch_split",
+    "dict_dispatch",
+    "dynamic_sink",
+    "char_launder",
+    "deep_nest",
+    "db_roundtrip",
+    "queue_roundtrip",
+    "simplequeue_roundtrip",
+    "pickle_roundtrip",
+    "partial_sink",
+    "methodcaller_sink",
+    "unbound_sink"
+  ],
+  "work_dir": "/home/agent/.cache/sastlab-runs/85002835cd204486abe9a6dac790cba3",
+  "state": "complete",
+  "rule_sha256": "3543d454e520952116963c7913a2c2bad9bf9192b6c8c80be91ab7529a88ff09",
+  "framework_sha256": {
+    "__init__.py": "c69ab04498c8a1bb5872c6dd0e728250704635c9887f11a74e8c4092faef743d",
+    "__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
+    "cli.py": "067ad6efde7e2962651f05ae4145301500fcd3dac4c2d43059eff3a6f134f72b",
+    "exhaustive.py": "9cc029c39af12e591d29e095bcc20bac5f98510676cae0fe61b776ea723e00d5",
+    "llm.py": "b390f15ac3ca82e59d37c0965ad5c3bed300610ea16ec161d5342e52ad802012",
+    "oracle.py": "15c6fabbf54391a66e93bf580b51f27c8f2f3350194a1df28c4742566f687e51",
+    "oracle_worker.py": "bd2732cb564c6a8231dc98179795f281d2416866ca9bd7af194816453f6aa44c",
+    "report.py": "5514e8674c8eefa10be221194560c823223dd9331e4f3ea8d4373d32f967ce48",
+    "runner.py": "1e812b5c48d4327c42cd40ebbe0125ebbddbfc4ade484dc0110aa22e639c6539",
+    "scanners.py": "d62be12d19bf41b201f9783c43541607bc36e337c1f6f8bd05a181edcef255ab",
+    "search.py": "801de838e1d5e7c34e7f2cecf267e18b03ba83bea5f802934c5e88757541bf7a",
+    "transforms.py": "0995980a378cdf77fe1ad67411754a456086379d91a9f66e1e2f052be23621f7"
+  },
+  "seed_sha256": {
+    "d04_no_cursor.py": "8047b26c6f6231d84e4fefaaaf150a5e2e99c06f30c6c4471f5af211d0995034",
+    "d05_preprocess.py": "27599531df2ac9c95fc8098571e6133d3eaa186f6e1e3e703db4c57eb59877e5",
+    "d06_postprocess.py": "91c6a20e1f432acfefa92b06ea753170bf2a0dc4e37c47ead80f69d144d906db"
+  },
+  "finished": "2026-11-18T12:22:44.919827+00:00"
+}

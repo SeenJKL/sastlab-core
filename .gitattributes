@@ -1,0 +1,6 @@
+# Saved experiment output is generated data: keep it out of language statistics and diffs.
+results/** linguist-generated=true -diff
+# Unmodified upstream files (see THIRD_PARTY.md).
+corpus_official/** linguist-vendored=true
+third_party/** linguist-vendored=true
+*.sh text eol=lf

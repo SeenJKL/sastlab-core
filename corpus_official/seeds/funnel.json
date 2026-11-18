@@ -1,0 +1,62 @@
+{
+ "funnel": {
+  "files": 19,
+  "parseable": 19,
+  "execute_sites": 122,
+  "single_argument": 102,
+  "dynamic_string": 82,
+  "adaptable": 53,
+  "distinct": 24,
+  "executable_exploit_live": 9
+ },
+ "drops": {
+  "single_argument": {
+   "parameter list or keyword arguments": 20
+  },
+  "adaptable": {
+   "3 distinct external inputs reach the query": 1,
+   "sink is inside a conditional or loop": 1,
+   "0 distinct external inputs reach the query": 26,
+   "sink not reached unconditionally": 1
+  },
+  "dynamic_string": {
+   "constant or non-string-building argument": 15,
+   "assignment of str_query is conditional": 1,
+   "name query is bound by a loop, with or augmented assignment": 4
+  },
+  "distinct": {
+   "duplicate of semgrep:python/aws-lambda/security/mysql-sqli.py:14 lambda_handler": 1,
+   "duplicate of semgrep:python/flask/security/injection/tainted-sql-string.py:17 insert_person": 1,
+   "duplicate of semgrep:python/flask/security/injection/tainted-sql-string.py:20 insert_person": 1,
+   "duplicate of semgrep:python/flask/security/injection/tainted-sql-string.py:27 insert_person": 1,
+   "duplicate of semgrep:python/flask/security/injection/tainted-sql-string.py:30 insert_person": 1,
+   "duplicate of semgrep:python/flask/security/injection/tainted-sql-string.py:37 insert_person": 1,
+   "duplicate of semgrep:python/flask/security/injection/tainted-sql-string.py:41 insert_person": 1,
+   "duplicate of semgrep:python/lang/security/audit/sqli/aiopg-sqli.py:12 bad1": 3,
+   "duplicate of semgrep:python/lang/security/audit/sqli/aiopg-sqli.py:20 bad2": 5,
+   "duplicate of semgrep:python/lang/security/audit/sqli/aiopg-sqli.py:30 bad3": 5,
+   "duplicate of semgrep:python/lang/security/audit/sqli/aiopg-sqli.py:41 bad4": 5,
+   "duplicate of codeql:query-tests/CWE-089-SqlInjection/app.py:23 unsafe": 4
+  },
+  "executable_exploit_live": {
+   "column publicIP of unknown table": 1,
+   "fixture derivation did not converge": 1,
+   "SQLite: near \"%\": syntax error": 2,
+   "nominal input returns 0 rows": 5,
+   "SQLite: near \"t\": syntax error": 1,
+   "SQLite: near \"FROM\": syntax error": 1,
+   "SQLite: near \"1\": syntax error": 4
+  }
+ },
+ "sources": {
+  "semgrep": {
+   "repo": "https://github.com/semgrep/semgrep-rules",
+   "commit": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be"
+  },
+  "codeql": {
+   "repo": "https://github.com/github/codeql",
+   "tag": "codeql-cli/v2.27.1",
+   "commit": "6e9f9e38390175c41b99070a423c875f450759ca"
+  }
+ }
+}

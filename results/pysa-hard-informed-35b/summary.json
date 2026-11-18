@@ -1,0 +1,162 @@
+{
+  "engine": "pysa",
+  "report_cards": [
+    {
+      "engine": "pysa",
+      "rule": "pysa/5005",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [
+          "seed_11"
+        ],
+        "4": [],
+        "5": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "individual_crossing": 5,
+      "portfolio_first_crossing_after_strategy": 5
+    },
+    {
+      "engine": "pysa",
+      "rule": "pysa/5051",
+      "qualifying_seeds": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "S_rule": 3,
+      "threshold": 2,
+      "exploratory": true,
+      "classification": "incomplete",
+      "complete": false,
+      "full_budget": false,
+      "synthetic_corpus": true,
+      "individual_successes": {
+        "1": [],
+        "2": [],
+        "3": [
+          "seed_11"
+        ],
+        "4": [],
+        "5": [
+          "seed_01",
+          "seed_06",
+          "seed_11"
+        ],
+        "6": [],
+        "7": []
+      },
+      "portfolio_successes": [
+        "seed_01",
+        "seed_06",
+        "seed_11"
+      ],
+      "individual_crossing": 5,
+      "portfolio_first_crossing_after_strategy": 5
+    }
+  ],
+  "strategy_metrics": [
+    {
+      "strategy": 3,
+      "attempts": 675,
+      "unique_candidates": 87,
+      "scanner_invocations": 87,
+      "cache_hits": 588,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 3,
+      "distinct_bypass_candidates": 3,
+      "distinct_bypass_per_trajectory": 0.06666666666666667,
+      "time_to_first_bypass": {
+        "seed_11:3": {
+          "attempt": 2,
+          "wall_seconds": 6.588395579950884,
+          "charged_seconds": 12.006047955946997
+        }
+      },
+      "wall_time_comparable": false
+    },
+    {
+      "strategy": 5,
+      "attempts": 675,
+      "unique_candidates": 102,
+      "scanner_invocations": 58,
+      "cache_hits": 617,
+      "scanner_errors": 0,
+      "verified_bypass_attempts": 24,
+      "distinct_bypass_candidates": 21,
+      "distinct_bypass_per_trajectory": 0.5333333333333333,
+      "time_to_first_bypass": {
+        "seed_01:3": {
+          "attempt": 2,
+          "wall_seconds": 6.634479091968387,
+          "charged_seconds": 11.991123549989425
+        },
+        "seed_01:8": {
+          "attempt": 7,
+          "wall_seconds": 11.339982480974868,
+          "charged_seconds": 43.340915191103704
+        },
+        "seed_01:14": {
+          "attempt": 2,
+          "wall_seconds": 2.1921046279603615,
+          "charged_seconds": 12.704969010083005
+        },
+        "seed_06:3": {
+          "attempt": 2,
+          "wall_seconds": 6.3039301540120505,
+          "charged_seconds": 11.551334162941203
+        },
+        "seed_06:5": {
+          "attempt": 2,
+          "wall_seconds": 6.304084613977466,
+          "charged_seconds": 11.552012604952324
+        },
+        "seed_06:14": {
+          "attempt": 2,
+          "wall_seconds": 3.306565848994069,
+          "charged_seconds": 13.908408828021493
+        },
+        "seed_11:3": {
+          "attempt": 2,
+          "wall_seconds": 0.9414934730157256,
+          "charged_seconds": 12.065343562047929
+        },
+        "seed_11:8": {
+          "attempt": 7,
+          "wall_seconds": 8.476625829003751,
+          "charged_seconds": 41.252700973069295
+        },
+        "seed_11:14": {
+          "attempt": 2,
+          "wall_seconds": 1.082272247003857,
+          "charged_seconds": 11.800923414062709
+        }
+      },
+      "wall_time_comparable": false
+    }
+  ],
+  "qualification_failures": []
+}

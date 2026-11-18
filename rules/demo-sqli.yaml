@@ -1,0 +1,16 @@
+rules:
+  - id: demo.python.sqlite-query
+    languages: [python]
+    severity: WARNING
+    message: Synthetic intraprocedural SQL injection fixture; not a production rule.
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              def get_user_profile($DB, $INPUT):
+                ...
+          - focus-metavariable: $INPUT
+    pattern-sinks:
+      - patterns:
+          - pattern: $CURSOR.execute($QUERY)
+          - focus-metavariable: $QUERY

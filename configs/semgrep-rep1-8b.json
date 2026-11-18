@@ -1,0 +1,45 @@
+{
+  "engine": "semgrep",
+  "seeds": "../seeds_fstring",
+  "rules": "../rules/formatted-sql-query.yaml",
+  "corpus_kind": "synthetic",
+  "attempts": 15,
+  "trajectories": 30,
+  "base_seed": 7001,
+  "strategies": [
+    1,
+    3,
+    5
+  ],
+  "cache": true,
+  "scanner_timeout": 120,
+  "oracle_timeout": 5,
+  "metropolis_temperature": 0.25,
+  "rule_metadata": "Semgrep formatted-sql-query: detects f-string, percent or str.format SQL passed directly or via a variable into DB.execute. Use parameterized queries.",
+  "llm": {
+    "provider": "soclaas",
+    "base_url": "https://soclaas-api.comp.nus.edu.sg/v1",
+    "model": "llama3.1:8b",
+    "api_key_env": "SOCLAAS_API_KEY",
+    "env_file": "../.env",
+    "temperature": 0.2,
+    "timeout": 180,
+    "max_prompt_tokens": 3000,
+    "prompt_extra": "Context: the scanner is Semgrep with the pattern rule formatted-sql-query. The rule reports a string built with an f-string, the % operator, str.format or concatenation that is passed to a database execute call, directly or through a variable. A verdict of clean means the rule no longer reports a finding. A candidate is built by adding one operator at a time, and an operator can be added only if it comes later than the last one added in this fixed order: rename, format_swap, literal_slice, dead_padding, extract_1, char_launder, deep_nest, db_roundtrip, queue_roundtrip. When no operator is available the search restarts from the original program."
+  },
+  "target_rules": [
+    "formatted-sql-query"
+  ],
+  "operators": [
+    "rename",
+    "format_swap",
+    "literal_slice",
+    "dead_padding",
+    "extract_1",
+    "char_launder",
+    "deep_nest",
+    "db_roundtrip",
+    "queue_roundtrip"
+  ],
+  "scan_cache": ".sastlab/scan-cache"
+}
