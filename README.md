@@ -256,6 +256,7 @@ They check that every operator subset the tests cover preserves the behavior on 
 
 ## Documentation and licences
 
+- [report.pdf](report.pdf): the project report (method, results and related work).
 - [docs/methodology.md](docs/methodology.md): design decisions, seed contract, operator and metric definitions, report-card rules.
 - [docs/validation.md](docs/validation.md): how the setup and the results were checked.
 - [docs/prompts.md](docs/prompts.md): the exact agent prompts.
