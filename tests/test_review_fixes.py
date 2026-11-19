@@ -64,6 +64,8 @@ def test_agent_verdict_counts_only_the_target_rules():
     assert observation(3, "x = 1\n", "x = 1\n", scan, [], [0], target_rules=["B608"])["verdict"] == "clean"
     assert observation(3, "x = 1\n", "x = 1\n", scan, [], [0], target_rules=["B101"])["verdict"] == "detected"
     assert observation(3, "x = 1\n", "x = 1\n", scan, [], [0])["verdict"] == "detected"  # without a target list: any finding
+    assert observation(5, "x = 1\n", "x = 1\n", scan, [], [0], target_rules=["B608"])["diagnostics"] == []
+    assert [d["rule"] for d in observation(5, "x = 1\n", "x = 1\n", scan, [], [0], target_rules=["B101"])["diagnostics"]] == ["B101"]
 
 
 class OneRule:

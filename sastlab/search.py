@@ -28,7 +28,8 @@ def observation(strategy, seed_source, current_source, scan, history, choices, f
         full = lambda f: {"rule": f["rule_id"], "message": f["message"], "sink": f["start_line"],
                           "snippet": f["snippet"], "trace": compact_trace(f["trace"])}
         keep = DIAGNOSTIC_FIELDS if fields is None else fields
-        state["diagnostics"] = [{k: v for k, v in full(f).items() if k in keep} for f in scan.findings]
+        state["diagnostics"] = [{k: v for k, v in full(f).items() if k in keep} for f in scan.findings
+                                if target_rules is None or f["rule_id"] in target_rules]  # the same rules as the verdict
     return state
 
 
