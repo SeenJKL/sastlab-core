@@ -335,7 +335,7 @@ def run(config, output, scanner=None, llm=None, resume=False, rerun_errors=False
                     started = time.monotonic()
                     search = Search(strategy, trajectory_seed, source, llm, config.get("rule_metadata", ""),
                                     config["metropolis_temperature"], config.get("operators"), config.get("diagnostic_fields"),
-                                    config.get("order", "increasing"), config.get("metropolis_restart", True))
+                                    config.get("order", "increasing"), config.get("metropolis_restart", True), rules)
                     flush_llm(context)
                     current, current_scan = 0, baseline_scan
                     history, walk, visited = [], [], set()
@@ -345,7 +345,8 @@ def run(config, output, scanner=None, llm=None, resume=False, rerun_errors=False
                         if restarted:
                             current, current_scan = 0, baseline_scan
                         decision_started = time.monotonic()
-                        parent, mask, operator, _ = search.select(current, current_scan, history, attempt)
+                        parent, mask, operator, walk_restarted = search.select(current, current_scan, history, attempt)
+                        restarted = restarted or walk_restarted  # strategies 6 and 7 restart inside select (saved runs logged false)
                         flush_llm({**context, "attempt": attempt})
                         charged_seconds += time.monotonic() - decision_started
                         error, accepted, metric = "", False, None
@@ -370,7 +371,7 @@ def run(config, output, scanner=None, llm=None, resume=False, rerun_errors=False
                                     invoked = True
                                     scan = scanner.scan(transformed, artifact)
                                     if stored is not None and scan.status == "ok":
-                                        stored.write_text(json.dumps(scan.to_dict()))
+                                        write_json(stored, scan.to_dict())  # atomic: a cut-off write leaves no broken entry
                                 if scan.status == "ok" and oracle_result.get("ok"):
                                     cache[digest] = (scan, oracle_result, artifact)
                             if scan.status == "ok" and oracle_result["equivalent"]:

@@ -77,7 +77,7 @@ def exhaustive(config, output, seed_limit=None, resume=False, scanner=None, oper
                 "query": config.get("query"), "target_rules": config.get("target_rules"),
                 "seed_sha256": {p.name: sha(p.read_text()) for p in seed_paths},
                 "operators": list(OPERATORS), "enumerated_operators": operators, "max_ops": max_ops, "oracle_timeout": config.get("oracle_timeout", 5)}
-    work = SASTLAB_HOME / "runs" / uuid.uuid4().hex
+    work = Path(config.get("work_dir", SASTLAB_HOME / "runs")).expanduser() / uuid.uuid4().hex
     work.mkdir(parents=True)
     if resume:
         if not (output / "manifest.json").is_file():

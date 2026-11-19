@@ -238,7 +238,14 @@ class Scanner:
         code, out, err = run_process(command, 30, env=env)
         if code:
             raise RuntimeError(err)
-        return out.strip()
+        out = out.strip()
+        if self.engine == "codeql":
+            # without the install and config paths, so that resume checks and scan-cache keys do not depend on the machine
+            info = json.loads(out)
+            for key in ("unpackedLocation", "configFileLocation"):
+                info.pop(key, None)
+            out = json.dumps(info, indent=2)
+        return out
 
     def env(self):
         # pyre finds its type checker (pyrefly) next to itself on PATH

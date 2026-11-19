@@ -466,7 +466,12 @@ def test_metropolis_walks_the_lattice_and_can_reject(tmp_path, monkeypatch):
     attempts = rows(tmp_path / "out/attempts.jsonl")
     for strategy in (6, 7):
         mine = [r for r in attempts if r["strategy"] == strategy]
-        assert not any(r["restarted"] for r in mine)          # lattice walk has no leaves
+        last, jumps = {}, []                                   # a restart is logged exactly where the walk jumps to the seed
+        for r in mine:
+            jumps.append(r["parent_mask"] != last.get(r["trajectory"], 0))
+            if r["accepted"]:
+                last[r["trajectory"]] = r["mask"]
+        assert [r["restarted"] for r in mine] == jumps and all(r["parent_mask"] == 0 for r in mine if r["restarted"])
         assert all(r["mask"] != 0 for r in mine)              # the unmodified seed is never a target
         assert any(not r["accepted"] for r in mine)           # moves that reduce the metric get rejected
         assert any(r["operator"].startswith("-") for r in mine)
@@ -495,7 +500,7 @@ def test_metropolis_restart_flag_controls_the_reset_at_the_end_of_the_order(tmp_
 
     run({**base, "work_dir": str(tmp_path / "w1")}, tmp_path / "default", FakeScanner())
     reset = jumps(tmp_path / "default/attempts.jsonl")
-    assert reset and all(r["parent_mask"] == 0 for r in reset)   # default (saved runs): restart from the seed
+    assert reset and all(r["parent_mask"] == 0 and r["restarted"] for r in reset)   # default: restart from the seed, logged
     run({**base, "metropolis_restart": False, "work_dir": str(tmp_path / "w2")}, tmp_path / "walk", FakeScanner())
     walk = rows(tmp_path / "walk/attempts.jsonl")
     assert not jumps(tmp_path / "walk/attempts.jsonl")             # every proposal toggles the current subset

@@ -119,7 +119,7 @@ Copy `.env.example` to `.env` and set `SOCLAAS_API_KEY`, or export it. The confi
 
 ### Configuration
 
-One JSON file per experiment in `configs/`; paths in it are relative to the config's folder.
+One JSON file per experiment in `configs/`. `seeds`, `rules`, `pysa_models` and the `llm` env file are relative to the config's folder; `scan_cache`, `work_dir` and `executable` are relative to the working directory, so run `./run.sh` from the repository root.
 
 | Key | Meaning |
 |---|---|
@@ -165,7 +165,7 @@ In mask order the list is `rename`, `format_swap`, `literal_slice`, `dead_paddin
 | 6 | Metropolis, syntax | toggles one operator and accepts the move with probability min(1, e^(Δd/τ)), τ = 0.25, d = normalized AST edit distance from the seed |
 | 7 | Metropolis, depth | the same, with d = the longest chain of calls to functions of the same file from the entry function, and the syntax distance on ties |
 
-Strategies 1 to 5 extend a walk by one operator at a time in increasing operator order and restart from the seed when none is left (a restart costs no attempt). Strategies 6 and 7 toggle one operator on or off, so they can reject moves. With the default `metropolis_restart`, used by every saved run except `semgrep-hard30-walk` and `pysa-hard-walk`, they also restart from the seed when the current subset holds the last operator of the order; the runner logs these attempts with `restarted: false`. A model call returns JSON constrained by a schema: one operator name, or a permutation for strategy 4. An invalid answer is retried twice, then replaced by a uniform random choice (79 of about 76,000 decisions in the saved runs). Operator lists and definitions in the prompt are shuffled per request. HTTP 429 responses wait and retry without using those retries. Prompts are in [docs/prompts.md](docs/prompts.md).
+Strategies 1 to 5 extend a walk by one operator at a time in increasing operator order and restart from the seed when none is left (a restart costs no attempt). Strategies 6 and 7 toggle one operator on or off, so they can reject moves. With the default `metropolis_restart`, used by every saved run except `semgrep-hard30-walk` and `pysa-hard-walk`, they also restart from the seed when the current subset holds the last operator of the order; the saved runs log these attempts with `restarted: false` (a `parent_mask` that is not the last accepted subset shows them), and the runner now logs them as restarts. A model call returns JSON constrained by a schema: one operator name, or a permutation for strategy 4. An invalid answer is retried twice, then replaced by a uniform random choice (79 of about 76,000 decisions in the saved runs). Operator lists and definitions in the prompt are shuffled per request. HTTP 429 responses wait and retry without using those retries. Prompts are in [docs/prompts.md](docs/prompts.md).
 
 ### Behavior check
 
@@ -241,7 +241,7 @@ Raw scanner reports go to `.sastlab/runs/` (not committed). Delete that folder w
 ## Tests
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 .sastlab/.venv/bin/python -m pytest -q -p no:cacheprovider     # 168 tests, about 1.5 minutes
+PYTHONDONTWRITEBYTECODE=1 .sastlab/.venv/bin/python -m pytest -q -p no:cacheprovider     # 182 tests, about 2 minutes
 ```
 
 They check that every operator subset the tests cover preserves the behavior on all seeds, canonical candidate identity, scanner failure handling, seeded replay, trajectories, Metropolis rejection, feedback isolation, model validation and fallbacks, resume equivalence and the Pysa integration.
@@ -264,4 +264,4 @@ They check that every operator subset the tests cover preserves the behavior on 
 - [results/INDEX.md](results/INDEX.md): every saved run folder with its outcome counts.
 - [THIRD_PARTY.md](THIRD_PARTY.md): origin and licence of the vendored rules, models and adapted programs.
 
-The project has no licence file yet; the third-party material keeps its own licences.
+The code is under the MIT licence ([LICENSE](LICENSE)); the third-party material keeps its own licences.

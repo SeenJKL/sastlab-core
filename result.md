@@ -100,7 +100,7 @@ Why each operator evades is examined under Mechanisms below: `deep_nest` stops a
 | 1. Random baseline | 25 | 25 | 2.80 | 16.8 |
 | 2. Blackbox heuristic | 25 | 25 | 2.60 | 19.0 |
 | 3. History-only agent | 25 | 25 | 5.04 | 9.5 |
-| 4. Static LLM ranking | 25 | 16 | 3.25 | 2.0 |
+| 4. Static LLM ranking | 25 | 16 | 3.25 (13.24 with a miss as 31) | 2.0 |
 | 5. Diagnostic agent | 25 | 25 | 7.84 | 9.1 |
 | 6. AST-distance Metropolis | 25 | 25 | 2.00 | 19.8 |
 | 7. Call-depth Metropolis | 25 | 25 | 2.00 | 19.8 |
@@ -148,7 +148,7 @@ Third analyzer: Pysa (pyre-check 0.10.0) with the stock models at commit `d5614e
 
 **Pairs** (24 main and official seeds, 3,388 candidates): all 784 pairs with a round trip through a database or `SimpleQueue` are silent; 120 of 120 pairs of a sink-resolution rewrite with `literal_slice` are silent; sink-resolution with `format_swap`: 10 of 100 (the 2 seeds on which `format_swap` alone removes rule 5051); none of the other 2,384 pairs. 914 of 3,388 pairs are silent, 130 of them although neither rewrite is silent alone. No pair removed rule 5051 where neither member did. None of the 712 candidates built only from the 4 controls and `extract_1`, `extract_2`, `branch_split` is silent or removes rule 5005.
 
-**Against the other analyzers** (same seed and rewrite set): CodeQL, 1,091 shared candidates: both detect 631, both silent 129, only CodeQL silent 315, only Pysa silent 16. Semgrep, 1,898 shared: both detect 568, both silent 164, only Semgrep silent 1,004, only Pysa silent 162. The round trips are the only single rewrites that silence both CodeQL and Pysa.
+**Against the other analyzers** (same seed and rewrite set): CodeQL, 1,091 shared candidates: both detect 631, both silent 129, only CodeQL silent 315, only Pysa silent 16. Semgrep, 1,973 shared: both detect 583, both silent 164, only Semgrep silent 1,049, only Pysa silent 177. The round trips are the only single rewrites that silence both CodeQL and Pysa.
 
 **Independent checks.** `rescan_pysa.py` (fixed RNG seed): 120 candidates regenerated and scanned again (40 silent, 40 that lost 1 rule, 40 that kept both), 0 hash mismatches, 0 behavior-check disagreements, 0 differences in the set of rules that fire. No (seed, rewrite set) pair received 2 different Pysa verdicts across the 5 runs (3,994 distinct pairs, 428 of them scanned in both a singles and a pairs run). The extended behavior check now includes the Pysa candidates (see above).
 
@@ -323,7 +323,7 @@ Random: pattern 8.37 (66/90), data-flow 4.30 (30/30). Original prompt, 8B minus 
 
 ### Metropolis restarts
 
-Found after the runs (review of the report): in every saved run except the two walk checks below, strategies 6 and 7 also restart from the seed, like strategies 1 to 5, when the current subset holds the last operator of the order. `Search.select` sets the mask to 0 before the strategy 6/7 branch, and the runner records `restarted` only for strategies 1 to 5, so in `attempts.jsonl` a restart shows only as a `parent_mask` that is not the last accepted mask. `analysis/metropolis_restarts.py` finds them in the saved rows and asserts that each one goes to the seed and happens exactly when no later operator is left.
+Found after the runs (review of the report): in every saved run except the two walk checks below, strategies 6 and 7 also restart from the seed, like strategies 1 to 5, when the current subset holds the last operator of the order. `Search.select` sets the mask to 0 before the strategy 6/7 branch, and the runner then recorded `restarted` only for strategies 1 to 5, so in the saved `attempts.jsonl` a restart shows only as a `parent_mask` that is not the last accepted mask (the runner now logs it). `analysis/metropolis_restarts.py` finds them in the saved rows and asserts that each one goes to the seed and happens exactly when no later operator is left.
 
 | Run | Attempts | Restarts | Restarts before the first evasion | Trajectories with one |
 | --- | ---: | ---: | ---: | ---: |
@@ -352,7 +352,7 @@ Intervals are 95% percentile bootstrap intervals with 5,000 resamples over strea
 
 | Check | Result |
 | --- | --- |
-| Unit and integration suite | 168 tests passed (165 passed and 3 skipped in the Docker image) on the current tree, which differs from the tree the early campaigns ran on ([validation record](docs/validation.md)) |
+| Unit and integration suite | 182 tests passed (177 passed and 5 skipped in the Docker image) on the current tree, which differs from the tree the early campaigns ran on ([validation record](docs/validation.md)) |
 | Behavior preservation | Every evaluated candidate in the saved campaigns matched the original on both inputs: 0 differences in 5,563 Semgrep candidates, 225 + 31 operator-check candidates and 5,250 CodeQL search attempts |
 | Verdict determinism | No (seed, subset) pair received two different verdicts in any saved run: 12,532 distinct Semgrep pairs (pinned 1.178.0, main, varied and official seeds, `controls_main.py`) and 3,945 distinct CodeQL pairs (same corpora, 26 runs, 3,780 without the 2 runs of CodeQL 2.27.3, `codeql_rule.py`) |
 | Scanner and oracle errors | 0 oracle failures in all campaigns; 0 scanner errors in every campaign except `codeql-hard-qwen` (2 timed-out scans of `d02_str_format`, strategy 5, not counted as evasions; its report card is `excluded`); `codeql-v6` has none after the rerun of its 3 timed-out scans |
@@ -374,12 +374,14 @@ Intervals are 95% percentile bootstrap intervals with 5,000 resamples over strea
 Commands used, executed from this directory (each needs a new output directory):
 
 ```sh
-./run.sh run --config configs/semgrep.json --output results/semgrep-v6
+./run.sh run --config configs/semgrep-v6.json --output results/semgrep-v6
 ./run.sh exhaustive --config configs/codeql.json --output results/codeql-flow-ops-15seeds --seed-limit 15 \
     --operators dynamic_sink char_launder deep_nest db_roundtrip
-./run.sh run --config configs/codeql.json --output results/codeql-v6 --attempts 30 --trajectories 5 --seed-limit 5
+./run.sh run --config configs/codeql-v6.json --output results/codeql-v6
 ./run.sh report results/codeql-v6 --write   # recompute summary.json after the run finishes (without --write it only prints)
 ```
+
+`configs/semgrep-v6.json` and `configs/codeql-v6.json` pin the 13 operators that existed when the two full campaigns ran (with all 18, the walks differ from the first choice on); the other settings are those of `configs/semgrep.json` and `configs/codeql.json`.
 
 `SOCLAAS_API_KEY` must be set (see the [README](README.md)). Each manifest records the framework, seed and rule hashes and the scanner versions. Raw scanner reports are in the manifest's `work_dir` (`.sastlab/runs/`); keep it when archiving. See [methodology](docs/methodology.md) for operator, search and report-card definitions and for the design decisions.
 

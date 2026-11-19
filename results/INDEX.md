@@ -3,7 +3,7 @@
 One row per folder in `results/`. Every number is read from the saved files; nothing here is rescanned.
 
 - **Search** runs (`attempts.jsonl`): *records* are logged attempts; *evading* are attempts whose candidate passed the behavior check, was scanned without error, and silenced at least one target rule.
-- **Exhaustive** runs (`evaluations.jsonl`): *records* are the enumerated (seed, rewrite set) pairs; *evading* uses the same condition.
+- **Exhaustive** runs (`evaluations.jsonl`): *records* are the enumerated (seed, rewrite set) pairs; *evading* uses the same condition. Exhaustive runs record every rule that stopped firing and ignore `evasion: all`, so for Pysa an evading candidate silenced at least 1 of its 2 rules; the report's silent counts need both.
 - Read a search run with `./run.sh report results/<folder>` (prints, changes nothing); the same numbers are in its `summary.json`.
 - **Other** folders hold the output of one helper script; their file names say what they contain.
 

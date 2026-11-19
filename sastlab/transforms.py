@@ -87,21 +87,98 @@ def query_assignment(fn):
     raise ValueError("Seed needs a top-level query assignment feeding the sink call, e.g. .execute(query)")
 
 
+COMPREHENSIONS = (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)
+
+
+def free_names(node, bound=frozenset()):
+    """Names read in node, without the variables of comprehensions and lambdas inside it (those are local to them)."""
+    if isinstance(node, COMPREHENSIONS):
+        names, inner = set(), set(bound)
+        for generator in node.generators:
+            names |= free_names(generator.iter, inner)  # the first iterable is evaluated in the enclosing scope
+            inner |= {n.id for n in ast.walk(generator.target) if isinstance(n, ast.Name)}
+            for condition in generator.ifs:
+                names |= free_names(condition, inner)
+        for part in ([node.key, node.value] if isinstance(node, ast.DictComp) else [node.elt]):
+            names |= free_names(part, inner)
+        return names
+    if isinstance(node, ast.Lambda):
+        args = node.args
+        params = {a.arg for a in args.posonlyargs + args.args + args.kwonlyargs} | {a.arg for a in (args.vararg, args.kwarg) if a}
+        return set().union(*(free_names(d, bound) for d in args.defaults + [d for d in args.kw_defaults if d]),
+                           free_names(node.body, set(bound) | params))
+    if isinstance(node, ast.Name):
+        return {node.id} if isinstance(node.ctx, ast.Load) and node.id not in bound else set()
+    return set().union(*(free_names(child, bound) for child in ast.iter_child_nodes(node)))
+
+
 def names_in(expr):
-    return sorted({n.id for n in ast.walk(expr) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load)})
+    return sorted(free_names(expr))
+
+
+def scope_stores(fn):
+    """Names assigned in the function's own scope. The target variables of a comprehension are local to it, so they are
+    skipped; its iterables and conditions belong to the function."""
+    names = set()
+
+    def visit(node):
+        if isinstance(node, ast.comprehension):
+            for part in [node.iter] + node.ifs:
+                visit(part)
+            return
+        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):
+            names.add(node.id)
+        for child in ast.iter_child_nodes(node):
+            visit(child)
+    visit(fn)
+    return names
 
 
 class Rename(ast.NodeTransformer):
-    def __init__(self, mapping):
-        self.mapping = mapping
+    """Renames the function's locals everywhere and a comprehension's variables only inside that comprehension, so a
+    global that shares a name with a comprehension variable keeps its name."""
+    def __init__(self, mapping, local):
+        self.mapping, self.local, self.scopes = mapping, local, []
+
+    def new(self, name):
+        if name in self.mapping and (name in self.local or any(name in s for s in self.scopes)):
+            return self.mapping[name]
+        return name
 
     def visit_Name(self, node):
-        node.id = self.mapping.get(node.id, node.id)
+        node.id = self.new(node.id)
         return node
 
     def visit_arg(self, node):
-        node.arg = self.mapping.get(node.arg, node.arg)
+        node.arg = self.new(node.arg)
         return node
+
+    def visit_ExceptHandler(self, node):
+        if node.name:
+            node.name = self.new(node.name)
+        self.generic_visit(node)
+        return node
+
+    def visit_comprehension_scope(self, node):
+        targets = set()
+        for index, generator in enumerate(node.generators):
+            self.scopes.append(set(targets) if index else set())  # the first iterable is evaluated outside
+            generator.iter = self.visit(generator.iter)
+            self.scopes.pop()
+            targets |= {n.id for n in ast.walk(generator.target) if isinstance(n, ast.Name)}
+            self.scopes.append(set(targets))
+            generator.target = self.visit(generator.target)
+            generator.ifs = [self.visit(c) for c in generator.ifs]
+            self.scopes.pop()
+        self.scopes.append(targets)
+        if isinstance(node, ast.DictComp):
+            node.key, node.value = self.visit(node.key), self.visit(node.value)
+        else:
+            node.elt = self.visit(node.elt)
+        self.scopes.pop()
+        return node
+
+    visit_ListComp = visit_SetComp = visit_DictComp = visit_GeneratorExp = visit_comprehension_scope
 
 
 def sink_statement(fn):
@@ -119,11 +196,13 @@ def apply(tree, operator):
     needs_assignment = operator in ASSIGNMENT_OPERATORS and operator not in ("rename", "dead_padding")
     assignment = query_assignment(fn) if needs_assignment else None
     if operator == "rename":
-        if any(isinstance(n, (ast.FunctionDef, ast.Lambda, ast.ClassDef)) for s in fn.body for n in ast.walk(s)):
+        if any(isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda, ast.ClassDef)) for s in fn.body for n in ast.walk(s)):
             raise ValueError("Nested scopes are outside the seed contract")
+        handlers = {n.name for n in ast.walk(fn) if isinstance(n, ast.ExceptHandler) and n.name}
+        # the numbering covers every assigned name, comprehension variables included, as in the saved runs
         bound = sorted({n.id for n in ast.walk(fn) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Store)}
-                       | {a.arg for a in fn.args.args})
-        Rename({n: f"_mt_local_{i}" for i, n in enumerate(bound)}).visit(fn)
+                       | {a.arg for a in fn.args.args} | handlers)
+        Rename({n: f"_mt_local_{i}" for i, n in enumerate(bound)}, scope_stores(fn) | {a.arg for a in fn.args.args} | handlers).visit(fn)
     elif operator == "format_swap":
         expr = assignment.value
         if isinstance(expr, ast.JoinedStr):
@@ -173,8 +252,7 @@ def apply(tree, operator):
         count = 1 if operator == "extract_1" else 2
         expr = assignment.value
         # Pass only lexical locals; helper/global names remain globals.
-        bound = {a.arg for a in fn.args.args} | {n.id for n in ast.walk(fn)
-                  if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Store)}
+        bound = {a.arg for a in fn.args.args} | scope_stores(fn)
         arguments = [n for n in names_in(expr) if n in bound]
         for hop in range(count):
             name = f"_mt_{operator}_{hop}"
@@ -240,7 +318,9 @@ def apply(tree, operator):
         }[operator]
         if operator in module_level:
             tree.body.insert(tree.body.index(fn), ast.parse(module_level[operator]).body[0])
-        fn.body[0:0] = ast.parse(body).body
+        docstring = bool(fn.body) and isinstance(fn.body[0], ast.Expr) and isinstance(fn.body[0].value, ast.Constant) \
+            and isinstance(fn.body[0].value.value, str)
+        fn.body[int(docstring):int(docstring)] = ast.parse(body).body  # after the docstring, which stays the docstring
     elif operator in SINK_OPERATORS:
         sites = []
         # Names bound by any import statement, at module level or inside a function (`from os import path` binds a module as well).
@@ -253,7 +333,6 @@ def apply(tree, operator):
                 if not is_sink_call(node):
                     return node
                 sites.append(node)
-                module = {"partial_sink": "functools", "methodcaller_sink": "operator"}.get(operator)
                 if operator == "partial_sink":
                     partial = ast.Call(ast.Attribute(ast.Name("_mt_functools", ast.Load()), "partial", ast.Load()), [f], [])
                     return ast.Call(partial, node.args, node.keywords)

@@ -16,10 +16,12 @@ STRATEGIES = {1: "naive", 2: "blackbox", 3: "blackbox_agent", 4: "static_greybox
 DIAGNOSTIC_FIELDS = ("rule", "message", "sink", "snippet", "trace")
 
 
-def observation(strategy, seed_source, current_source, scan, history, choices, fields=None):
+def observation(strategy, seed_source, current_source, scan, history, choices, fields=None, target_rules=None):
     state = {"available": [OPERATORS[i] for i in choices],
              "diff": "\n".join(difflib.unified_diff(seed_source.splitlines(), current_source.splitlines(), n=1)),
-             "verdict": "error" if scan.status != "ok" else ("detected" if scan.findings else "clean"),
+             # with target_rules, a finding of another rule does not count as detected (the runner's verdict)
+             "verdict": "error" if scan.status != "ok" else ("detected" if (set(scan.rules) & set(target_rules) if target_rules is not None
+                                                             else scan.findings) else "clean"),
              "history": [{"mask": h["mask"], "verdict": h["verdict"]} for h in history[-3:]]}
     if strategy == 5:
         # `fields` (default: all) restricts which parts of a finding the agent sees; used for the ablation study.
@@ -32,11 +34,12 @@ def observation(strategy, seed_source, current_source, scan, history, choices, f
 
 class Search:
     def __init__(self, strategy, trajectory_seed, source, llm=None, metadata="", temperature=0.25, pool=None, diagnostic_fields=None, order="increasing",
-                 metropolis_restart=True):
+                 metropolis_restart=True, target_rules=None):
         if order not in ("increasing", "any"):
             raise ValueError("order must be 'increasing' or 'any'")
         self.order = order
         self.metropolis_restart = metropolis_restart
+        self.target_rules = target_rules
         self.strategy, self.source, self.llm = strategy, source, llm
         self.pool = None if pool is None else sorted(OPERATORS.index(n) for n in pool)
         if self.pool is not None and not self.pool:
@@ -69,7 +72,7 @@ class Search:
             # accept() has no Hastings correction for this: the walk is a search heuristic, not a sampler.
             # With metropolis_restart (the default, and the setting of every saved run except the two walk checks
             # semgrep-hard30-walk and pysa-hard-walk) the walk also restarts from the seed, like strategies 1 to 5, when
-            # the current subset holds the last operator of the order; the runner does not log these restarts.
+            # the current subset holds the last operator of the order (saved runs logged these attempts as not restarted).
             # With metropolis_restart false every proposal toggles one operator of the current subset.
             flips = [i for i in (self.pool if self.pool is not None else range(len(OPERATORS))) if mask ^ (1 << i)]
             index = self.rng.choice(flips)
@@ -93,7 +96,7 @@ class Search:
             call_seed = self.seed * 100000 + attempt * 3
             names = shuffled([OPERATORS[i] for i in choices], call_seed)
             state = observation(self.strategy, self.source, candidate(self.source, mask), scan, history,
-                                [OPERATORS.index(n) for n in names], self.diagnostic_fields)
+                                [OPERATORS.index(n) for n in names], self.diagnostic_fields, self.target_rules)
             name = self.llm.choose(state, names, self.rng, call_seed, universe=self.ranking)
             index = OPERATORS.index(name)
         return mask, mask | (1 << index), OPERATORS[index], restarted

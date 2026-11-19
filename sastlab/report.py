@@ -51,7 +51,7 @@ def summarize(manifest, qualifications, attempts):
                       "portfolio_first_crossing_after_strategy": first_crossing})
     strategy_metrics = []
     for strategy in strategies:
-        records = [a for a in attempts if a["strategy"] == strategy]
+        records = sorted((a for a in attempts if a["strategy"] == strategy), key=lambda a: (a["seed"], a["trajectory"], a["attempt"]))
         times, evading = {}, defaultdict(set)
         trajectories = {(a["seed"], a["trajectory"]) for a in records}
         for a in records:
