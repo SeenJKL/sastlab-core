@@ -1,15 +1,24 @@
-# Third-party material
+# Third-Party Material and Licenses
 
-Everything below was copied from the upstream project named, at the commit or version given. Licences are those recorded in the `SOURCE.txt`, `NOTICE.md` and `README.md` files next to the material; check the upstream repository before redistributing.
+Third-party rules, taint models, and adapted benchmark programs included in this repository keep their upstream licenses and provenance metadata. Check the upstream repositories before redistributing third-party files.
 
-| Path | Origin | Licence as recorded |
-|---|---|---|
-| `rules/formatted-sql-query.yaml`, `dangerous-subprocess-use-audit.yaml`, `path-traversal-open.yaml`, `flask-tainted-sql-string.yaml` | Semgrep rules repository, commits and hashes in the `*.provenance.json` files | Semgrep Rules License v1.0 (`rules/NOTICE.md`) |
-| `third_party/pysa-models/` | facebook/pyre-check, commit `d5614e0a75f539443225fce3c3c55a77cfbfb72c`, unmodified | MIT (`third_party/pysa-models/README.md`) |
-| `corpus_official/seeds/`, `seeds_pysa_hard2/` | seeds adapted from the Semgrep (commit `a84ff9cc24`) and CodeQL (tag `codeql-cli/v2.27.1`) test suites; origin file and line in `corpus_official/seeds/manifest.json` and in each file's docstring | as the upstream files they come from |
-| `corpus_real/seeds/` | hand-adapted from OWASP-Benchmark/BenchmarkPython `f1291485808b66e20ddb6b01b10dc71b3df8c8ba` and fportantier/vulpy `5249cc8b05a1c37f6b2f757b1cf16a509c327122` | GPL-3.0 and MIT (`corpus_real/SOURCE.txt`) |
-| `corpus_apps/seeds/` | hand-adapted functions from parsl 2025.12.22 and scitokens 1.8.1 (Apache-2.0) and pyload-ng 0.5.0b3.dev90 (AGPL-3.0); wheel hashes in `corpus_apps/SOURCE.txt` | as recorded in `corpus_apps/SOURCE.txt` |
+## Vendored Third-Party Assets
 
-The scanners themselves (Semgrep, CodeQL CLI, Pysa, Bandit) are not included; the Dockerfile and `requirements*.lock` pin the versions.
+| Path | Upstream Source | Provenance Record | License |
+| --- | --- | --- | --- |
+| `rules/formatted-sql-query.yaml` | `semgrep/semgrep-rules` (`a84ff9cc2453ca91d581380de4b8b3f272f6f4be`) | [formatted-sql-query.provenance.json](rules/formatted-sql-query.provenance.json) | Semgrep Rules License v1.0 ([rules/NOTICE.md](rules/NOTICE.md)) |
+| `rules/dangerous-subprocess-use-audit.yaml` | `semgrep/semgrep-rules` (`a84ff9cc2453ca91d581380de4b8b3f272f6f4be`) | [dangerous-subprocess-use-audit.provenance.json](rules/dangerous-subprocess-use-audit.provenance.json) | Semgrep Rules License v1.0 ([rules/NOTICE.md](rules/NOTICE.md)) |
+| `rules/path-traversal-open.yaml` | `semgrep/semgrep-rules` (`16b9e6d45f10649f6a531ec4838ed9924372c3bc`) | [path-traversal-open.provenance.json](rules/path-traversal-open.provenance.json) | Semgrep Rules License v1.0 ([rules/NOTICE.md](rules/NOTICE.md)) |
+| `rules/flask-tainted-sql-string.yaml` | `semgrep/semgrep-rules` (`17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9`) | [flask-tainted-sql-string.provenance.json](rules/flask-tainted-sql-string.provenance.json) | Semgrep Rules License v1.0 ([rules/NOTICE.md](rules/NOTICE.md)) |
+| [third_party/pysa-models/](third_party/pysa-models/README.md) | `facebook/pyre-check`, commit `d5614e0a75f539443225fce3c3c55a77cfbfb72c` (unmodified) | [third_party/pysa-models/README.md](third_party/pysa-models/README.md) | MIT |
+| `corpus_official/seeds/`, `seeds_pysa_hard2/` | Adapted from Semgrep (`a84ff9cc24`) and CodeQL (`codeql-cli/v2.27.1`) test suites | [manifest.json](corpus_official/seeds/manifest.json) and seed docstrings | As in upstream source files |
+| `corpus_real/seeds/` | Hand-adapted from `OWASP-Benchmark/BenchmarkPython` (`f1291485808b66e20ddb6b01b10dc71b3df8c8ba`) and `fportantier/vulpy` (`5249cc8b05a1c37f6b2f757b1cf16a509c327122`) | [corpus_real/SOURCE.txt](corpus_real/SOURCE.txt) | GPL-3.0 and MIT |
+| `corpus_apps/seeds/` | Hand-adapted functions from `parsl` `2025.12.22`, `scitokens` `1.8.1`, and `pyload-ng` `0.5.0b3.dev90` PyPI wheels | [corpus_apps/SOURCE.txt](corpus_apps/SOURCE.txt) | Apache-2.0 (`parsl`, `scitokens`) and AGPL-3.0 (`pyload-ng`) |
 
-`rules/demo-sqli.yaml`, the synthetic seeds (`seeds/`, `seeds_diverse/`, `seeds_fstring/`, `seeds_cmd/`, `seeds_path/`, `seeds_pysa_hard/`, `seeds_rerun_s05/`), the framework and the saved results were written for this project.
+## External Scanner Binaries (Not Bundled)
+
+Semgrep (`1.178.0`), CodeQL CLI (`2.27.1` with `codeql/python-queries@1.8.11`), Pysa (`pyre-check` `0.10.0`), and Bandit (`1.9.4`) are not redistributed in this archive. Versions and SHA-256 digests are pinned in [Dockerfile](Dockerfile), [requirements.lock](requirements.lock), [requirements-pysa.lock](requirements-pysa.lock), and [requirements-bandit.lock](requirements-bandit.lock).
+
+## First-Party Project Material
+
+The framework (`sastlab/`), `rules/demo-sqli.yaml`, synthetic corpora (`seeds/`, `seeds_diverse/`, `seeds_fstring/`, `seeds_cmd/`, `seeds_path/`, `seeds_pysa_hard/`, `seeds_rerun_s05/`), `configs/`, `analysis/`, `scripts/`, `tests/`, and `results/` were created for this project under the MIT license ([LICENSE](LICENSE)).

@@ -1,149 +1,253 @@
-# Methodology and design decisions
+# Technical Specification and Methodology
 
-This document records how the framework works and why it is built this way: the design decisions, the seed contract, the operators, the search strategies, the model interface and the report-card rules.
+Architecture, data contracts, operator definitions, scanner adapters, search algorithms, and evaluation rules required to understand or re-implement SASTLab.
 
-## Design decisions
+## Contents
 
-1. **Model serving.** Decisions come from `llama3.1:8b` on NUS SoCLaaS (an OpenAI-compatible chat-completions API), not a model pinned by weight digest. SoCLaaS exposes no digest, so model identity is recorded as unverified.
-2. **Operator set.** The first eight operators (the core operators) only restructure code and keep the data flow intact. Five *flow* operators were added (`dynamic_sink`, `char_launder`, `deep_nest`, `db_roundtrip`, `queue_roundtrip`) after exhaustive search with the core eight found no evasion of CodeQL on three seeds (765 candidates). The candidate space grew from 256 to 8,192 subsets per seed. Five more operators (`simplequeue_roundtrip`, `pickle_roundtrip`, `partial_sink`, `methodcaller_sink`, `unbound_sink`), suggested by a catalog of 59 hand-written rewrites, bring it to 18 operators and 262,144 subsets per seed. New operators are appended, so earlier mask numbers keep their meaning. The search campaigns use the first 13 operators; the last 5 are evaluated by exhaustive enumeration.
-3. **Metric search (strategies 6 and 7).** In forward-only walks every move adds an operator, so both distance metrics only increase and Metropolis never rejects a move: the two strategies degenerated into random walks and produced identical walks. They now toggle one operator on or off, which lets a move lower the metric and be rejected. As implemented, they also restart from the seed, like strategies 1 to 5, when the current subset holds the last operator of the order; controlled by the config key `metropolis_restart` (default `true`, matching the saved runs; see [results](../result.md#metropolis-restarts)).
-4. **Operator presentation order.** The order in which operator names are shown to the model is shuffled per call (strategies 3 and 5) or per trajectory (strategy 4), because the model echoed the canonical order for the static ranking and over-chose the first-listed operator. The operator definitions in the system prompt are shuffled too (`sastlab/llm.py`). The full campaigns `semgrep-v6` and `codeql-v6` used one fixed definition order (`rename` first, in all requests), and `semgrep-promptfix` and `codeql-promptfix` repeat strategies 3 and 5 with shuffled definitions (75 distinct orders). The static ranking (strategy 4) of the full campaigns was not rerun. The restricted searches and pilots use the shuffled prompt.
-5. **Primary comparison metric.** The full campaigns use distinct evading candidates per trajectory, because attempts to the first evasion saturate when one operator suffices. That measure rewards walks to larger masks, so strategies are also compared by attempts to the first evasion on restricted operator pools, with a paired bootstrap over streams (see [results](../result.md)); the distinct-evasion measure remains in the run summary.
-6. **Exhaustive evaluation.** An `exhaustive` command evaluates all subsets of chosen operators with no search, as ground truth for what the strategies can find.
-7. **Budgets.** The full campaigns use 30 attempts and 5 trajectories per seed. Some campaigns use a reduced budget or fewer seeds to fit the available time (a CodeQL scan took 14 s at the median and 19 s on average in `codeql-v6`, 196 s at most, so the CodeQL campaign has 5 seeds). Such runs are labeled incomplete or partial wherever they are reported.
-8. **Operational additions with no effect on the design:** trajectory-level checkpoint and resume, 429 rate-limit handling, and deletion of CodeQL databases after analysis.
-9. **Toolbox grouping.** The 18 operators are grouped by the part of a taint analysis they stress (`TAXONOMY` in `sastlab/transforms.py`).
-10. **Models.** Besides `llama3.1:8b`, the restricted searches use `qwen3-coder-next` and `qwen3.6:35b` on SoCLaaS.
-11. **Seed corpus.** Seeds are harvested from the official Semgrep and CodeQL test suites in addition to the synthetic fixtures. The harvest script is not part of this repository; its output is `corpus_official/seeds/` (see below). The Semgrep rule under test is the upstream `formatted-sql-query`, and its own test file is the official suite for it.
-12. **Per-seed oracle fixture.** A seed may define the module constants `SASTLAB_FIXTURE` (SQL that creates and fills its tables) and `SASTLAB_EXPLOIT` (the injection string). The worker uses them when present and the original `users` table and quoted payload otherwise, so earlier seeds and results are unchanged.
+- [1. Problem Formulation and Metamorphic Relation](#1-problem-formulation-and-metamorphic-relation)
+- [2. Seed Contract and Corpora](#2-seed-contract-and-corpora)
+- [3. Behavior-Equivalence Oracle](#3-behavior-equivalence-oracle)
+- [4. AST Rewrite Operators and Bitmask Encoding](#4-ast-rewrite-operators-and-bitmask-encoding)
+- [5. Scanner Adapters and Invocation Contracts](#5-scanner-adapters-and-invocation-contracts)
+- [6. Search Strategies and Distance Metrics](#6-search-strategies-and-distance-metrics)
+- [7. LLM Client and Wire Protocol](#7-llm-client-and-wire-protocol)
+- [8. Execution, Checkpointing, Artifacts, and Report-Card Rules](#8-execution-checkpointing-artifacts-and-report-card-rules)
+- [9. Key Design Decisions and Trade-offs](#9-key-design-decisions-and-trade-offs)
 
-## Seed contract
+---
 
-Each Python source defines one top-level `get_user_profile(db_conn, user_id)` function with two positional parameters. It returns rows from the provided SQLite connection. A top-level assignment constructs the query, and `.execute(query)` uses that assigned variable. Supported formatting is an f-string without a format specification, or string concatenation. A seed that writes the query inline at the call, such as `.execute(f"...")`, has no such assignment: `rename` and `dead_padding` still apply to it, and the operators that rewrite the query expression (`format_swap`, `literal_slice`, `extract_1`, `extract_2`, `branch_split`) reject it, which is recorded as an invalid attempt and not as an evasion. The seed must not use reserved `_mt_` names or contain nested function scopes in the entry point. Imports needed by additional trusted benchmark programs must be installed in the worker's Python environment.
+## 1. Problem Formulation and Metamorphic Relation
 
-The default database has three rows: `(1, alice, admin)`, `(2, bob, user)`, and `(3, carol, user)`, with all fields stored as text (a seed can carry its own fixture and exploit string, see decision 12). Baseline qualification requires one nominal row and more rows from the exploit, with the nominal row present in the exploit output. Every candidate must produce exactly the seed's two row lists, including order and projected values. An oracle exception or timeout is an infrastructure failure; successful unequal results are a rejected mutation.
+SASTLab performs single-engine **metamorphic testing** (not differential testing across scanners). For a target scanner rule $R$, seed program $P$, and composition $T$ of behavior-preserving AST operators:
 
-The scanner sees `subject.py` and a generated `web_entry.py`. The latter contains a Flask route calling the entry function with `request.args.get('id', '1')`. The oracle executes only `subject.py`; Flask is not a runtime dependency for the SQLite oracle. The same wrapper is supplied to every candidate and scanner invocation.
+$$\text{flagged}_R(P) \;\land\; \text{behavior}(T(P)) = \text{behavior}(P) \implies \text{flagged}_R(T(P))$$
 
-## Third analyzer: Pysa
+Every violation is a verified false negative on code whose tested exploit behavior still matches $P$:
 
-Pysa was chosen as the third analyzer because it is a taint analyzer like CodeQL and appears in the closest related work (TaintCC), while Bandit's B608 is a pattern rule like Semgrep's. Exhaustive checks only: all single rewrites (34 qualifying seeds) and all pairs of the 18 rewrites (24 main and official seeds), no search and no model. Definitions: a seed qualifies when both stock SQL rules (5005 flow, 5051 string-combine) fire on it and the exploit stays live; a candidate is silent when neither fires; each rule is also reported separately. Configuration choices that are ours and not Pysa's defaults: the connection parameter of the entry function is annotated `sqlite3.Connection` in a scan-only copy (the stock sink is resolved from types), the second parameter is declared a `UserControlled` source in a per-candidate model file (no stock Flask source), `--no-verify` skips verification of models for libraries that are not installed, and no Flask wrapper is used. The models are the stock files at pyre-check commit `d5614e0a`, unmodified (`third_party/pysa-models/`).
+1. **Qualification (precondition):** On $P$, the scanner executes cleanly (`scan.status == "ok"`), rule $R$ fires, and the oracle confirms the vulnerability is live on the nominal and injection inputs.
+2. **Evasion (violation):** On $T(P)$, the oracle confirms identical output on both inputs (`equivalent == True`), the scanner finishes cleanly (`scan.status == "ok"`), and $R$ no longer reports a finding.
 
-## Command injection, independent programs and evasion modes
+A scanner timeout, parse failure, or crash fails closed and never counts as an evasion. In multi-rule configurations (such as Pysa SQL injection), `evasion: "any"` (default) succeeds when at least one qualifying rule stops firing, whereas `evasion: "all"` requires **every** qualifying rule on $P$ to stop firing. Exhaustive evaluations always record `scan_rules` and per-rule `bypassed_rules` so either view can be computed afterward.
 
-- **Second vulnerability class.** CWE-78 (command injection) was chosen because the stock rules of all three analyzers exist and the oracle needs no change. CWE-79, CWE-295 and CWE-200 (the other classes of the CodeBreaker benchmark) were not done: each needs its own execution check of the exploit, such as a rendered-HTML check or a local HTTPS server with a bad certificate. The 8 seeds in `seeds_cmd` keep the entry function `get_user_profile(db_conn, user_id)` and return the output lines of an `echo` command, so nominal input `1` gives 1 line and the seed's `SASTLAB_EXPLOIT` `1; echo PWNED` gives 2. The sink-resolution rewrites match the `subprocess` functions listed in `SINK_NAMES` (`transforms.py`), `unbound_sink` is rejected for module receivers, and the SQL candidates are unchanged (6,192 compared by hash before and after).
-- **Independent programs.** `corpus_real` has 6 programs adapted by hand (not by the harvester, because the BenchmarkPython flows pass through method calls with side effects that a straight-line slice drops): replaced request access, connection helper and response code, kept the code that carries the value. Each seed's docstring records the origin and the change.
-- **Evasion for several rules.** `evasion: all` in a search config counts an attempt only when none of the qualifying rules fires (default `any`, unchanged). Exhaustive runs record both views through `scan_rules`.
-- **Pysa rules per class.** SQL: 5005 and 5051; command injection: 6065 (arguments of `subprocess` calls) and 5001 (shell sinks). A seed qualifies for the rules that fire on its original program.
-- **Search on Pysa.** Pool and protocol as in the other restricted searches; success requires both qualifying rules to be silent; only strategies 1, 2, 3, 5 and 6 (4 and 7 omitted for cost); `qwen3-coder-next` only.
+Unlike TaintCC (Christakis et al., ISSTA), which holds reported source-to-sink flows invariant without requiring runtime equivalence, SASTLab checks runtime behavior because an evasion only demonstrates a missed vulnerability if the exploit remains live.
 
-## Prompt options, Semgrep taint mode and newer releases
+---
 
-- **Prompt and order options.** `llm.prompt_extra` appends text to the system prompt (it is counted in the prompt budget), and `order: "any"` lets a candidate add any unused operator (default `increasing`, unchanged). The informed prompts name Pysa and its 2 rules and, in one variant, state the order; they never say which rewrites evade. Strategies 1, 3 and 5 only, 3 hard seeds, 15 streams each; the scan cache is on (`cache: true`), which saves scans for repeated candidates and does not change attempt counts. Free order is reported as a caveat because random choice already succeeds in every stream.
-- **Semgrep taint mode.** The stock rule flags the parameters of a Flask route function. The scanner adds one decorator line, `@app.route("/<user_input>")`, before the entry function (`semgrep_route: true`); nothing else changes.
-- **Newer releases.** Semgrep 1.182.1 (`.sastlab/semgrep-latest`, `pip install semgrep==1.182.1`) and CodeQL 2.27.3 (`.sastlab/tools-latest`, `codeql-linux64.zip` with its SHA-256 checked against GitHub's digest, plus `codeql pack download codeql/python-queries`, which installed 1.8.13) were used only for the version check; all other results use the pinned versions.
+## 2. Seed Contract and Corpora
 
-## Informed prompts, further corpora and the path-traversal class
+### Python Entry-Point Contract
 
-- **Informed prompts for every agent run.** The earlier hard-pool runs (Semgrep, CodeQL, Pysa) used a prompt that named neither the scanner nor its rule and did not state the operator order. Informed arms (`semgrep-informed-*`, `codeql-informed-*`, `pysa-hard*-informed*`) add a description of the scanner and rule and the fixed operator order (`llm.prompt_extra`; the text is in each config), on the same seeds, streams and pools, with the original random and heuristic runs as baselines. They do not say which rewrites evade. Pysa also has a tool-aware arm without the order sentence. CodeQL arms use seed `d01` only (15 streams) because the original CodeQL runs had no more streams.
-- **Third seed set for Pysa agents.** `seeds_pysa_hard2` (`o03_semgrep`, `o18_semgrep`, `o24_codeql`) is an independent check of the 3 hard seeds; it has its own random and heuristic runs.
-- **Deployed-project seeds.** `corpus_apps` holds 5 functions hand-adapted from 3 projects with a published SQL-injection advisory; the vulnerable PyPI wheel and its SHA-256 are in `corpus_apps/SOURCE.txt`. The query text is unchanged; database access is replaced by a cursor on the oracle's SQLite connection, and the surrounding framework code is removed. The pyLoad function returns its ids as 1-tuples so that the oracle sees rows.
-- **Third class: path traversal.** `seeds_path` has 8 synthetic seeds (CWE-22) that read a file under a temporary directory with the builtin `open`; the exploit `../secret` reads a file with one more line. Rules: Semgrep `path-traversal-open` (with the route decorator line, `semgrep_route`), CodeQL `py/path-injection`, Pysa rule 5011. `transforms.py` treats `open` as a plain-name sink (`SINK_FUNCTIONS`). Under limited compute, CodeQL and Pysa use the first 6 seeds and Semgrep all 8.
-- **Pysa triples.** All subsets of up to 3 of the 16 non-round-trip rewrites on 3 seeds; round trips are left out because each silences Pysa alone.
-- **Execution.** Every stage resumes from its saved rows (`--resume`), and no stage depends on a sample.
+Every seed program across all three vulnerability classes (CWE-89 SQL injection, CWE-78 command injection, CWE-22 path traversal) implements one top-level function:
 
-## Seeds from the official suites
+```python
+def get_user_profile(db_conn, user_id):
+    ...
+    return rows  # list of sequences/values
+```
 
-The harvest script (not part of this repository) read the unmodified upstream test files (Semgrep rules at commit `a84ff9cc24`, the CodeQL CWE-089 query test at tag `codeql-cli/v2.27.1`) and applied this funnel, counting every stage and logging the reason for each drop in `corpus_official/seeds/funnel.json`: parseable file, call to `.execute`, single argument (parameterized queries are dropped), argument that builds the query from strings (f-string, `%`, `+`, `.format`, directly or through a variable), exactly one external input and straight-line definition (adaptable), distinct program, and exploit-live on SQLite under the framework's own oracle.
+Constraints and behavior rules enforced by `sastlab/transforms.py` and `sastlab/oracle_worker.py`:
 
-Adaptation of one call: the harvester keeps the straight-line assignments the argument depends on (backward slice), replaces the single external input by `user_id` (an entry parameter, an unbound name, or an expression rooted at a request-like object such as `request`, `req` or `event`, or at a variable assigned from one), and writes `query = <argument>; cursor = db_conn.cursor(); cursor.execute(query); return cursor.fetchall()`. The SQL text is not edited. The fixture is derived from SQLite's own errors: a table or column the query names is created as `NUMERIC` with 3 rows holding 1, 2 and 3, so the nominal input `1` returns one row. The exploit string is the first of the quoted, double-quoted and numeric payloads that returns more rows. Seeds record origin, function, line, original statement and adaptation in `corpus_official/seeds/manifest.json`; `funnel.json` holds the counts and the drop reasons.
+- **Reserved identifiers:** Seeds must not define names prefixed with `_mt_` or contain nested function definitions inside `get_user_profile`.
+- **Query assignment (`query_assignment`):** Assignment-dependent operators (`format_swap`, `literal_slice`, `extract_1`, `extract_2`, `branch_split`) expect a top-level `query = ...` statement feeding `.execute(query)`. Inline calls (such as `cursor.execute(f"...")`) have no such assignment: `rename` and `dead_padding` still apply (anchoring on the sink statement), while the five query-rewriting operators reject the seed as `"invalid"` rather than silently skipping.
+- **Supported formatting:** String formatting uses f-strings (without format specs), `%`, `str.format()`, or `+` concatenation.
+- **Custom oracle fixtures:** A seed may define module constants `SASTLAB_FIXTURE` (SQLite schema/data setup script) and `SASTLAB_EXPLOIT` (class-appropriate injection payload). Seeds without them use the default SQLite fixture and SQLi payload.
+- **Reused oracle across vulnerability classes:** CWE-78 seeds execute `echo` commands and return output lines (`SASTLAB_EXPLOIT = "1; echo PWNED"` produces 2 lines vs. 1 for `"1"`); CWE-22 seeds open files inside a per-seed temporary fixture directory (`"../secret"` reads a file with more lines than `"1"`). Classes requiring fundamentally different exploit checks (CWE-79 XSS rendering, CWE-295 TLS validation, CWE-200 HTTP metadata) were excluded.
 
-What the adaptation removes: the database driver and the receiver of `execute`, the framework that supplies the input, and unrelated code. Calls that return no rows (INSERT, UPDATE), injection into a table name, and queries that need a driver-specific placeholder or schema are outside the exploit check and are dropped. Hence the seeds test the rules on the query shapes of the official suites, not on the library models those suites check.
+### Corpora
 
-Validation of the setup against the suites themselves is described in [validation](validation.md).
+| Directory | Class | Count | Origin and Notes |
+| --- | --- | ---: | --- |
+| `seeds/` | CWE-89 | 15 | Synthetic f-string SQLite fixtures (`seed_01`–`seed_15`); shared structure |
+| `seeds_diverse/` | CWE-89 | 12 | Synthetic varied constructions (`+`, `%`, `.format()`, f-strings, inline, etc.) |
+| `seeds_fstring/` | CWE-89 | 3 | Subset of f-string seeds used for restricted Semgrep search campaigns |
+| `corpus_official/seeds/` | CWE-89 | 9 | Harvested from Semgrep (`a84ff9cc24`) and CodeQL (`codeql-cli/v2.27.1`) suites |
+| `corpus_real/seeds/` | CWE-89 | 6 | Hand-adapted from OWASP BenchmarkPython (5) and `vulpy` (1) |
+| `corpus_apps/seeds/` | CWE-89 | 5 | Hand-adapted from `parsl` `2025.12.22` (3), `scitokens` `1.8.1` (1), `pyload-ng` `0.5.0b3.dev90` (1) |
+| `seeds_cmd/` | CWE-78 | 8 | Synthetic command-injection programs (`subprocess.*` and `os.popen`) |
+| `seeds_path/` | CWE-22 | 8 | Synthetic path-traversal programs using built-in `open` |
+| `seeds_pysa_hard/` | CWE-89 | 3 | Synthetic hard-pool seed subset for Pysa search |
+| `seeds_pysa_hard2/` | CWE-89 | 3 | Official-suite check subset (`o03_semgrep`, `o18_semgrep`, `o24_codeql`) for Pysa search |
+| `seeds_rerun_s05/` | CWE-89 | 1 | Single-seed rerun directory (`seed_05`) |
 
-## Transform definitions
+#### Adaptation of Official, Benchmark, and Deployed Corpora
 
-Operators are numbered by their bit in the mask. Core operators (bits 0 to 7) move the same value around or change the text of the program.
+- **Official-suite harvest (`corpus_official/seeds/`):** An unshipped harvest script filtered upstream test suites using the funnel recorded in `corpus_official/seeds/funnel.json`: 19 upstream files → 122 `.execute(...)` calls → 102 single-argument calls → 82 string-constructed queries → 53 straight-line slices with one external input → 24 distinct adapted programs → **9** executable and exploit-live under the SQLite oracle. Adaptation preserves the backward slice and exact SQL text while normalizing input to `user_id` and execution to `db_conn.cursor()`. Parameterized queries, `INSERT`/`UPDATE` statements, table-name injections, and driver-specific syntax were dropped. Consequently, official seeds evaluate the query shapes from upstream tests rather than upstream framework/driver models. Each seed's origin is recorded in `corpus_official/seeds/manifest.json`.
+- **Independent benchmark (`corpus_real/seeds/`):** Hand-adapted rather than sliced because BenchmarkPython flows pass through stateful helper methods; request/response wrappers were replaced while value propagation was kept intact.
+- **Deployed projects (`corpus_apps/seeds/`):** Extracted from vulnerable PyPI wheels (`corpus_apps/SOURCE.txt` records SHA-256 digests). SQL text is untouched; driver connections use the oracle's SQLite cursor, and `pyLoad` returns IDs as 1-tuples to match row output.
 
-1. `rename`: Rename entry-function arguments and bound local names with deterministic collision-free reserved names.
-2. `format_swap`: Convert an f-string to positional `str.format`, preserving conversion flags. For concatenations, flatten additions and join their string operands.
-3. `literal_slice`: Replace query literals with prefixed strings sliced from index one. Within f-strings, insert formatted expressions so the AST remains valid.
-4. `dead_padding`: Insert a false branch before the query assignment (before the statement that holds the sink call when the query is inline).
-5. `extract_1`: Move query construction into one generated helper, passing the referenced entry-function locals.
-6. `extract_2`: Move the current query construction through two generated helpers. Combined with `extract_1`, this adds three local call hops.
-7. `branch_split`: Duplicate the query assignment into nominal-input and other-input branches.
-8. `dict_dispatch`: Route the bound `.execute` method through a constant-key dictionary.
+---
 
-Flow operators (bits 8 to 12) try to make the user value reach the sink by a route that static taint tracking may not follow, while the program's behavior stays the same. They act on the entry function's second parameter and on `.execute` attributes, not on the query assignment, so they compose with any core operator.
+## 3. Behavior-Equivalence Oracle
 
-9. `dynamic_sink`: Replace each `.execute` attribute load with `getattr(obj, "exe" + "cute")`, so the sink name is built at run time.
-10. `char_launder`: At function entry rebind the input to `"".join(chr(ord(c)) for c in input)`, an identity for every string that passes through integers.
-11. `deep_nest`: At function entry put the input in eight nested lists and read it back with eight constant indices.
-12. `db_roundtrip`: At function entry store the input in a private in-memory SQLite table and read it back (inserts a module-level `import sqlite3 as _mt_sqlite3`). Text storage would not preserve lone surrogate characters; the oracle inputs are unaffected.
-13. `queue_roundtrip`: At function entry pass the input through a `queue.Queue` (inserts a module-level `import queue as _mt_queue`).
+Implemented in [`sastlab/oracle.py`](../sastlab/oracle.py) and [`sastlab/oracle_worker.py`](../sastlab/oracle_worker.py).
 
-Two more flow operators (bits 13 and 14) and the sink-resolution operators (bits 15 to 17) are evaluated by exhaustive enumeration only. The sink-resolution group is `dict_dispatch`, `dynamic_sink`, `partial_sink`, `methodcaller_sink` and `unbound_sink`; they rewrite `.execute` on a cursor, the `subprocess` functions and `os.popen` (`SINK_NAMES`) and the builtin `open` (`SINK_FUNCTIONS`).
+- **Isolated worker execution:** `Oracle.evaluate(source)` creates a private temporary directory (`tempfile.TemporaryDirectory(prefix="sastlab-oracle-...")`), exports `TMPDIR`/`TMP`/`TEMP` to that scratch folder, and invokes `python -I -B oracle_worker.py` with a JSON payload `{"source": source}` on `stdin` and a default 5-second timeout (`oracle_timeout`). The worker isolates state and runtime, not untrusted code: run only trusted programs. Temporary directories are always removed on exit or timeout.
+- **Default database & payloads:**
+  - `DEFAULT_FIXTURE`: creates `users(id TEXT, username TEXT, role TEXT)` with `('1','alice','admin')`, `('2','bob','user')`, `('3','carol','user')`.
+  - Nominal payload: `"1"`.
+  - Injection payload: `SASTLAB_EXPLOIT` if defined by the seed, else `"1' OR '1'='1"`.
+- **Exploitability & equivalence predicates:**
+  - **Exploitable baseline (`Oracle.exploitable`):** `ok` is true, `len(nominal) == 1`, `len(exploit) > len(nominal)`, and every row in `nominal` appears in `exploit`.
+  - **Equivalence (`Oracle.compare`):** `Oracle.exploitable(baseline)` holds, candidate `ok` is true, and `evaluated["outputs"] == baseline["outputs"]` (exact equality on row lists, order, and projected values). Exceptions and timeouts fail closed (`ok: False`, `equivalent: False`).
+  - Because runtime equality is verified on two inputs per run (and 20 inputs in post-hoc checks), equivalence is **input-bounded**, not a universal proof over all Python inputs.
 
-14. `simplequeue_roundtrip`: As `queue_roundtrip` with `queue.SimpleQueue`, a different standard-library container (inserts `import queue as _mt_queue`).
-15. `pickle_roundtrip`: At function entry replace the input by `pickle.loads(pickle.dumps(input))` (inserts `import pickle as _mt_pickle`).
-16. `partial_sink`: Call each sink through `functools.partial(sink)(...)` (inserts `import functools as _mt_functools`).
-17. `methodcaller_sink`: Call `obj.execute(query)` as `operator.methodcaller("execute", query)(obj)` (inserts `import operator as _mt_operator`). It needs a plain-name receiver and is rejected for a plain function such as `open`.
-18. `unbound_sink`: Call `obj.execute(query)` as `type(obj).execute(obj, query)`. It is rejected for plain functions such as `open` and for module receivers, because `type(module).run` is not the module function.
+---
 
-These operators were chosen as hypotheses about what a flow-based scanner does not model; whether each works against a given engine is an empirical result, not an assumption (see [results](../result.md)). Mutations are deterministic within the supported input domain, and the oracle checks every evaluated candidate. This is not a universal Python equivalence proof. Every mask (2^18 = 262,144) is rebuilt from the original source in operator order. Strategies 1 to 5 may only append an operator with a greater index than the previously applied one; strategies 6 and 7 may toggle any operator.
+## 4. AST Rewrite Operators and Bitmask Encoding
 
-## Search and feedback
+Implemented in [`sastlab/transforms.py`](../sastlab/transforms.py).
 
-Strategy 1 chooses uniformly from available forward operators. Strategy 2 prefers unseen masks, then less-used operators, then operators associated with previous clean verdicts; ties use the trajectory PRNG. Strategy 3 uses candidate diff, pass/fail status, three-step history and available operators. Strategy 4 ranks all operators once using configured static rule metadata and follows that ordering throughout the trajectory. Strategy 5 receives the same common observation as strategy 3, plus scanner-grounded diagnostics.
+### Canonical Bitmask Construction
 
-Strategies 6 and 7 start at the original seed and, at each attempt, propose toggling one operator chosen uniformly (toggling an operator off lowers the distance from the seed; the original seed itself is never proposed) and apply Metropolis acceptance. A rejected move keeps the current parent. With `metropolis_restart: true` (the default, and every saved run except the two walk checks), a state that holds the last operator of the order is treated like the end of a forward walk: the proposal toggles one operator of the seed instead. The saved runs log that attempt with `restarted: false`; the runner now logs it as a restart. With `false`, every proposal toggles one operator of the current state.
+A candidate program is uniquely identified by `(seed, mask)` and its SHA-256 hash. Valid masks span `0` to $2^{18} - 1$ (`262,143` non-empty subsets). `candidate(source, mask)` always starts from the unmodified `seed` AST and applies each selected operator $i$ (where bit `(mask >> i) & 1` is `1`) in canonical ascending order $i = 0, 1, \dots, 17$. New operators are strictly appended at higher bit indices so existing mask integers never change meaning.
 
-The Metropolis probability is one for nonnegative score change and `exp(delta / temperature)` otherwise, with default temperature 0.25. Because the seed is never proposed, a one-operator state has one proposal fewer than the others, and the acceptance has no Hastings correction for this, so the walk is a search heuristic and not a sampler. `d_syntax` is normalized insertion/deletion distance between AST preorder token sequences, computed exactly using longest common subsequence. Tokens include node types and scalar field values, excluding location attributes. This is an explicit sequence metric over ASTs, not tree-edit distance. `d_depth` is maximum reachable local helper-call depth from the entry function, excluding database and library calls. When depth is unchanged, strategy 7 falls back to syntax distance. The depth proxy counts only generated helpers; the flow operators do not change it, so strategy 7 treats them by syntax distance. For more general harvested programs, this depth proxy needs validation before interpreting it as source-to-sink distance.
+### Supported Sinks and Rejection Rules
 
-The model sees operator names in a shuffled order so that list position carries no information. The order is a deterministic function of the trajectory seed and attempt number (strategies 3 and 5, so paired prompts present the same order for the same available set) or of the trajectory seed alone (strategy 4, one shuffled list per trajectory).
+- **Attribute sinks (`SINK_NAMES`):** `execute`, `check_output`, `run`, `call`, `check_call`, `popen`, `Popen`, `getoutput`.
+- **Plain-function sinks (`SINK_FUNCTIONS`):** `open`.
+- **Inapplicability (rejected as `"invalid"`):**
+  - `format_swap` rejects non-f-string, non-`+`-concatenation queries (e.g., `%` or `.format()`).
+  - Query-rewriting operators (`format_swap`, `literal_slice`, `extract_1`, `extract_2`, `branch_split`) reject inline queries without a top-level `query` assignment.
+  - `methodcaller_sink` rejects plain-function calls (`open`) and non-variable receivers.
+  - `unbound_sink` rejects plain functions (`open`) and module receivers (`subprocess.run`, etc., because `type(module).run` is not the module function), including locally imported modules and `from ... import`.
 
-All model requests use the same system instruction. Common observation fields are truncated independently of diagnostics and identically for strategies 3 and 5. A fixed separate space is reserved for diagnostics in both arms. Long traces first retain the first three steps, last three steps, and explicitly marked call boundaries. The overall prompt cap can further remove trace detail. Complete raw traces remain in scanner artifacts and attempt records. The model never writes code: it returns an operator name or a permutation, validated against a JSON schema.
+### Operator Catalog
 
-### SoCLaaS chat-completions
+The first 13 operators (bits `0..12`) were active in the full search campaigns; all 18 (including bits `13..17`) are covered by exhaustive runs and tests.
 
-All model calls use the same model name, temperature 0.2, prompt construction, schema, operator validation, trajectory seeds, and retry/fallback policy. Requests go to `/v1/chat/completions` with `response_format.type = json_schema`, `max_tokens = 160`, and a request seed. Actual prompt usage is checked using `usage.prompt_tokens`; missing usage, incomplete responses, invalid choices, and over-budget prompts trigger retries. HTTP 429 responses wait and retry the same request (honoring `Retry-After`, else exponential backoff capped at 60 s) without using the validation retries, and the waits are recorded. Transport headers and credentials are excluded from the experiment records.
+| Bit | Mask (`1<<bit`) | Operator | Taxonomy Group | Transformation Specification |
+| ---: | ---: | --- | --- | --- |
+| 0 | 1 | `rename` | `control` | Renames parameters, locals, comprehension targets, and `except ... as` names to deterministic `_mt_*` identifiers (preserving globals shadowed inside comprehensions). |
+| 1 | 2 | `format_swap` | `control` | Rewrites f-strings (preserving conversion flags) to positional `str.format(...)`, or flattens `+` additions into `"".join([...])`. |
+| 2 | 4 | `literal_slice` | `control` | Prefixes query string literals with `#` and slices `[1:]` (inside f-strings, embeds as a formatted expression so the AST remains valid). |
+| 3 | 8 | `dead_padding` | `control` | Inserts an always-false conditional branch immediately before the query assignment (or sink statement if inline). |
+| 4 | 16 | `extract_1` | `interprocedural` | Moves query construction into one generated helper function, passing referenced locals (excluding comprehension-bound names); preserves docstrings. |
+| 5 | 32 | `extract_2` | `interprocedural` | Moves current query construction through two generated helper functions (three local call hops when combined with `extract_1`). |
+| 6 | 64 | `branch_split` | `control-flow` | Duplicates the query assignment across nominal vs. non-nominal conditional branches. |
+| 7 | 128 | `dict_dispatch` | `sink-resolution` | Routes sink method invocation through a constant-key literal dictionary lookup. |
+| 8 | 256 | `dynamic_sink` | `sink-resolution` | Replaces `.execute` (or `SINK_NAMES`/`SINK_FUNCTIONS`) with `getattr(obj, "exe" + "cute")` (or split builtin `open` lookup). |
+| 9 | 512 | `char_launder` | `value-propagation` | Rebinds user input at function entry to `"".join(chr(ord(c)) for c in x)`. |
+| 10 | 1024 | `deep_nest` | `container` | Boxes user input in 8 nested lists and unboxes via 8 constant `[0]` indices. |
+| 11 | 2048 | `db_roundtrip` | `second-order-storage` | Inserts `import sqlite3 as _mt_sqlite3`, stores input in an in-memory SQLite table, and reads it back. *(Note: SQLite text storage would alter lone UTF-16 surrogates; none appear in tested inputs.)* |
+| 12 | 4096 | `queue_roundtrip` | `container` | Inserts `import queue as _mt_queue` and passes input through `queue.Queue`. |
+| 13 | 8192 | `simplequeue_roundtrip` | `container` | Passes input through `queue.SimpleQueue` (exhaustive-only). |
+| 14 | 16384 | `pickle_roundtrip` | `value-propagation` | Inserts `import pickle as _mt_pickle` and round-trips input via `pickle.loads(pickle.dumps(...))` (exhaustive-only). |
+| 15 | 32768 | `partial_sink` | `sink-resolution` | Inserts `import functools as _mt_functools` and calls sink via `functools.partial(sink)(...)` (exhaustive-only). |
+| 16 | 65536 | `methodcaller_sink` | `sink-resolution` | Inserts `import operator as _mt_operator` and calls `operator.methodcaller("<method>", ...)(receiver)` (exhaustive-only). |
+| 17 | 131072 | `unbound_sink` | `sink-resolution` | Calls bound method via `type(receiver).<method>(receiver, ...)` (exhaustive-only). |
 
-SoCLaaS does not expose model weights, a digest, or server sampling behavior. Manifests therefore record an unverified identity and no digest. The exact returned model metadata remains in each saved response. Runs made with a different serving stack must not be pooled with SoCLaaS runs as if model identity were known to be identical. A stable deployment revision or independently supplied weight digest is needed before claiming a pinned model.
+---
 
-The model-content cap uses a conservative UTF-8 byte bound with 128 tokens reserved for chat framing, against a prompt allowance of 2,500 tokens (the 13 operator names and definitions need more than 1,000; the effect of the cap was not measured). Actual `usage.prompt_tokens` is checked after each response; over-budget responses are rejected and logged. The bound assumes a byte-level tokenizer such as Llama; another model/tokenizer requires checking this policy. Two retries follow the original request, then selection falls back to a uniform valid operator or permutation. The prompt and model output never become executable code.
+## 5. Scanner Adapters and Invocation Contracts
 
-## Exhaustive evaluation and resumption
+Implemented in [`sastlab/scanners.py`](../sastlab/scanners.py). Every scan writes isolated per-attempt files under `work_dir` (default `.sastlab/runs/<uuid>/`), invokes the pinned binary, and parses structured output **fail-closed** (any non-zero unexpected exit code, malformed output, missing `subject.py` scan metric/path, or tool execution notification yields `Scan("error", ...)`).
 
-`exhaustive` evaluates every non-empty subset of the named operators on each of the first N seeds, with the same oracle and scanner as the search, and records one row per subset. Verdicts are deterministic per (seed, subset): saved campaigns contain no case of one candidate receiving different verdicts. Results of an exhaustive run are directly comparable to search results for the same seed and mask.
+| Engine | Pinned Version | Files Provided to Scanner | Exact CLI Invocation & Key Flags | Rules / Query Targets |
+| --- | --- | --- | --- | --- |
+| `semgrep` | `1.178.0` | `src/subject.py` (optionally prefixed with `@app.route("/<user_input>")` when `semgrep_route: true`) + `src/web_entry.py` (Flask route wrapper) | `semgrep scan --config <rules.yaml> --json --quiet --metrics=off --disable-version-check --no-git-ignore --no-rewrite-rule-ids <src>` (`SEMGREP_ENABLE_VERSION_CHECK=0` for `--version`) | CWE-89 pattern: `formatted-sql-query`<br>CWE-89 taint: `tainted-sql-string`<br>CWE-78: `dangerous-subprocess-use-audit`<br>CWE-22: `path-traversal-open` |
+| `codeql` | CLI `2.27.1`, `python-queries` `1.8.11` | `src/subject.py` + `src/web_entry.py` (Flask route wrapper) | 1. `codeql database create <db> --language=python --source-root=<src> --threads=1`<br>2. `codeql database analyze <db> <query> --format=sarifv2.1.0 --output=<sarif> --threads=1` | CWE-89: `py/sql-injection`<br>CWE-78: `py/command-line-injection`<br>CWE-22: `py/path-injection` |
+| `pysa` | `pyre-check` `0.10.0`, stock models `d5614e0a` | `src/subject.py` annotated with `sqlite3.Connection` (`typed_for_pysa`), generated `models/entry.pysa` (`TaintSource[UserControlled]`) OR `src/entry.py` (`BaseHTTPRequestHandler.path` when `pysa_source="http-server"`), plus isolated `pyrefly.toml` & `.pyre_configuration` | `pyre --noninteractive analyze --no-verify --save-results-to out` (isolated from repo `pyproject.toml`/`.gitignore` via local `pyrefly.toml`) | CWE-89: `pysa/5005` (flow), `pysa/5051` (string combine)<br>CWE-78: `pysa/5001`, `pysa/6065`<br>CWE-22: `pysa/5011` |
+| `bandit` | `1.9.4` | `src/subject.py` alone (no Flask wrapper) | `bandit -q -f json <src>/subject.py` | CWE-89: `bandit/B608`<br>CWE-78: `bandit/B602`<br>*(No default CWE-22 check)* |
 
-A trajectory is the checkpoint unit for `--resume`. It is complete only if every attempt is recorded; incomplete trajectories are discarded to `discarded-partial.jsonl` and rerun from scratch, so a walk is never a splice of two runs. Because a rerun restarts a trajectory's seeded walk, model-guided strategies may choose differently in the rerun if server-side sampling differs; the discarded records are kept for inspection. Resume validates configuration, engine and scanner versions, rule, seed, operator and model identity first.
+### Key Implementation Details
 
-## Report-card decisions
+- **Pysa adapter design choices:** `typed_for_pysa` adds `import sqlite3` and annotates the first parameter of `get_user_profile` as `sqlite3.Connection` so stock `sqlite3_sinks.pysa` resolves `.execute`; `--no-verify` disables verification against uninstalled third-party stubs; `parse_pysa` verifies a `model` entry exists for `subject.get_user_profile` and fails closed otherwise. Unless `keep_database: true`, large Pysa intermediate artifacts (`call-graph.json`, `dependency-graph.json`, `invariants.json`, `taint-metadata.json`) and CodeQL `database/` directories (~10 MB each) are removed after parsing.
+- **Persistent scan cache (`scan_cache`):** When enabled, `scan_cache_settings(config, scanner)` hashes `(engine, scanner_version, rule_sha256, query, semgrep_route, pysa_source, pysa_codes)` plus `tree_digest(models)` for Pysa. Cached entries are written atomically and store only successful (`status == "ok"`) scans keyed by candidate SHA-256. Caching changes physical compute time only, never attempt accounting.
+- **Newer-release verification:** Standalone checks also tested Semgrep `1.182.1` and CodeQL `2.27.3` (`python-queries` `1.8.13`); all primary results use the pinned versions in the table above.
 
-A rule is eligible only on seeds where the baseline scanner succeeded, that exact rule fired, and the original exploit was live. An evasion additionally requires a successful candidate scan without that exact rule and successful behavior-equivalence check (the precondition of the metamorphic relation: flagged(P) and same behavior on both inputs implies flagged(T(P))). Other rules still firing does not invalidate disappearance of the target rule; each rule is analyzed separately.
+---
 
-For `S_rule >= 3`, the threshold is `ceil(S_rule / 2)`. Three through five qualifying seeds are designated exploratory. Fewer than three are excluded. A rule is weak if strategy 1 or strategy 2 individually crosses the threshold. Otherwise it is guidance-sensitive if a guided strategy or the union across all seven strategies crosses the threshold. Otherwise it is robust only after a completed full-budget campaign without scanner or oracle execution failures. The report records the first individual crossing in strategy-number order and the first cumulative crossing as strategies 1 through 7 are added. This is portfolio order, not chronological discovery order.
+## 6. Search Strategies and Distance Metrics
 
-A nonterminal manifest, missing strategy, missing attempt, shortened budget, scanner failure, or oracle infrastructure failure prevents a complete classification. Reports do not combine engines. Synthetic corpus status is attached to every card. Timing comparisons are not valid for cache-enabled wall-clock measurements, and wall times of model-guided strategies include model latency.
+Implemented in [`sastlab/search.py`](../sastlab/search.py).
 
-Report cards classify a rule against the strategies' success on seeds, which saturates when a single operator evades. The per-strategy comparison of the full campaigns therefore uses distinct evading candidates per trajectory (unique candidate hashes with a verified evasion, divided by trajectories), with bootstrap intervals and sign-flip tests over the paired (seed, trajectory) units. Comparisons on restricted pools use attempts to the first evasion, with a bootstrap over streams (trajectory indices, averaged over seeds) and no sign-flip tests. All of these are exploratory: the seeds of a corpus share one program structure, so the streams are the independent units.
+Each trajectory $k \in \{1, \dots, T\}$ runs with deterministic PRNG `random.Random(base_seed + k)` (`base_seed = 6223` by default), candidate pool `operators` (or all 18), and order constraint `order` (`"increasing"` default: only operators with higher index than the highest set bit; `"any"`: any unset operator in `pool`).
 
-## Verification and reproducibility
+| ID | Code Name | Selection & Acceptance Rule |
+| ---: | --- | --- |
+| `1` | `naive` (Random) | Uniformly samples from valid next operators; restarts from `mask = 0` (at no attempt cost) when no valid operator remains. Always accepts moves. |
+| `2` | `blackbox` (Heuristic) | Scores each valid next operator by tuple `(child_mask not in visited, -uses_in_history, clean_verdicts_in_history)`, breaking ties with trajectory PRNG. |
+| `3` | `blackbox_agent` (History-only) | Queries the LLM with `observation()` (`available` shuffled per call, `diff`, `verdict`, last 3 `history` entries) — **no** `diagnostics` field. |
+| `4` | `static_greybox` (Static ranking) | Queries the LLM **once per trajectory** (`Rank all operators once` using `rule_metadata` and shuffled `available`) and deterministically follows that ranking across steps. |
+| `5` | `trace_agent` (Diagnostic agent) | Queries the LLM with the identical `observation()` fields as Strategy 3 **plus** `diagnostics` (filtered by `target_rules` and optional `diagnostic_fields`: `rule`, `message`, `sink`, `snippet`, `trace`). |
+| `6` | `metric_syntax` (AST-distance Metropolis) | Toggles one operator bit uniformly from `flips` (excluding transition to `mask = 0`) and accepts with probability $\min(1, \exp(\Delta d_{\text{syntax}} / \tau))$, $\tau = 0.25$. |
+| `7` | `metric_depth` (Call-depth Metropolis) | Same toggle and acceptance rule using $\Delta d_{\text{depth}}$ (fallback to $\Delta d_{\text{syntax}}$ when call depth is unchanged). |
 
-The model name, Semgrep and CodeQL versions, pinned rule files and query pack, raw responses, test outcomes and actual integration runs form the reproducibility record (see [validation](validation.md)). Results on real-world programs remain unverified; the official-suite seeds are 9 adapted programs. Each run's manifest records the framework file hashes, seed hashes and rule hash it used.
+### Distance Metrics and Metropolis Restarts
 
+- **`d_syntax` (`syntax_distance`):** Exact normalized insertion/deletion distance computed via longest common subsequence over AST preorder token sequences (node types and scalar fields; line/column offsets excluded). This is a sequence metric over AST tokens, not tree-edit distance.
+- **`d_depth` (`call_depth`):** Maximum reachable local helper-call chain length starting from `get_user_profile`, ignoring library/database calls. Flow operators do not add local helper calls, so Strategy 7 falls back to `d_syntax` on flow-only moves.
+- **No Hastings correction:** Because proposals never target `mask = 0`, single-operator states have one fewer neighbor than multi-operator states and no correction factor is applied; Metropolis serves as an optimization heuristic, not a uniform sampler.
+- **`metropolis_restart`:** With `metropolis_restart: true` (default, active in all saved runs except `semgrep-hard30-walk` and `pysa-hard-walk`), when `available(mask)` is empty (state holds the last operator of `order`), `Search.select` resets parent to `mask = 0` before proposing a flip. Saved pre-flag runs recorded those jumps with `restarted: false` (`parent_mask` reveals the reset); current runs record `restarted: true`. Setting `metropolis_restart: false` toggles any bit from the current mask without restarting.
 
-## Metamorphic relation and operator taxonomy
+### Deterministic Shuffling
 
-This is metamorphic testing of one scanner at a time, not differential testing. For rule R and a composition T of operators: flagged_R(P) and behavior(T(P)) = behavior(P) on both oracle inputs implies flagged_R(T(P)). A violation is a candidate false negative of R on code that is still exploitable. The behavior check is the precondition of the relation, not the bug detector, and it is input-bounded (two inputs, one database).
+To eliminate positional bias, `shuffled(names, seed)` samples candidate choices with `call_seed = trajectory_seed * 100000 + attempt * 3` for Strategies 3 & 5, while `system_prompt` uses `f"system-{call_seed}"` so definition order and choice list order vary independently.
 
-Operators are chosen by the part of a taint analysis they stress (`TAXONOMY`): control (no flow change), interprocedural, control-flow, sink-resolution, value-propagation, container, second-order-storage. Related work with the same style of oracle: TaintCC (Christakis et al., ISSTA), which keeps reported source-sink flows constant and need not preserve behavior; we must preserve behavior because an evasion only counts if the exploit stays live.
+---
 
-## Agent prompts
+## 7. LLM Client and Wire Protocol
 
-The exact system prompt and every appended text of the informed-prompt runs are in [prompts.md](prompts.md).
+Implemented in [`sastlab/llm.py`](../sastlab/llm.py). Exact prompt texts and `llm.prompt_extra` configurations are documented in [`docs/prompts.md`](prompts.md).
 
-## Fourth analyzer: Bandit
+- **Endpoint & parameters:** OpenAI-compatible `POST /v1/chat/completions` against NUS SoCLaaS (`https://soclaas-api.comp.nus.edu.sg/v1`) for models `llama3.1:8b`, `qwen3-coder-next`, and `qwen3.6:35b`, with `temperature = 0.2`, `stream = False`, `max_tokens = 160`, deterministic `seed`, and `response_format.type = "json_schema"` (`strict: true`). Credentials are read from environment/env-file without shell execution, sent only in `Authorization: Bearer ...`, blocked across HTTP redirects (`NoRedirect`), and omitted from logs/manifests.
+- **Model identity caveat:** SoCLaaS `/v1/models` exposes model IDs without weight digests (`digest: None`, `identity_verified: False`). Cross-stack comparisons must not assume identical server weights or sampling without pinned weight digests.
+- **Token budget & symmetric truncation (`bounded_observation`):** Reserves `128` tokens for chat framing, `len(SYSTEM.encode())` (worst-case all-18-operator UTF-8 byte bound), and `len(prompt_extra.encode())`, leaving `260` bytes reserved for diagnostics so that Strategy 3 and Strategy 5 receive **byte-identical** common fields (`diff`, `history`, `verdict`, `available`). If over budget, `diff` halves, then `metadata` trims to 60 chars, then oldest `history` entries drop, then `diff` empties. Diagnostics trim extra findings, collapse long `trace` lists via `compact_trace` (keeping first 3, last 3, and `call_boundary` steps), shorten messages to 40 chars, and drop snippets. Server-returned `usage.prompt_tokens` is verified post-response against `max_prompt_tokens` (`2,500` in original-prompt runs, `3,000` in informed runs and `pysa-hard-any`).
+- **Retries & fallbacks:**
+  - **HTTP 429:** Waits honoring `Retry-After` or exponential backoff (`backoff_base * 2**k`, capped at `60 s`, max 8 waits), logging `rate_limit_waits` without consuming validation retries.
+  - **Validation errors & fallback:** Missing `finish_reason == "stop"`, missing/over-budget `prompt_tokens`, non-schema JSON, or invalid operator/permutation triggers up to 3 total attempts (`seed + retry`), followed by a uniform trajectory-PRNG fallback logged with `fallback: true`.
 
-Exhaustive checks only (singles and pairs), no search and no model, on SQL injection (B608) and command injection (B602). The scanner adapter writes the candidate alone and runs `bandit -q -f json`; findings are `bandit/<test id>` and the target rules are in each config. A seed qualifies when the target rule fires on it and the exploit works, as for the other scanners. Bandit has no default test for path traversal, so that class is not run.
+---
+
+## 8. Execution, Checkpointing, Artifacts, and Report-Card Rules
+
+Implemented in [`sastlab/runner.py`](../sastlab/runner.py), [`sastlab/exhaustive.py`](../sastlab/exhaustive.py), and [`sastlab/report.py`](../sastlab/report.py).
+
+### Artifact Directory Layout & Schemas
+
+| File | Produced By | Key Schema Fields |
+| --- | --- | --- |
+| `manifest.json` | `run` / `exhaustive` | `engine`, `config` / `identity`, `scanner_version`, `llm`, `python`, `platform`, `operators`, `state`, `rule_sha256`, `framework_sha256`, `seed_sha256`, `started`, `finished`, `resumes` |
+| `qualifications.json` | `run` / `exhaustive` | List of `{seed, sha256, oracle, scan, qualifying_rules, artifacts}` |
+| `attempts.jsonl` | `run` | `{seed, strategy, trajectory, trajectory_seed, attempt, parent_mask, mask, operator, operators, restarted, accepted, metric, candidate_sha256, duplicate_candidate, cache_hit, scanner_invoked, artifacts, scan, oracle, error, bypassed_rules, charged_seconds, elapsed_seconds}` |
+| `evaluations.jsonl` | `exhaustive` | `{seed, mask, operators, status, equivalent, scan_status, scan_rules, findings, bypassed_rules, error, candidate_sha256, scan_seconds, elapsed_seconds}` |
+| `llm.jsonl` | `run` | `{seed, strategy, trajectory, attempt, request, retry, fallback, response, decision}` (plus `rate_limit_waits`/`error` if raised) |
+| `trajectories.json` | `run` | List of `{seed, strategy, trajectory, masks, duplicate_of_trajectory}` |
+| `summary.json` | `run` / `exhaustive` / `report` | For search: `{engine, report_cards, strategy_metrics, qualification_failures}`; for exhaustive: `{seeds, total_evaluated, total_evading, total_scan_errors, complete}` |
+| `discarded-partial.jsonl` | `run --resume` | Incomplete trajectories discarded on resume so walks never splice across runs |
+| `bypasses/<seed>/<mask>.{py,json}` | `run` | Saved evading candidate source and evidence record |
+
+### Checkpointing & Resume Guarantees
+
+- **Unit of checkpointing:** An entire trajectory `(seed, strategy, trajectory)` in `run` (discarded and restarted from scratch if incomplete, preserving complete walks cleanly) and individual `(seed, mask)` rows in `exhaustive`.
+- **Resume validation (`--resume`, `--rerun-errors`):** Verifies `engine`, `scanner_version`, `llm`, `rule_sha256`, `seed_sha256`, `config` (ignoring `scanner_timeout`), and `operators` (allowing appended operators only when `config["operators"]` explicitly pins a previously recorded pool). Baseline scan failures halt `exhaustive` cleanly (resumable via `--resume`) and cause `run` to exit `1` cleanly after finishing other seeds (`--rerun-errors` repairs failed scans/trajectories).
+- **Exhaustive order (`subset_masks`):** Enumerates non-empty subsets of `operators` (up to `max_ops` if specified) sorted by cardinality `bin(mask).count("1")`, then bitmask integer.
+
+### Report-Card & Statistical Evaluation Rules
+
+Implemented in `summarize` (`sastlab/report.py`) and `analysis/common.py`:
+
+1. **Qualification count ($S_{\text{rule}}$):** Number of seeds where the baseline scan is `"ok"`, the rule fired, and the baseline exploit is live.
+2. **Threshold ($\tau$):** $\tau = \lceil S_{\text{rule}} / 2 \rceil$. Corpora with $3 \le S_{\text{rule}} \le 5$ are flagged `exploratory: true`; fewer than 3 qualifying seeds classify as `excluded`.
+3. **Rule classification (evaluated in priority order):**
+   - `incomplete` if `manifest["state"] != "complete"`, fewer than all 7 strategies ran, any baseline/qualifying-seed scan or oracle call failed, or budget $\neq 30 \times 5$.
+   - `weak` if Strategy `1` or Strategy `2` individually bypasses $\ge \tau$ seeds.
+   - `guidance-sensitive` if any of Strategies `3..7` individually—or the 7-strategy portfolio union—bypasses $\ge \tau$ seeds.
+   - `robust` if none of the above crossed $\tau$ on a completed full-budget campaign.
+   - Reports record `individual_crossing` and `portfolio_first_crossing_after_strategy` in strategy-ID order `1..7` (portfolio order, not chronological order).
+4. **Statistical comparisons (`analysis/common.py`):**
+   - **Full campaigns:** Distinct evading candidates per trajectory, compared across paired `(seed, trajectory)` units with 95% percentile bootstrap intervals (`5,000` resamples, RNG seed `11`) and sign-flip permutation tests.
+   - **Restricted pools:** Attempts to first evasion (missing evasion encoded as `budget + 1`), averaged across seeds per trajectory stream ($k \in \{1..T\}$) before computing the 5,000-resample stream-paired bootstrap interval. Because synthetic seeds share structure, streams—not individual seeds—are treated as independent units.
+
+---
+
+## 9. Key Design Decisions and Trade-offs
+
+| Area | Design Decision | Engineering Rationale |
+| --- | --- | --- |
+| Append-only operators | `CORE_OPERATORS` (8) + `FLOW_OPERATORS` (5→7) + `SINK_OPERATORS` (3) | Expanding from 8 → 13 → 18 operators preserves all historical bitmask integers (`mask`). |
+| Prompt order randomization | Per-request shuffling via `system-{seed}` and `call_seed` | Fixed canonical ordering (`rename` first in full campaigns) induced heavy first-item bias (`prompt-order-probe`). |
+| Evasion metric choice | Distinct evasions/trajectory (full); attempts-to-first (restricted) | One operator suffices against Semgrep pattern rules, saturating first-evasion latency on unrestricted pools. |
+| Metropolis toggling | Bit-flip proposals on non-zero masks + optional `metropolis_restart` | Forward-only addition cannot decrease syntactic distance and degenerated strategies 6 & 7 into random walks. |
+| Process-isolated oracle | `-I -B` subprocess + disposable `TMPDIR` per check | Prevents filesystem/module state bleed between path-traversal and DB evaluations while keeping zero non-stdlib dependencies. |
+| Scanner isolation | Per-attempt `pyrefly.toml` + temporary `work_dir` outside repo tree | Prevents Pysa/Pyrefly from crawling repo `.gitignore`/`pyproject.toml` and avoids git-tree overhead on Semgrep. |

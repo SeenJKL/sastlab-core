@@ -1,282 +1,329 @@
 # SASTLab
 
-SASTLab tests whether static application security testing (SAST) scanners keep flagging a vulnerable Python program after harmless edits. It takes a program that a scanner flags and that is exploitable, applies behavior-preserving rewrites, checks by execution that the exploit still works, and reports the rewrites after which the scanner goes silent. Each such case is a false negative of that rule.
+SASTLab evaluates whether Python static application security testing (SAST) scanners retain detections under semantics-preserving AST transformations. Given a seed program that a scanner flags and a runtime oracle confirms exploitable, SASTLab applies deterministic rewrite operators, verifies identical output on nominal and exploit inputs, and records any transformation after which the target rule stops firing.
 
-- **4 scanners:** Semgrep, CodeQL, Pysa and Bandit, each tested on its own rules.
-- **3 vulnerability classes:** SQL injection, command injection and path traversal.
-- **18 rewrite operators**, applied as deterministic AST transformations. No model writes code.
-- **7 search strategies** choose which rewrites to try next. Three of them ask a language model to pick an operator name from a fixed list.
+- **4 scanners:** Semgrep (`1.178.0`), CodeQL (`2.27.1`), Pysa (`pyre-check` `0.10.0`), and Bandit (`1.9.4`).
+- **3 vulnerability classes:** SQL injection (CWE-89), command injection (CWE-78), and path traversal (CWE-22).
+- **18 deterministic AST operators:** Bitmask-encoded transformations applied from the original seed (no LLM writes code).
+- **7 search strategies:** Random, heuristic, three LLM-guided agents (`llama3.1:8b`, `qwen3-coder-next`, `qwen3.6:35b`), and two Metropolis walks.
 
 ![Overview of the testing loop: the search strategy picks the next operator, the rewrite toolbox builds a candidate from the seed, and the scanner and the behavior check decide whether it is an evasion](docs/overview.png)
 
-An evasion needs a scan that succeeded, unchanged behavior on the tested inputs, and silence from the rule that fired on the seed.
+A **verified evasion** requires all three conditions: (1) clean scanner execution (`scan.status == "ok"`), (2) identical oracle outputs on tested nominal and exploit inputs (`equivalent == true`), and (3) silence on the qualifying rule(s). Scanner crashes or timeouts fail closed and never count as evasions.
 
-## What it found
+## Contents
 
-An evasion means the tested rules of one scanner stopped firing on a program that behaves the same on the tested inputs. It is a false negative under this harness, not an attack success rate. Numbers and per-corpus detail are in [result.md](result.md), and every saved run is listed in [results/INDEX.md](results/INDEX.md).
+- [Documentation Map](#documentation-map)
+- [Key Findings at a Glance](#key-findings-at-a-glance)
+- [Reproducibility Tracks](#reproducibility-tracks)
+- [Architecture and Codebase Map](#architecture-and-codebase-map)
+- [CLI and Configuration Reference](#cli-and-configuration-reference)
+- [Operators, Strategies, Scanners, and Artifacts](#operators-strategies-scanners-and-artifacts)
+- [Environment and Scope Limits](#environment-and-scope-limits)
 
-| Scanner and rule (SQL injection) | What silences it |
-|---|---|
-| Semgrep `formatted-sql-query` (pattern rule) | Rewrites that move the query or the call out of the rule's pattern: `extract_1`, `extract_2`, `branch_split`, `dict_dispatch`, `dynamic_sink`. `literal_slice` works only on queries built with `.format()` or `%`, or together with `format_swap` on f-strings. |
-| CodeQL `py/sql-injection` (data-flow query) | Any one of 9 flow-changing rewrites: `dynamic_sink`, `char_launder`, `deep_nest`, `db_roundtrip`, `simplequeue_roundtrip`, `pickle_roundtrip`, `partial_sink`, `methodcaller_sink`, `unbound_sink`. A candidate evades if and only if it contains one of them; the 4 control rewrites alone never do. |
-| Pysa rules 5005 and 5051 | A round trip through a database or a `SimpleQueue` (`db_roundtrip`, `simplequeue_roundtrip`), or a pair of rewrites: one that hides the call plus `literal_slice`. Each rewrite of the pair removes one of the two rules. |
-| Bandit `B608` | `literal_slice`, or `format_swap` on a query built with `+`. |
+---
 
-For command injection and path traversal the rules match the call and not how the string is built, so the restructuring rewrites do not evade there; rewrites that hide the call do for Semgrep and Pysa, and the flow-changing rewrites do for CodeQL. Whether a language-model agent finds evasions faster than random choice depends on the model, the scanner and the prompt; no model wins everywhere.
+## Documentation Map
 
-## Environment
+| Document | Purpose |
+| --- | --- |
+| [README.md](README.md) | Setup, reproducibility tracks, CLI usage, configuration schema, and module layout |
+| [docs/methodology.md](docs/methodology.md) | Complete technical specification for re-implementation (oracle, AST transforms, scanner adapters, search, wire protocol, report cards) |
+| [docs/prompts.md](docs/prompts.md) | Verbatim LLM system prompts, observation JSON schemas, and per-config `prompt_extra` variants |
+| [docs/validation.md](docs/validation.md) | Upstream suite validation, 187 automated tests, behavior-equivalence checks, determinism, and integrity audits |
+| [result.md](result.md) | Full empirical findings across campaigns, corpora, analyzers, mechanisms, and agent evaluations |
+| [results/INDEX.md](results/INDEX.md) | Catalog of all 115 saved run folders in `results/` |
+| [THIRD_PARTY.md](THIRD_PARTY.md) | Provenance and licenses for third-party rules, models, and adapted benchmark seeds |
 
-The code was developed and run on the setup below, and the commands in this README were tested on it from a fresh clone. All 110 saved manifests record Linux x86-64 with glibc 2.43.
+---
 
-| | |
-|---|---|
-| Operating system | Ubuntu 26.04 LTS, Linux 7.0, x86-64 |
-| Hardware | virtual machine (KVM) with 2 vCPUs of an AMD EPYC 9354P, 7 GB RAM, 96 GB disk |
-| Python | 3.14 |
-| Tools | `curl` and `zstd` (to unpack CodeQL), Docker 29.8 (only for the image), `systemd-run --user` (only for the CPU cap, see below) |
-| Network | needed to install the scanners and for the model runs; scanning itself runs offline (Semgrep is started with metrics and the version check off, and uses the local rule files) |
-| Disk | scanners and virtual environments about 0.9 GB; `results/` 0.5 GB; raw scanner output in `.sastlab/runs/` grew to about 7 GB over all experiments |
-| Time | one scan takes a few seconds, CodeQL 14 s at the median and 19 s on average (the slowest of the 5,250 scans of `codeql-v6` took 196 s); `exhaustive --max-ops 1` on one seed is 18 scans (under 2 minutes for Bandit and Pysa, about 10 minutes for CodeQL); the Docker test run takes about 2 minutes; the full campaigns take hours |
+## Key Findings at a Glance
 
-Not tested: macOS, Windows and ARM machines. The CodeQL bundle in step 1 is for Linux x86-64 only. The framework itself uses only the standard library, so a machine with its own CodeQL, Semgrep, Pysa and Bandit of the same versions should work, but this was not tried.
+An evasion demonstrates a rule false negative under this harness (not exploit delivery rate). Full tables and bootstrap intervals are in [result.md](result.md).
 
-## Quick start
+| Analyzer & SQL Rule | Rewrites That Silence It |
+| --- | --- |
+| Semgrep `formatted-sql-query` (pattern) | Structural/sink rewrites moving the query or call (`extract_1`, `extract_2`, `branch_split`, `dict_dispatch`, `dynamic_sink`); `literal_slice` works alone on `%`/`.format()` or paired with `format_swap` on f-strings. |
+| CodeQL `py/sql-injection` (data-flow) | Any of the 9 flow-changing rewrites (`dynamic_sink`, `char_launder`, `deep_nest`, `db_roundtrip`, `simplequeue_roundtrip`, `pickle_roundtrip`, `partial_sink`, `methodcaller_sink`, `unbound_sink`). Control rewrites alone never evade. |
+| Pysa rules `5005` + `5051` | Single round-trip (`db_roundtrip` or `simplequeue_roundtrip`), or a sink-resolution rewrite paired with `literal_slice` (each eliminates one rule). |
+| Bandit `B608` | `literal_slice`, or `format_swap` on `+` concatenation. |
 
-Unpack the zip with `unzip` so that `run.sh` and `analysis/*.sh` stay executable. Python's `python3 -m zipfile -e` drops the executable bit; then run `chmod +x run.sh analysis/*.sh` once (or start a script as `sh run.sh ...`).
+For command injection (CWE-78) and path traversal (CWE-22), rules match sinks rather than SQL string formatting, so restructuring operators do not evade; sink-resolution operators evade Semgrep and Pysa, while flow-changing operators evade CodeQL. Whether LLM guidance outperforms random search depends on the model, rule type, and whether the prompt states the analyzer rules and fixed operator ordering.
 
-### 0. Read the saved results (no installation)
+---
 
-The saved runs need no scanner and no key to read:
+## Reproducibility Tracks
+
+> **Archive extraction note:** Unpack release zips with `unzip` to keep executable bits on `run.sh` and `analysis/*.sh`. Python's `python3 -m zipfile -e` strips permissions; restore them with `chmod +x run.sh analysis/*.sh`.
+
+### Track A — Recompute Report Tables & Inspect Results (Offline, ~3 min, Stdlib Only)
+
+Requires only Python 3 (no scanners, Docker, or API key). All analysis scripts read from `results/` and print plain-text tables to stdout without generating `.tex` files:
 
 ```sh
-less results/INDEX.md                          # every run folder: scanner, kind, seeds, records, evading count, state
-python3 -m sastlab report results/semgrep-v6   # report card of a search run, recomputed from its attempts.jsonl (read-only)
+# Recompute all 15 offline analysis reports into analysis/out/*.txt
+./analysis/run_all.sh
+
+# Or run a single table/RQ script directly to stdout from any directory
+python3 analysis/table3.py
+python3 analysis/rq5.py
+
+# Inspect an individual search campaign report card (read-only)
+python3 -m sastlab report results/semgrep-v6
+
+# Browse all 115 saved run folders
+less results/INDEX.md
 ```
 
-Exhaustive runs (`*-singles`, `*-pairs`, `*-triples`) keep one verdict per rewrite set in `evaluations.jsonl`, and their counts in `summary.json`.
+### Track B — Run the Automated Test Suite (~2 min, No API Key)
 
-### 1. Install the scanners
-
-With Docker (pins everything):
+**Option 1 — Docker (pins Python 3.14, Semgrep, CodeQL, Pysa, Bandit):**
 
 ```sh
 docker build -t sastlab .
-docker run --rm sastlab        # the test suite, no API key needed (about 2 minutes, after the build)
+docker run --rm sastlab          # 181 passed, 6 skipped (image omits results/)
 ```
 
-Without Docker, from the repository root (the same steps as the `Dockerfile`):
+**Option 2 — Local Linux x86-64 installation (mirrors [Dockerfile](Dockerfile)):**
 
 ```sh
-python3.14 -m venv .sastlab/.venv       && .sastlab/.venv/bin/pip install -r requirements.lock         # Semgrep 1.178.0, pytest
-python3.14 -m venv .sastlab/pysa-venv   && .sastlab/pysa-venv/bin/pip install -r requirements-pysa.lock   # Pysa (pyre-check 0.10.0)
-python3.14 -m venv .sastlab/bandit-venv && .sastlab/bandit-venv/bin/pip install -r requirements-bandit.lock  # Bandit 1.9.4
-# CodeQL CLI 2.27.1 with the Python query pack 1.8.11 (bundle from github/codeql-action; SHA-256 in the Dockerfile)
+python3.14 -m venv .sastlab/.venv       && .sastlab/.venv/bin/pip install -r requirements.lock
+python3.14 -m venv .sastlab/pysa-venv   && .sastlab/pysa-venv/bin/pip install -r requirements-pysa.lock
+python3.14 -m venv .sastlab/bandit-venv && .sastlab/bandit-venv/bin/pip install -r requirements-bandit.lock
+
 mkdir -p .sastlab/tools && curl -fsSL -o /tmp/codeql.tar.zst \
   https://github.com/github/codeql-action/releases/download/codeql-bundle-v2.27.1/codeql-bundle-python-linux64.tar.zst \
-  && zstd -dc /tmp/codeql.tar.zst | tar -x -C .sastlab/tools
+  && zstd -dc /tmp/codeql.tar.zst | tar -x -C .sastlab/tools && rm /tmp/codeql.tar.zst
+
+# Run all 187 tests (182 passed, 5 skipped outside Docker when optional scanner checks skip)
+PYTHONDONTWRITEBYTECODE=1 .sastlab/.venv/bin/python -m pytest -q -p no:cacheprovider
 ```
 
-The framework itself uses only the standard library. `./run.sh` uses `.sastlab/.venv` when it exists and `python3` otherwise, and finds the scanners under `.sastlab/`. `run.sh` also caps the CPU at 85 % with `systemd-run --user`. On a machine without it (macOS, most containers, a Linux without a user session) `run.sh` stops with exit code 3 until you run `export SASTLAB_CPU_LIMIT=0`, which turns the cap off (the Docker image sets it).
+### Track C — Run Transforms, Exhaustive Scans, and Non-LLM Search (No API Key)
 
-### 2. Run without a model
-
-Strategies 1, 2, 6 and 7 and every `exhaustive` run need no API key:
+By default, `./run.sh` scopes the process tree to 85% CPU using `systemd-run --user`. On environments without a systemd user session (macOS, containers, headless CI), set `export SASTLAB_CPU_LIMIT=0` first (otherwise `run.sh` exits with code `3`):
 
 ```sh
-./run.sh transform seeds/seed_01.py --mask 5 --output candidate.py      # one candidate: rename + literal_slice
+export SASTLAB_CPU_LIMIT=0
+
+# Materialize and oracle-check one candidate (mask 5 = bit 0 rename + bit 2 literal_slice)
+./run.sh transform seeds/seed_01.py --mask 5 --output runs/candidate.py
+
+# Run non-LLM search strategies (1=random, 2=heuristic, 6=AST Metropolis, 7=depth Metropolis)
 ./run.sh run --config configs/smoke.json --output runs/my-smoke --strategies 1 2 6 7 --attempts 3 --trajectories 1 --seed-limit 1
-./run.sh exhaustive --config configs/semgrep-official.json --output runs/my-first --seed-limit 1 --max-ops 1     # 18 scans, a few minutes
+
+# Run exhaustive single-operator enumeration (writes to runs/, keeping results/ untouched)
+./run.sh exhaustive --config configs/semgrep-official.json --output runs/my-first --seed-limit 1 --max-ops 1
 ```
 
-`transform` prints the behavior check of the candidate it writes. Each `--output` folder must be new. Write your own runs to `runs/` (ignored by git): `results/` is for the saved runs, and `analysis/` aggregates over every folder in it.
+Write new runs to `runs/` (git-ignored) and pick a fresh `--output` directory per run because `analysis/` aggregates over `results/`.
 
-### 3. Run with a model (strategies 3, 4 and 5)
+### Track D — Run LLM-Guided Search (Strategies 3, 4, and 5)
 
-Copy `.env.example` to `.env` and set `SOCLAAS_API_KEY`, or export it. The configs call the NUS SoCLaaS gateway (`https://soclaas-api.comp.nus.edu.sg/v1`, OpenAI-compatible chat completions) with `llama3.1:8b`, `qwen3-coder-next` and `qwen3.6:35b`. That gateway was the only endpoint used, and the models are not pinned by digest. The key is read from the file without executing it and is sent only in the `Authorization` header; it never appears in manifests or logs.
+Copy `.env.example` to `.env` and set `SOCLAAS_API_KEY` (or export it in your shell). Requests target NUS SoCLaaS (`https://soclaas-api.comp.nus.edu.sg/v1`) for `llama3.1:8b`, `qwen3-coder-next`, and `qwen3.6:35b`. The API key is sent solely in the `Authorization` header (never redirected or logged in manifests/audit records):
 
 ```sh
-./run.sh doctor                                   # key works, model is served, scanner paths
+./run.sh doctor --config configs/semgrep.json   # verify API key, served model, and scanner binaries
 ./run.sh run --config configs/semgrep.json --output runs/my-semgrep --attempts 3 --trajectories 1 --seed-limit 1
 ```
 
-## Commands
-
-| Command | Does |
-|---|---|
-| `run --config C --output D` | search campaign: every strategy in the config, on every qualifying seed. Options: `--attempts`, `--trajectories`, `--seed-limit`, `--strategies`, `--resume`, `--rerun-errors`, `--scanner-timeout` |
-| `exhaustive --config C --output D --seed-limit N` | scans every non-empty subset of the operators (`--operators ...`, `--max-ops K`), no search, no model. This is the ground truth the strategies sample from. 18 operators give 262,143 subsets per seed, so restrict them. |
-| `transform SEED --mask M` | builds one candidate. Bit `i` of the mask is the `i`-th operator in the table below. |
-| `report D [--write]` | recomputes the summary of a search run from the recorded attempts and prints it; `--write` also overwrites `summary.json` in `D` (the default leaves the folder untouched) |
-| `doctor [--config C]` | asks the gateway for its model list (so it needs the key and network access), checks that the config's model is served, and prints where the 4 scanners were found |
-
-`run --resume` and `exhaustive --resume` continue an interrupted run in the same folder with the same config. A trajectory counts as done only when all its attempts are recorded; an incomplete one is rerun from scratch, so no walk mixes two runs. A baseline scan that does not finish (for example a timeout on a cold first scan) is not treated as "seed not flagged": `exhaustive` stops with an error and `--resume` continues; `run` finishes the other seeds, names the seeds without a verdict and exits 1, and the same command with `--rerun-errors` repairs them. Scans take a few seconds for Semgrep, Pysa and Bandit, and 14 s at the median (19 s on average, up to 196 s) for CodeQL, so a full campaign takes hours.
-
-### Configuration
-
-One JSON file per experiment in `configs/`. `seeds`, `rules`, `pysa_models` and the `llm` env file are relative to the config's folder; `scan_cache`, `work_dir` and `executable` are relative to the working directory, so run `./run.sh` from the repository root.
-
-| Key | Meaning |
-|---|---|
-| `engine` | `semgrep`, `codeql`, `pysa` or `bandit` |
-| `seeds` | folder of seed programs |
-| `rules` (Semgrep), `query` (CodeQL, version-pinned pack), `target_rules` | what is scanned for and which rule IDs count |
-| `attempts`, `trajectories`, `base_seed`, `strategies` | budget per trajectory, number of trajectories (the trajectory seed is `base_seed + k`), strategies 1 to 7 |
-| `operators`, `order` | restrict the operator pool; `increasing` (default) or `any` order of addition |
-| `evasion` | `any` (default: one qualifying rule stops firing) or `all` (none of them fires, used for Pysa) |
-| `metropolis_restart` | `true` (default, and every saved run except the two walk checks): strategies 6 and 7 restart from the seed when the current subset holds the last operator of the order; `false`: every proposal toggles one operator of the current subset (`configs/*-walk.json`) |
-| `llm` | endpoint, model, `temperature` (0.2), `max_prompt_tokens` (2,500 in the original-prompt runs; 3,000 in the informed runs and `pysa-hard-any`), `prompt_extra` (text appended to the system prompt) |
-| `diagnostic_fields` | which of `rule`, `message`, `sink`, `snippet`, `trace` the diagnostic agent sees (default: all) |
-| `pysa_models`, `pysa_source`, `semgrep_route` | Pysa taint models and source model; a Flask route for Semgrep taint rules |
-| `scan_cache`, `keep_database`, `scanner_timeout`, `oracle_timeout` | scan cache folder, keep CodeQL databases, time limits in seconds |
-| `work_dir` | folder for the per-attempt scan files (default `.sastlab/runs`); a Semgrep scan inside a large git checkout is slower, with the same findings |
-
-## How it works
-
-### Operators
-
-Applied at most once each, in a fixed order, always to the original seed, so a candidate is identified by its operator subset (and its SHA-256). New operators were appended, so old mask numbers keep their meaning. An operator that does not fit a seed (for example `format_swap` on a query built with `%`) is rejected and counts as a failed attempt.
-
-| Group | Operators (in mask order) | Change |
-|---|---|---|
-| Controls | `rename`, `format_swap`, `literal_slice`, `dead_padding` | leave the source-to-sink flow unchanged |
-| Interprocedural and control flow | `extract_1`, `extract_2`, `branch_split` | build the query in helper functions, or in both branches of a condition |
-| Sink resolution | `dict_dispatch`, `dynamic_sink`, `partial_sink`, `methodcaller_sink`, `unbound_sink` | call the sink through a dict, a computed attribute name, `functools.partial`, `operator.methodcaller` or an unbound method |
-| Value propagation | `char_launder`, `pickle_roundtrip` | rebuild the input character by character; serialize and read it back |
-| Containers | `deep_nest`, `queue_roundtrip`, `simplequeue_roundtrip` | box the input in 8 nested lists; pass it through a queue |
-| Second-order storage | `db_roundtrip` | store the input in a SQLite table and read it back |
-
-In mask order the list is `rename`, `format_swap`, `literal_slice`, `dead_padding`, `extract_1`, `extract_2`, `branch_split`, `dict_dispatch`, `dynamic_sink`, `char_launder`, `deep_nest`, `db_roundtrip`, `queue_roundtrip`, `simplequeue_roundtrip`, `pickle_roundtrip`, `partial_sink`, `methodcaller_sink`, `unbound_sink`. The search campaigns used the first 13; the last 5 were evaluated by exhaustive enumeration. The sink-resolution operators rewrite `execute` on a cursor, six `subprocess` functions, `os.popen` and the builtin `open`; `methodcaller_sink` and `unbound_sink` do not apply to `open`, and `unbound_sink` does not apply to module functions such as `subprocess.run`. Details and rationale: [docs/methodology.md](docs/methodology.md).
-
-### Search strategies
-
-| # | Strategy | Chooses the next operator by |
-|---|---|---|
-| 1 | Random | uniform choice |
-| 2 | Heuristic | unseen candidates first, then rarely used operators, then operators that earlier gave a silent verdict (verdicts only) |
-| 3 | History-only agent | a model, from the diff to the seed, the verdict, the last 3 steps and the available operators |
-| 4 | Static ranking | a model, asked once per trajectory to rank all operators from the rule description |
-| 5 | Diagnostic agent | as 3, plus the scanner's rule ID, message, line, snippet and (CodeQL) finding path |
-| 6 | Metropolis, syntax | toggles one operator and accepts the move with probability min(1, e^(Δd/τ)), τ = 0.25, d = normalized AST edit distance from the seed |
-| 7 | Metropolis, depth | the same, with d = the longest chain of calls to functions of the same file from the entry function, and the syntax distance on ties |
-
-Strategies 1 to 5 extend a walk by one operator at a time in increasing operator order and restart from the seed when none is left (a restart costs no attempt). Strategies 6 and 7 toggle one operator on or off, so they can reject moves. With the default `metropolis_restart`, used by every saved run except `semgrep-hard30-walk` and `pysa-hard-walk`, they also restart from the seed when the current subset holds the last operator of the order; the saved runs log these attempts with `restarted: false` (a `parent_mask` that is not the last accepted subset shows them), and the runner now logs them as restarts. A model call returns JSON constrained by a schema: one operator name, or a permutation for strategy 4. An invalid answer is retried twice, then replaced by a uniform random choice (79 of about 76,000 decisions in the saved runs). Operator lists and definitions in the prompt are shuffled per request. HTTP 429 responses wait and retry without using those retries. Prompts are in [docs/prompts.md](docs/prompts.md).
-
-### Behavior check
-
-Every candidate and its seed run in a separate process against a fresh in-memory SQLite database (SQL), with a nominal input and an injection input. A seed is exploitable when the injection returns more items than the nominal input; a candidate must return the seed's output on both. The injection input is `1' OR '1'='1` unless the seed defines its own `SASTLAB_EXPLOIT` (and `SASTLAB_FIXTURE` for its tables); command seeds use `1; echo PWNED`, path seeds `../secret`. Afterwards the saved candidates were rerun on 20 inputs (SQL), 12 (command) and 14 (path) with no difference. The check compares outputs on the tested inputs only; it is not a proof of equivalence. Worker processes isolate time and state but are not a security sandbox: run only trusted programs.
-
-### Scanners and rules
-
-| Class | Semgrep 1.178.0 | CodeQL 2.27.1 (python-queries 1.8.11) | Pysa (pyre-check 0.10.0) | Bandit 1.9.4 |
-|---|---|---|---|---|
-| SQL injection | `formatted-sql-query`; taint mode `tainted-sql-string` | `py/sql-injection` | 5005 and 5051 | `B608` |
-| Command injection | `dangerous-subprocess-use-audit` | `py/command-line-injection` | 5001 and 6065 | `B602` |
-| Path traversal | `path-traversal-open` | `py/path-injection` | 5011 | none |
-
-Rule snapshots are in `rules/` (provenance next to each); Pysa uses the stock models of pyre-check commit `d5614e0a` copied unmodified to `third_party/pysa-models/`. A seed qualifies for a rule only if the rule fires on it and the exploit works. A scan that times out or fails is never counted as an evasion.
-
-### Seeds
-
-Each seed defines one top-level `get_user_profile(db_conn, user_id)` that builds a query, command or path from its argument and uses it, and returns a list.
-
-| Folder | Seeds | Origin |
-|---|---|---|
-| `seeds/` | 15 | synthetic, f-string query, one shared structure |
-| `seeds_diverse/` | 12 | synthetic, other query constructions |
-| `seeds_fstring/` | 3 | f-string seeds of the restricted Semgrep searches |
-| `corpus_official/seeds/` | 9 | adapted from the Semgrep and CodeQL test suites (from 122 `.execute` sites) |
-| `corpus_real/seeds/` | 6 | OWASP BenchmarkPython (5), vulpy (1) |
-| `corpus_apps/seeds/` | 5 | vulnerable releases of parsl, SciTokens and pyLoad |
-| `seeds_cmd/`, `seeds_path/` | 8 + 8 | synthetic command injection and path traversal |
-| `seeds_pysa_hard/`, `seeds_pysa_hard2/`, `seeds_rerun_s05/` | 3, 3, 1 | subsets used for the Pysa searches and one rerun |
-
-## Repository layout
-
-| Path | Content |
-|---|---|
-| `sastlab/` | the framework: operators (`transforms.py`), search strategies (`search.py`), behavior check (`oracle.py`, `oracle_worker.py`), scanner harness (`scanners.py`), run loop (`runner.py`), exhaustive enumeration (`exhaustive.py`), model client (`llm.py`), report cards (`report.py`), command line (`cli.py`) |
-| `configs/` | one JSON config per experiment |
-| `seeds*/`, `corpus_*/` | the seed programs (table above) |
-| `rules/`, `third_party/` | the Semgrep rules and the stock Pysa models, unmodified |
-| `results/` | the saved output of every run and check, with an index (`results/INDEX.md`) |
-| `analysis/` | the scripts behind the tables and numbers of the report |
-| `scripts/` | the 2 helper scripts that produced the path-probe and rewrite-catalog results |
-| `tests/`, `docs/` | unit tests; methodology, validation and prompts |
-
-## Saved results
-
-`results/` holds the output of every run and check behind the findings, one folder each. [results/INDEX.md](results/INDEX.md) lists all of them with scanner, kind, number of seeds, records and evading candidates. Names read `<scanner>-<corpus>-<kind>`, where the corpus is `main`, `diverse`, `official`, `real`, `apps`, `cmd` or `path` (the seed folders above):
-
-| Folder pattern | Content |
-|---|---|
-| `semgrep-v6`, `codeql-v6` | the full campaigns: 7 strategies, 30 attempts, 5 trajectories; 15 seeds for Semgrep, 5 for CodeQL |
-| `*-promptfix` | reruns with the operator definitions shuffled in the prompt |
-| `*-hard*` | restricted-pool searches, where only a few operator sets evade |
-| `*-informed-*`, `*-more-*`, `*-rep1-*`, `*-rep2-*` | agent runs with an informed prompt, extra CodeQL streams, and repeats with two other base seeds |
-| `*-abl-*` | which part of the scanner message the diagnostic agent sees |
-| `*-singles`, `*-pairs`, `*-triples` | exhaustive evaluations of every subset of 1, 2 or 3 operators; `*-nonflow-pairs`: pairs of operators that leave the flow unchanged |
-| `*-taint-*`, `*-latest-*`, `pysa-http-*` | Semgrep taint mode; newest scanner releases; Pysa with a stock source model |
-| `mechanism`, `official-validation`, `codeql-rewrite-catalog`, `prompt-order-probe` | explanation checks, validation against the scanners' own tests, hand-written rewrites, a prompt-order probe |
-
-`manifest.json` records each run's configuration, hashes, versions and platform. The manifests also record the absolute paths of the machine that produced them, and `framework_sha256` records the file hashes at run time, which may differ from the current source files. Write new runs to new folders and do not `--resume` a saved one.
-
-Files in a run folder:
-
-| File | Content |
-|---|---|
-| `manifest.json` | configuration, scanner and model identity, hashes of rules, seeds and framework, state, resume history |
-| `qualifications.json` | which seeds qualify for which rule |
-| `attempts.jsonl` | one record per attempted candidate (`run`) |
-| `evaluations.jsonl` | one record per scanned subset (`exhaustive`) |
-| `llm.jsonl` | every model request and response, token counts, retries and fallbacks |
-| `trajectories.json`, `summary.json` | the walks; per-rule results and strategy measurements |
-| `bypasses/<seed>/<mask>.py` and `.json` | each evading candidate and its scanner and behavior evidence |
-
-Raw scanner reports go to `.sastlab/runs/` (ignored by git and excluded from the submission archive). Delete that folder when you no longer need the raw reports; it grew to about 7 GB over all experiments.
-
-## Analysis
-
-`analysis/` holds the scripts that show the analysis method and compute every table and number in the report from the saved results. They use only the standard library (plus `sastlab` for the behavior and mechanism checks), call no model, write no `.tex` files, and run from any working directory. Each script documents its inputs and method at the top and prints plain-text tables and per-claim breakdowns to stdout.
+### Track E — Reproduce Root-Cause Mechanism Probes & Helper Scripts
 
 ```sh
-analysis/run_all.sh        # run all 15 offline analysis scripts and save plain-text stdout to analysis/out/ (about 3 minutes, no scanner)
-analysis/run_mechanism.sh  # why the evading rewrites work: re-scans with added models (about 15 minutes, needs the scanners)
+# Re-scan added Pysa/CodeQL models (~15 min; requires scanners installed under .sastlab/)
+./analysis/run_mechanism.sh
+
+# Witness-path laundering probe (CodeQL) and rewrite catalog
+.sastlab/.venv/bin/python scripts/path_probe.py configs/codeql-diverse.json runs/codeql-path-probe
+.sastlab/.venv/bin/python scripts/rewrite_catalog.py configs/codeql.json runs/codeql-rewrite-catalog
 ```
 
-| Scripts | Compute |
-|---|---|
-| `common.py`, `candidates.py` | shared helpers: reading saved runs, evasion definitions, stream-paired bootstrap intervals (`5,000` resamples, seed `11`), candidate deduplication and AST query-shape classification |
-| `setup.py` | Table 2 (the 7 corpora), campaign budgets, minimal evading sets of restricted pools, CodeQL scan times, model fallbacks, scan-cache configs and the rewrite catalog |
-| `table3.py`, `table4.py`, `table5.py`, `table6.py` | plain-text tables: single-rewrite evasions per analyzer (Table 3), 4 further corpora (Table 4), restricted-pool LLM comparison with paired intervals (Table 5), and Pysa prompt search breakdown (Table 6) |
-| `rq1.py`, `rq2.py`, `rq3.py`, `rq4.py`, `rq5.py`, `rq6.py`, `lessons.py` | step-by-step calculations behind RQ1–RQ6 and the negative-results/lessons section (control rules, CodeQL additivity, Bandit, Semgrep taint, newer releases, Metropolis restarts, diagnostic ablation, Pysa pairs, repeats and witness-path probe) |
-| `extended_equivalence.py`, `cmd_equivalence.py`, `path_equivalence.py` | the behavior check of every distinct saved candidate on 20 SQL, 12 command and 14 path inputs |
-| `mechanism_*.py` | the added-model repairs and probes behind the causes in RQ5 |
+---
 
-Running any script directly (for example `python3 analysis/table3.py`) prints to stdout without writing files; `analysis/run_all.sh` saves each script's stdout as `analysis/out/<script>.txt` (set `SASTLAB_OUT` to write elsewhere). `scripts/path_probe.py` and `scripts/rewrite_catalog.py` produced `results/codeql-path-probe` and `results/codeql-rewrite-catalog` (usage in each docstring). The queue scripts that ran the experiments and the other check scripts named in the documents are not part of this repository; the `manifest.json` of each run records its configuration.
+## Architecture and Codebase Map
 
-## Tests
+### Execution Data Flow
 
-```sh
-PYTHONDONTWRITEBYTECODE=1 .sastlab/.venv/bin/python -m pytest -q -p no:cacheprovider     # 187 tests, about 2 minutes
+```text
+Seed + Bitmask ──▶ transforms.py (canonical AST rewrite in bit order 0..17)
+                         │
+                         ├──▶ oracle.py / oracle_worker.py (isolated subprocess, 2 inputs)
+                         └──▶ scanners.py (Semgrep / CodeQL / Pysa / Bandit, fail-closed)
+                                    │
+                                    ▼
+                        search.py (Strategies 1–7) ◀── llm.py (Strategies 3–5 via SoCLaaS)
+                                    │
+                                    ▼
+                 runner.py / exhaustive.py ──▶ results/ or runs/ (JSON/JSONL artifacts)
+                                    │
+                                    ▼
+                       report.py / analysis/*.py (report cards, tables, RQs, equivalence)
 ```
 
-They check that every operator subset the tests cover preserves the behavior on all seeds, canonical candidate identity, scanner failure handling, seeded replay, trajectories, Metropolis rejection, feedback isolation, model validation and fallbacks, resume equivalence and the Pysa integration.
+### Package & Directory Structure
 
-## Limits
+| Path | Role |
+| --- | --- |
+| [`sastlab/cli.py`](sastlab/cli.py) | CLI entry point (`doctor`, `run`, `exhaustive`, `transform`, `report`) |
+| [`sastlab/transforms.py`](sastlab/transforms.py) | Canonical 18-operator bitmask AST compiler, `TAXONOMY`, `OPERATOR_HELP`, sink lists |
+| [`sastlab/oracle.py`](sastlab/oracle.py), [`sastlab/oracle_worker.py`](sastlab/oracle_worker.py) | Subprocess runtime oracle (`python -I -B`) with per-call temporary directory cleanup |
+| [`sastlab/scanners.py`](sastlab/scanners.py) | Fail-closed scanner subprocess wrappers, SARIF/JSON parsers, `typed_for_pysa`, `routed_for_semgrep` |
+| [`sastlab/search.py`](sastlab/search.py) | Strategies 1–7, `d_syntax` AST LCS metric, `d_depth`, Metropolis acceptance, `metropolis_restart` |
+| [`sastlab/llm.py`](sastlab/llm.py) | OpenAI-compatible SoCLaaS client, byte-budget observation truncation, HTTP 429 & JSON schema retries |
+| [`sastlab/runner.py`](sastlab/runner.py) | Config loader, trajectory checkpoint/resume loop, persistent `scan_cache`, bypass artifact writer |
+| [`sastlab/exhaustive.py`](sastlab/exhaustive.py) | Subset enumerator (`evaluations.jsonl`) and exhaustive summary checker |
+| [`sastlab/report.py`](sastlab/report.py) | Rule report-card classifier (`weak`, `guidance-sensitive`, `robust`, `exploratory`, `incomplete`, `excluded`) |
+| `configs/` | `93` experiment configurations (JSON) |
+| `seeds*/`, `corpus_*/` | Seed suites: `seeds/` (15 main SQL), `seeds_diverse/` (12 varied), `seeds_fstring/` (3), `corpus_official/seeds/` (9), `corpus_real/seeds/` (6), `corpus_apps/seeds/` (5), `seeds_cmd/` (8 CWE-78), `seeds_path/` (8 CWE-22), `seeds_pysa_hard/` (3), `seeds_pysa_hard2/` (3), `seeds_rerun_s05/` (1) |
+| `rules/`, `third_party/` | Pinned Semgrep YAML rules + `.provenance.json`; unmodified Pysa models (`d5614e0a`) |
+| `results/` | `115` saved experiment and validation folders indexed in [results/INDEX.md](results/INDEX.md) |
+| [`analysis/`](analysis/run_all.sh) | `setup.py`, `table3.py`–`table6.py`, `rq1.py`–`rq6.py`, `lessons.py`, equivalence & mechanism scripts |
+| `scripts/` | Two research probe scripts (`path_probe.py`, `rewrite_catalog.py`) |
+| `tests/`, `docs/` | `11` pytest modules (`187` tests); methodology, validation, and prompt specifications |
 
-- Most seeds are synthetic. The 15 in `seeds/` share one structure, so they behave like one program. Only `corpus_official`, `corpus_real` and `corpus_apps` were not written for this study, and they keep each program's query construction but not its database library.
-- The behavior check covers the tested inputs, and `db_roundtrip` would not preserve lone surrogate characters, which none of the inputs contain.
-- The Pysa result holds for its stock models and this setup, in which the connection parameter is annotated and the entry parameter is declared a source.
-- Python only; 3 vulnerability classes; the rules in the table above.
-- Model-guided runs are close to deterministic at temperature 0.2 but not identical, and the gateway does not publish model digests, so strategies 3 to 5 may give different numbers on a rerun. Runs without a model are seeded and should reproduce for the same scanner versions and `base_seed`.
+### Analysis Scripts Summary
 
-## Documentation and licences
+| Script(s) | Output |
+| --- | --- |
+| `common.py`, `candidates.py` | Shared readers, evasion filters, 5,000-resample stream-paired bootstrap (seed `11`), candidate deduplication, AST shape classifier |
+| `setup.py` | Table 2 (corpora), budgets, minimal evading sets, CodeQL timings, fallbacks, scan-cache configs, rewrite catalog |
+| `table3.py`–`table6.py` | Table 3 (single-rewrite cross-analyzer matrix), Table 4 (4 additional corpora), Table 5 (restricted LLM paired CIs), Table 6 (Pysa prompt search) |
+| `rq1.py`–`rq6.py`, `lessons.py` | Detailed breakdowns and claims for RQ1–RQ6 and negative/lesson analyses |
+| `extended_equivalence.py`, `cmd_equivalence.py`, `path_equivalence.py` | Multi-input equivalence checks (`20` SQL, `12` command, `14` path inputs) |
+| `mechanism_pysa.py`, `mechanism_codeql*.py` | Call-graph, sink-node, depth-sweep, and added-model repairs (RQ5) |
 
-- [docs/methodology.md](docs/methodology.md): design decisions, seed contract, operator and metric definitions, report-card rules.
-- [docs/validation.md](docs/validation.md): how the setup and the results were checked.
-- [docs/prompts.md](docs/prompts.md): the exact agent prompts.
-- [result.md](result.md): the results of the experiments by topic, with numbers.
-- [results/INDEX.md](results/INDEX.md): every saved run folder with its outcome counts.
-- [THIRD_PARTY.md](THIRD_PARTY.md): origin and licence of the vendored rules, models and adapted programs.
+---
 
-The code is under the MIT licence ([LICENSE](LICENSE)); the third-party material keeps its own licences.
+## CLI and Configuration Reference
+
+### CLI Commands
+
+| Command | Behavior |
+| --- | --- |
+| `./run.sh run --config C --output D` | Runs configured search campaign across qualifying seeds. Flags: `--attempts`, `--trajectories`, `--seed-limit`, `--strategies`, `--resume`, `--rerun-errors`, `--scanner-timeout`. |
+| `./run.sh exhaustive --config C --output D --seed-limit N` | Scans every non-empty subset without search or LLM (`--operators ...`, `--max-ops K`, `--resume`). |
+| `./run.sh transform SEED --mask M [--output F]` | Applies bitmask `M` to `SEED`, runs oracle verification, writes source to `F` (or stdout) and JSON check to stderr. |
+| `./run.sh report D [--write]` | Recomputes search summary from `attempts.jsonl` to stdout (`--write` updates `summary.json`). |
+| `./run.sh doctor [--config C]` | Verifies SoCLaaS API access/model serving and prints detected paths for all 4 scanners. |
+
+- **Resume & error recovery:** `run --resume` discards incomplete trajectories (`discarded-partial.jsonl`) and restarts them from scratch so walks never splice. If a baseline scan fails, `exhaustive` stops cleanly (resumable via `--resume`), while `run` completes remaining seeds, exits `1`, and repairs missed baselines with `--rerun-errors`.
+
+### Configuration File Schema (`configs/*.json`)
+
+Run `./run.sh` from the repository root: `seeds`, `rules`, `pysa_models`, and `llm.env_file` resolve relative to the config directory, while `scan_cache`, `work_dir`, and `executable` resolve relative to the working directory.
+
+Minimal annotated example (modeled on [configs/smoke.json](configs/smoke.json)):
+
+```json
+{
+  "engine": "semgrep",
+  "seeds": "../seeds",
+  "rules": "../rules/demo-sqli.yaml",
+  "corpus_kind": "synthetic",
+  "attempts": 30,
+  "trajectories": 5,
+  "base_seed": 6223,
+  "strategies": [1, 2, 3, 4, 5, 6, 7],
+  "cache": true,
+  "llm": {
+    "provider": "soclaas",
+    "model": "llama3.1:8b",
+    "env_file": "../.env",
+    "temperature": 0.2,
+    "max_prompt_tokens": 2500
+  }
+}
+```
+
+| Key | Description |
+| --- | --- |
+| `engine` | `semgrep`, `codeql`, `pysa`, or `bandit` |
+| `seeds`, `seed_limit` | Path to seed directory and optional seed cap |
+| `rules` / `query` / `target_rules` | Local rule YAML (Semgrep), `@`-version-pinned CodeQL query pack, and counted rule IDs |
+| `attempts`, `trajectories`, `base_seed`, `strategies` | Budget per trajectory, trajectory count (`trajectory_seed = base_seed + k`), strategies `1..7` |
+| `operators`, `order` | Optional operator pool subset; `increasing` (default) or `any` order |
+| `evasion` | `any` (default: 1 qualifying rule silenced) or `all` (all qualifying rules silenced, e.g. Pysa) |
+| `metropolis_restart` | `true` (default: Strategies 6–7 reset at end of order) or `false` (`configs/*-walk.json`) |
+| `diagnostic_fields` | Diagnostic subset shown to Strategy 5: `rule`, `message`, `sink`, `snippet`, `trace` |
+| `llm` | Endpoint, `model`, `temperature`, `max_prompt_tokens` (`2,500` original; `3,000` informed & `pysa-hard-any`), `prompt_extra` |
+| `pysa_models`, `pysa_source`, `pysa_rules`, `semgrep_route` | Pysa model dirs, `"parameter-model"` vs `"http-server"`, rule codes, Flask `@app.route` decorator toggle |
+| `scan_cache`, `keep_database`, `scanner_timeout`, `oracle_timeout` | Persistent cache directory, retain CodeQL/Pysa dumps, subprocess timeouts (seconds) |
+| `work_dir`, `executable` | Per-attempt scan directory (default `.sastlab/runs`); custom scanner binary path |
+
+---
+
+## Operators, Strategies, Scanners, and Artifacts
+
+### AST Operators (In Canonical Bitmask Order)
+
+Bit `i` maps to mask $2^i$. Campaigns use bits `0..12`; exhaustive runs evaluate all `0..17` (`262,143` non-empty subsets). For complete rules and edge-case rejections, see [docs/methodology.md](docs/methodology.md).
+
+| Bit | Mask | Name | Group | Summary |
+| ---: | ---: | --- | --- | --- |
+| 0 | 1 | `rename` | Control | Rename params/locals to `_mt_*` |
+| 1 | 2 | `format_swap` | Control | Convert f-string to `.format()` or `+` to `join()` |
+| 2 | 4 | `literal_slice` | Control | Prefix SQL string literals with `#` and slice `[1:]` |
+| 3 | 8 | `dead_padding` | Control | Insert unreachable branch before query/sink |
+| 4 | 16 | `extract_1` | Interprocedural | Extract query construction into 1 helper |
+| 5 | 32 | `extract_2` | Interprocedural | Route query construction through 2 helpers |
+| 6 | 64 | `branch_split` | Control-flow | Duplicate query assignment into `if`/`else` |
+| 7 | 128 | `dict_dispatch` | Sink resolution | Dispatch sink call through a constant-key dict |
+| 8 | 256 | `dynamic_sink` | Sink resolution | Resolve sink dynamically via `getattr(..., "exe" + "cute")` / builtin split |
+| 9 | 512 | `char_launder` | Value propagation | Rebuild input via `"".join(chr(ord(c)) for c in x)` |
+| 10 | 1024 | `deep_nest` | Container | Box/unbox input in 8 nested lists |
+| 11 | 2048 | `db_roundtrip` | Second-order storage | Round-trip input through in-memory SQLite table |
+| 12 | 4096 | `queue_roundtrip` | Container | Round-trip input through `queue.Queue` |
+| 13 | 8192 | `simplequeue_roundtrip` | Container | Round-trip input through `queue.SimpleQueue` |
+| 14 | 16384 | `pickle_roundtrip` | Value propagation | Round-trip input via `pickle.loads(pickle.dumps(...))` |
+| 15 | 32768 | `partial_sink` | Sink resolution | Invoke sink via `functools.partial` |
+| 16 | 65536 | `methodcaller_sink` | Sink resolution | Invoke method via `operator.methodcaller` |
+| 17 | 131072 | `unbound_sink` | Sink resolution | Invoke bound method as `type(obj).method(obj, ...)` |
+
+### Search Strategies (`STRATEGIES`)
+
+| ID | Name | Next-Operator Selection |
+| ---: | --- | --- |
+| 1 | `naive` | Uniform random valid forward operator (free restart at end of order) |
+| 2 | `blackbox` | Greedy score `(unvisited, -uses, clean_count)` with PRNG tie-break |
+| 3 | `blackbox_agent` | LLM given candidate diff, verdict, last 3 steps, shuffled available operators |
+| 4 | `static_greybox` | LLM called once per trajectory to rank all operators from rule metadata |
+| 5 | `trace_agent` | Same observation as Strategy 3 plus scanner diagnostics (`rule`, `message`, `sink`, `snippet`, `trace`) |
+| 6 | `metric_syntax` | Toggle one bit uniformly; Metropolis acceptance with AST LCS syntax distance ($\tau = 0.25$) |
+| 7 | `metric_depth` | Same as 6 using local helper call depth, falling back to syntax distance on ties |
+
+Exact prompt instructions and schemas appear in [docs/prompts.md](docs/prompts.md).
+
+### Pinned Scanners and Rules
+
+| Vulnerability Class | Semgrep `1.178.0` | CodeQL `2.27.1` (`python-queries` `1.8.11`) | Pysa (`pyre-check` `0.10.0`, models `d5614e0a`) | Bandit `1.9.4` |
+| --- | --- | --- | --- | --- |
+| SQL injection (CWE-89) | `formatted-sql-query`, `tainted-sql-string` | `py/sql-injection` | `5005`, `5051` | `B608` |
+| Command injection (CWE-78) | `dangerous-subprocess-use-audit` | `py/command-line-injection` | `5001`, `6065` | `B602` |
+| Path traversal (CWE-22) | `path-traversal-open` | `py/path-injection` | `5011` | — |
+
+### Output Folder Layout (`results/<run>/` or `runs/<run>/`)
+
+| Artifact | Content |
+| --- | --- |
+| `manifest.json` | Config snapshot, scanner/model identity, rule/seed/`framework_sha256` digests, state, resumes |
+| `qualifications.json` | Baseline oracle + scanner verdict per seed |
+| `attempts.jsonl` | Per-attempt candidate hash, mask, scan result, oracle result, timing (`run`) |
+| `evaluations.jsonl` | Per-subset evaluation rows (`exhaustive`) |
+| `llm.jsonl` | Raw model payloads, responses, prompt token counts, rate-limit waits, fallbacks |
+| `trajectories.json`, `summary.json` | Trajectory mask traces; per-rule report cards and strategy metrics |
+| `bypasses/<seed>/<mask>.{py,json}` | Materialized evading program and verification record |
+
+`manifest.json` records absolute paths and `framework_sha256` at run time (which may differ from the current source files across experiment stages). Raw scanner work files default to `.sastlab/runs/` (git-ignored and excluded from submission archives; grew to ~7 GB across all campaigns).
+
+---
+
+## Environment and Scope Limits
+
+Developed and verified on Ubuntu 26.04 LTS (Linux 7.0 x86-64, glibc `2.43`, 2 KVM vCPUs on AMD EPYC 9354P, 7 GB RAM, 96 GB disk, Python `3.14`); not tested on macOS, Windows, or ARM (CodeQL bundle is Linux x86-64 only). Scanner environments take ~0.9 GB, `results/` ~0.5 GB. Individual scans take a few seconds on Semgrep/Pysa/Bandit and `14 s` median / `19 s` mean (`196 s` max in `codeql-v6`) on CodeQL.
+
+- Synthetic templates dominate `seeds/` (15 variants of one structure); `corpus_official`, `corpus_real`, and `corpus_apps` preserve query construction rather than original database drivers.
+- Runtime equivalence checks cover tested inputs only (`db_roundtrip` does not preserve lone surrogates).
+- Pysa findings reflect stock models plus `sqlite3.Connection` parameter typing and parameter/HTTP source config.
+- SoCLaaS exposes no weight digest, so LLM runs (`strategies` 3–5) may vary slightly across servers; deterministic strategies (`1, 2, 6, 7`) and `exhaustive` runs reproduce cleanly under pinned scanner versions.
+
+Licensed under the MIT License ([LICENSE](LICENSE)); vendored rules, Pysa models, and adapted corpus files retain their upstream licenses ([THIRD_PARTY.md](THIRD_PARTY.md)).
