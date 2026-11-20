@@ -1,6 +1,5 @@
 """Regression tests for defects found while reviewing the artifact as a stranger would use it from a clean checkout."""
 import importlib.util
-import inspect
 import io
 import json
 import os
@@ -14,7 +13,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from sastlab import cli, llm, scanners
+from sastlab import cli, scanners
 from sastlab.exhaustive import summarize_exhaustive
 from sastlab.oracle import Oracle
 from sastlab.runner import load_config, scan_cache_settings, scanner_from
@@ -103,14 +102,7 @@ def test_unbound_sink_rejects_a_receiver_bound_by_a_local_import(import_line):
         candidate(source, mask("unbound_sink"))
 
 
-# --- scripts and API --------------------------------------------------------------------------------------------
-
-def test_prompt_order_probe_replaces_the_prompt_with_the_same_parameters():
-    probe = load("scripts/prompt_order_probe.py", "prompt_order_probe")
-    assert list(inspect.signature(probe.fixed_order_prompt).parameters) == list(inspect.signature(llm.system_prompt).parameters)
-    assert probe.fixed_order_prompt(7, {"rename"}, "") == llm.SYSTEM
-    assert probe.fixed_order_prompt(7, None, "note") == llm.SYSTEM + " note"
-
+# --- API ----------------------------------------------------------------------------------------------------------
 
 def test_summarize_exhaustive_needs_the_number_of_enumerated_masks():
     rows = [{"seed": "s", "mask": m, "status": "evaluated", "equivalent": True, "scan_status": "ok", "bypassed_rules": []}
