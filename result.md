@@ -1,6 +1,6 @@
 # SASTLab: Results
 
-All figures are recomputed from the saved `attempts.jsonl`, `llm.jsonl`, `evaluations.jsonl` and `summary.json` files in `results/`; `./run.sh report <folder>` recomputes the summary of a search run (`--write` saves it). The analysis, queue and validation scripts and the upstream test suites named below were used to compute and check these results; they are not part of this repository, which keeps the framework, the configs, the seeds and the saved results. `results/INDEX.md` lists every saved folder.
+All figures are recomputed from the saved `attempts.jsonl`, `llm.jsonl`, `evaluations.jsonl` and `summary.json` files in `results/`; `./run.sh report <folder>` recomputes the summary of a search run (`--write` saves it). The analysis scripts named below (for example `rescan_sample.py` and `more_streams.py`) are in `analysis/`, and `results/INDEX.md` lists every saved folder with the script that produced it. The scanner validation scripts and the seed harvester named below (`scripts/validate_*_suite.py`, `scripts/harvest.py`) and the upstream test suites they read are not part of this repository.
 
 ## Main findings
 
@@ -352,7 +352,7 @@ Intervals are 95% percentile bootstrap intervals with 5,000 resamples over strea
 
 | Check | Result |
 | --- | --- |
-| Unit and integration suite | 182 tests passed (177 passed and 5 skipped in the Docker image) on the current tree, which differs from the tree the early campaigns ran on ([validation record](docs/validation.md)) |
+| Unit and integration suite | 193 tests passed (183 passed and 10 skipped in the Docker image) on the current tree, which differs from the tree the early campaigns ran on ([validation record](docs/validation.md)) |
 | Behavior preservation | Every evaluated candidate in the saved campaigns matched the original on both inputs: 0 differences in 5,563 Semgrep candidates, 225 + 31 operator-check candidates and 5,250 CodeQL search attempts |
 | Verdict determinism | No (seed, subset) pair received two different verdicts in any saved run: 12,532 distinct Semgrep pairs (pinned 1.178.0, main, varied and official seeds, `controls_main.py`) and 3,945 distinct CodeQL pairs (same corpora, 26 runs, 3,780 without the 2 runs of CodeQL 2.27.3, `codeql_rule.py`) |
 | Scanner and oracle errors | 0 oracle failures in all campaigns; 0 scanner errors in every campaign except `codeql-hard-qwen` (2 timed-out scans of `d02_str_format`, strategy 5, not counted as evasions; its report card is `excluded`); `codeql-v6` has none after the rerun of its 3 timed-out scans |

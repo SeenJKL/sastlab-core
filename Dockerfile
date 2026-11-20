@@ -2,7 +2,7 @@
 #   Python 3.14 + the exact packages in requirements.lock (includes Semgrep 1.178.0),
 #   CodeQL CLI 2.27.1 python bundle (SHA-256 checked) which ships codeql/python-queries 1.8.11,
 #   Bandit 1.9.4 (requirements-bandit.lock) and Pysa (pyre-check 0.10.0, requirements-pysa.lock), each in its own environment, with the stock models in third_party/pysa-models.
-# The saved experiment results (results/, about 0.4 GB) are not copied into the image.
+# The saved experiment results (results/, about 0.4 GB) are not copied into the image; mount them to run analysis/run_all.sh.
 #
 #   docker build -t sastlab .
 #   docker run --rm sastlab                       # offline checks: unit and integration test suite

@@ -42,15 +42,16 @@ Not tested: macOS, Windows and ARM machines. The CodeQL bundle in step 1 is for 
 
 ## Quick start
 
-Unpack the zip with `unzip` so that `run.sh` stays executable. Python's `python3 -m zipfile -e` drops the executable bit; then run `chmod +x run.sh` once (or start a script as `sh run.sh ...`).
+Unpack the zip with `unzip` so that `run.sh` and the shell scripts stay executable. Python's `python3 -m zipfile -e` drops the executable bit; then run `chmod +x run.sh scripts/*.sh analysis/*.sh` once (or start a script as `sh run.sh ...`).
 
 ### 0. Read the saved results (no installation)
 
 The saved runs need no scanner and no key to read:
 
 ```sh
-less results/INDEX.md                          # every run folder: scanner, kind, seeds, records, evading count, state
+less results/INDEX.md                          # every run folder: scanner, kind, seeds, records, evading count, state, producing script
 python3 -m sastlab report results/semgrep-v6   # report card of a search run, recomputed from its attempts.jsonl (read-only)
+python3 scripts/queue_commands.py semgrep-v6   # the exact command that produced it
 ```
 
 Exhaustive runs (`*-singles`, `*-pairs`, `*-triples`) keep one verdict per rewrite set in `evaluations.jsonl`, and their counts in `summary.json`.
@@ -88,7 +89,7 @@ Strategies 1, 2, 6 and 7 and every `exhaustive` run need no API key:
 ./run.sh exhaustive --config configs/semgrep-official.json --output runs/my-first --seed-limit 1 --max-ops 1     # 18 scans, a few minutes
 ```
 
-`transform` prints the behavior check of the candidate it writes. Each `--output` folder must be new. Write your own runs to `runs/` (ignored by git): `results/` is for the saved runs.
+`transform` prints the behavior check of the candidate it writes. Each `--output` folder must be new. Write your own runs to `runs/` (ignored by git): `results/` is for the saved runs, and `analysis/` aggregates over every folder in it.
 
 ### 3. Run with a model (strategies 3, 4 and 5)
 
@@ -199,15 +200,17 @@ Each seed defines one top-level `get_user_profile(db_conn, user_id)` that builds
 | `seeds*/`, `corpus_*/` | the seed programs (table above) |
 | `rules/`, `third_party/` | the Semgrep rules and the stock Pysa models, unmodified |
 | `results/` | the saved output of every run and check, with an index (`results/INDEX.md`) |
+| `scripts/` | the queue scripts behind the saved results, and helper checks |
+| `analysis/` | recomputes the numbers and repeats the independent checks from `results/` |
 | `tests/`, `docs/` | unit tests; methodology, validation and prompts |
 
 ## Saved results
 
-`results/` holds the output of every run and check behind the findings, one folder each. [results/INDEX.md](results/INDEX.md) lists all of them with scanner, kind, number of seeds, records and evading candidates. Names read `<scanner>-<corpus>-<kind>`, where the corpus is `main`, `diverse`, `official`, `real`, `apps`, `cmd` or `path` (the seed folders above):
+`results/` holds the output of every run and check behind the findings, one folder each. [results/INDEX.md](results/INDEX.md) lists all of them with scanner, kind, number of seeds, records, evading candidates and the script that produced them; `python3 scripts/queue_commands.py <folder>` prints the exact command of a folder without running anything. Names read `<scanner>-<corpus>-<kind>`, where the corpus is `main`, `diverse`, `official`, `real`, `apps`, `cmd` or `path` (the seed folders above):
 
 | Folder pattern | Content |
 |---|---|
-| `semgrep-v6`, `codeql-v6` | the full campaigns: 7 strategies, 30 attempts, 5 trajectories; 15 seeds for Semgrep, 5 for CodeQL |
+| `semgrep-v6`, `codeql-v6` | the full campaigns: 7 strategies, 30 attempts, 5 trajectories; 15 seeds for Semgrep, 5 for CodeQL (commands in `scripts/queue.sh`) |
 | `*-promptfix` | reruns with the operator definitions shuffled in the prompt |
 | `*-hard*` | restricted-pool searches, where only a few operator sets evade |
 | `*-informed-*`, `*-more-*`, `*-rep1-*`, `*-rep2-*` | agent runs with an informed prompt, extra CodeQL streams, and repeats with two other base seeds |
@@ -216,7 +219,7 @@ Each seed defines one top-level `get_user_profile(db_conn, user_id)` that builds
 | `*-taint-*`, `*-latest-*`, `pysa-http-*` | Semgrep taint mode; newest scanner releases; Pysa with a stock source model |
 | `mechanism`, `official-validation`, `codeql-rewrite-catalog`, `prompt-order-probe` | explanation checks, validation against the scanners' own tests, hand-written rewrites, a prompt-order probe |
 
-`manifest.json` records each run's configuration, hashes, versions and platform. The manifests also record the absolute paths of the machine that produced them, and `framework_sha256` is the hash of each framework file when the run started (the code has been edited since, so these hashes do not match the current files). Write new runs to new folders and do not `--resume` a saved one.
+The commands behind most folders are in `scripts/queue*.sh`; `manifest.json` records each run's configuration, hashes, versions and platform. The manifests also record the absolute paths of the machine that produced them, and `framework_sha256` is the hash of each framework file when the run started (the code has been edited since, so these hashes do not match the current files). Write new runs to new folders and do not `--resume` a saved one.
 
 Files in a run folder:
 
@@ -232,10 +235,41 @@ Files in a run folder:
 
 Raw scanner reports go to `.sastlab/runs/` (not committed). Delete that folder when you no longer need the raw reports; it grew to about 7 GB over all experiments.
 
+## Scripts
+
+| Script | Does |
+|---|---|
+| `scripts/queue*.sh` | the serial, resumable job lists behind the saved results |
+| `scripts/queue_commands.py`, `index_results.py` | list the command behind every results folder; write `results/INDEX.md` |
+| `scripts/check_candidates_unchanged.py` | after any change to `sastlab/transforms.py`, regenerates every saved candidate and compares its SHA-256 |
+| `scripts/export_prompts.py` | writes `docs/prompts.md` from the code and the configs |
+| `scripts/merge_rerun.py`, `merge_rows.py`, `path_probe.py`, `prompt_order_probe.py`, `rewrite_catalog.py` | helper analyses; each docstring gives its usage |
+
+The scripts that check the scanners against their own upstream test suites (`reproduce.sh`, `validate_*_suite.py`, `check_smoke.py`) and the harvester that built `corpus_official/seeds/` (`harvest.py`) are not part of this repository, because they read those upstream test suites, which are not included. Their output is saved in `results/official-validation/` and `corpus_official/seeds/`.
+
+## Analysis
+
+`analysis/` recomputes the numbers in `result.md` and `docs/validation.md` from the saved results and repeats the independent checks. Nothing here calls a model; paths are relative to the repository, so the scripts run from any directory.
+
+```sh
+analysis/run_all.sh        # tables, numbers and behavior checks from results/ into analysis/out/ (about 3 minutes, no scanner)
+analysis/run_mechanism.sh  # why the evading rewrites work: re-scans with added models (about 15 minutes, needs the scanners)
+.sastlab/.venv/bin/python analysis/rescan_sample.py <config> <seed dir> <n per class> <run> ...   # independent re-scan of a sample of saved candidates
+```
+
+| Scripts | Compute |
+|---|---|
+| `*_numbers.py`, `single_ops.py`, `codeql_rule.py`, `controls_main.py`, `prompt_*.py`, `pysa_*.py`, `more_streams.py`, `informed_other.py`, `vs_heuristic.py`, `round2_analysis.py`, `taint_numbers.py`, `http_robustness.py` | per-operator and per-strategy counts, intervals and paired comparisons from the saved runs |
+| `extended_equivalence.py`, `cmd_equivalence.py`, `path_equivalence.py` | the behavior check on every distinct saved candidate, on more inputs |
+| `rescan_sample.py`, `rescan_attempts.py`, `rescan_pysa.py` | independent re-scans of random samples of saved candidates and logged attempts (each docstring gives its arguments) |
+| `mechanism_*.py` | the added-model repairs and probes behind the explanations of the evasions |
+
+Each script prints its numbers and writes LaTeX number macros (`\newcommand{\name}{value}`) and table rows to `analysis/out/`; set `SASTLAB_OUT` to write elsewhere.
+
 ## Tests
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 .sastlab/.venv/bin/python -m pytest -q -p no:cacheprovider     # 182 tests, about 2 minutes
+PYTHONDONTWRITEBYTECODE=1 .sastlab/.venv/bin/python -m pytest -q -p no:cacheprovider     # 193 tests, about 2 minutes
 ```
 
 They check that every operator subset the tests cover preserves the behavior on all seeds, canonical candidate identity, scanner failure handling, seeded replay, trajectories, Metropolis rejection, feedback isolation, model validation and fallbacks, resume equivalence and the Pysa integration.
@@ -254,7 +288,7 @@ They check that every operator subset the tests cover preserves the behavior on 
 - [docs/validation.md](docs/validation.md): how the setup and the results were checked.
 - [docs/prompts.md](docs/prompts.md): the exact agent prompts.
 - [result.md](result.md): the results of the experiments by topic, with numbers.
-- [results/INDEX.md](results/INDEX.md): every saved run folder with its outcome counts.
+- [results/INDEX.md](results/INDEX.md): every saved run folder, its outcome counts and the script that produced it.
 - [THIRD_PARTY.md](THIRD_PARTY.md): origin and licence of the vendored rules, models and adapted programs.
 
 The code is under the MIT licence ([LICENSE](LICENSE)); the third-party material keeps its own licences.
