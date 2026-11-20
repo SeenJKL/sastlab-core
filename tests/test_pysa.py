@@ -63,8 +63,8 @@ MODELS = Path(__file__).resolve().parent.parent / "third_party" / "pysa-models"
 
 @pytest.mark.skipif(not PYRE.is_file(), reason="Pysa environment not installed")
 def test_live_scan_inside_the_repository_sees_only_the_scanned_file(tmp_path):
-    # Regression: scanning below the repository root once adopted its pyproject.toml and .gitignore,
-    # type-checked the whole repository, and found no entry function.
+    # Scanning below the repository root must not adopt its pyproject.toml and .gitignore
+    # (which would type-check the whole repository instead of just the scanned file).
     work = Path(__file__).resolve().parent.parent / ".sastlab" / "runs" / "pytest-pysa"
     scanner = Scanner("pysa", str(PYRE), None, 120, models=[MODELS / "core", MODELS / "common"])
     scan = scanner.scan(SEED.read_text(), work / "base")

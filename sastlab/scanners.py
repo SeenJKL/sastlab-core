@@ -138,7 +138,7 @@ def typed_for_pysa(source):
 
     The same copy is made for the command-injection and path-traversal seeds, whose first parameter is unused. The annotation is
     inert there: Pysa reports the same rules with and without it on all 8 command and all 8 path baselines
-    (tests/test_artifact_fixes.py checks 2 of them). It is kept so that the saved Pysa runs of those classes stay reproducible.
+    (tests/test_robustness.py checks 2 of them). It is kept so that the saved Pysa runs of those classes stay reproducible.
     """
     tree = ast.parse(source)
     entry = next((n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == PYSA_ENTRY), None)

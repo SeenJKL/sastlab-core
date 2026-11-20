@@ -1,4 +1,4 @@
-"""Pysa restricted-pool search table (folded into RQ6 prose in the 8-page report; budget 15; no evasion = 16).
+"""Table 6 of the report: attempts to the first evasion on Pysa (budget 15; no evasion = 16).
 
 Question
   RQ6 of the paper ("Does an agent find the rewrite pair that Pysa needs?"): how many attempts each search strategy

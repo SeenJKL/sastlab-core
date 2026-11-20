@@ -1,6 +1,6 @@
 """CodeQL mechanism probe: for candidates built from seed_01 with 1 rewrite, list the nodes that the stock SqlInjection query treats as a source,
 as a sink in subject.py, and as a sink that the source reaches (a CodeQL query run on a fresh database).
-Also: nest depth sweep for deep_nest. usage (from the repository root): .sastlab/.venv/bin/python analysis/mechanism_codeql_probe.py"""
+usage (from the repository root): .sastlab/.venv/bin/python analysis/mechanism_codeql_probe.py"""
 import shutil, subprocess, sys
 from pathlib import Path
 from common import ROOT

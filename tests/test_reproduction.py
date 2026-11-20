@@ -50,12 +50,14 @@ def test_every_path_in_every_config_exists():
 
 def test_analysis_scripts_use_repository_paths():
     scripts = sorted((ROOT / "analysis").glob("*.py")) + sorted((ROOT / "analysis").glob("*.sh"))
-    assert len(scripts) >= 20
-    for script in scripts:
+    helper_scripts = sorted((ROOT / "scripts").glob("*.py"))
+    assert len(scripts) >= 20 and len(helper_scripts) >= 2
+    for script in scripts + helper_scripts:
         text = script.read_text()
         assert not re.search(r"parents\[2\]|\.\./\.\.|/home/|/tmp/", text), script.name  # nothing may point outside the repository
         if script.suffix == ".py":
-            assert ".tex" not in text, f"{script.name} should print plain-text analysis, not write .tex"
+            if script.parent.name == "analysis":
+                assert ".tex" not in text, f"{script.name} should print plain-text analysis, not write .tex"
             compile(text, str(script), "exec")
 
 

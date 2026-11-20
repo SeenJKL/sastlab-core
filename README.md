@@ -109,7 +109,7 @@ Copy `.env.example` to `.env` and set `SOCLAAS_API_KEY`, or export it. The confi
 | `report D [--write]` | recomputes the summary of a search run from the recorded attempts and prints it; `--write` also overwrites `summary.json` in `D` (the default leaves the folder untouched) |
 | `doctor [--config C]` | asks the gateway for its model list (so it needs the key and network access), checks that the config's model is served, and prints where the 4 scanners were found |
 
-`run --resume` and `exhaustive --resume` continue an interrupted run in the same folder with the same config. A trajectory counts as done only when all its attempts are recorded; an incomplete one is rerun from scratch, so no walk mixes two runs. A baseline scan that does not finish (for example a timeout on a cold first scan) is not treated as "seed not flagged": `exhaustive` stops with an error and `--resume` continues; `run` finishes the other seeds, names the seeds without a verdict and exits 1, and the same command with `--rerun-errors` repairs them. Scans take from a few seconds to about 25 s each (CodeQL is the slowest), so a full campaign takes hours.
+`run --resume` and `exhaustive --resume` continue an interrupted run in the same folder with the same config. A trajectory counts as done only when all its attempts are recorded; an incomplete one is rerun from scratch, so no walk mixes two runs. A baseline scan that does not finish (for example a timeout on a cold first scan) is not treated as "seed not flagged": `exhaustive` stops with an error and `--resume` continues; `run` finishes the other seeds, names the seeds without a verdict and exits 1, and the same command with `--rerun-errors` repairs them. Scans take a few seconds for Semgrep, Pysa and Bandit, and 14 s at the median (19 s on average, up to 196 s) for CodeQL, so a full campaign takes hours.
 
 ### Configuration
 
@@ -124,7 +124,7 @@ One JSON file per experiment in `configs/`. `seeds`, `rules`, `pysa_models` and 
 | `operators`, `order` | restrict the operator pool; `increasing` (default) or `any` order of addition |
 | `evasion` | `any` (default: one qualifying rule stops firing) or `all` (none of them fires, used for Pysa) |
 | `metropolis_restart` | `true` (default, and every saved run except the two walk checks): strategies 6 and 7 restart from the seed when the current subset holds the last operator of the order; `false`: every proposal toggles one operator of the current subset (`configs/*-walk.json`) |
-| `llm` | endpoint, model, `temperature` (0.2), `max_prompt_tokens` (2,500), `prompt_extra` (text appended to the system prompt) |
+| `llm` | endpoint, model, `temperature` (0.2), `max_prompt_tokens` (2,500 in the original-prompt runs; 3,000 in the informed runs and `pysa-hard-any`), `prompt_extra` (text appended to the system prompt) |
 | `diagnostic_fields` | which of `rule`, `message`, `sink`, `snippet`, `trace` the diagnostic agent sees (default: all) |
 | `pysa_models`, `pysa_source`, `semgrep_route` | Pysa taint models and source model; a Flask route for Semgrep taint rules |
 | `scan_cache`, `keep_database`, `scanner_timeout`, `oracle_timeout` | scan cache folder, keep CodeQL databases, time limits in seconds |
@@ -218,7 +218,7 @@ Each seed defines one top-level `get_user_profile(db_conn, user_id)` that builds
 | `*-taint-*`, `*-latest-*`, `pysa-http-*` | Semgrep taint mode; newest scanner releases; Pysa with a stock source model |
 | `mechanism`, `official-validation`, `codeql-rewrite-catalog`, `prompt-order-probe` | explanation checks, validation against the scanners' own tests, hand-written rewrites, a prompt-order probe |
 
-`manifest.json` records each run's configuration, hashes, versions and platform. The manifests also record the absolute paths of the machine that produced them, and `framework_sha256` is the hash of each framework file when the run started (the code has been edited since, so these hashes do not match the current files). Write new runs to new folders and do not `--resume` a saved one.
+`manifest.json` records each run's configuration, hashes, versions and platform. The manifests also record the absolute paths of the machine that produced them, and `framework_sha256` records the file hashes at run time, which may differ from the current source files. Write new runs to new folders and do not `--resume` a saved one.
 
 Files in a run folder:
 
@@ -232,7 +232,7 @@ Files in a run folder:
 | `trajectories.json`, `summary.json` | the walks; per-rule results and strategy measurements |
 | `bypasses/<seed>/<mask>.py` and `.json` | each evading candidate and its scanner and behavior evidence |
 
-Raw scanner reports go to `.sastlab/runs/` (not committed). Delete that folder when you no longer need the raw reports; it grew to about 7 GB over all experiments.
+Raw scanner reports go to `.sastlab/runs/` (ignored by git and excluded from the submission archive). Delete that folder when you no longer need the raw reports; it grew to about 7 GB over all experiments.
 
 ## Analysis
 
@@ -247,7 +247,7 @@ analysis/run_mechanism.sh  # why the evading rewrites work: re-scans with added 
 |---|---|
 | `common.py`, `candidates.py` | shared helpers: reading saved runs, evasion definitions, stream-paired bootstrap intervals (`5,000` resamples, seed `11`), candidate deduplication and AST query-shape classification |
 | `setup.py` | Table 2 (the 7 corpora), campaign budgets, minimal evading sets of restricted pools, CodeQL scan times, model fallbacks, scan-cache configs and the rewrite catalog |
-| `table3.py`, `table4.py`, `table5.py`, `table6.py` | plain-text tables: single-rewrite evasions per analyzer (Table 3), 4 further corpora (Table 4), restricted-pool LLM comparison with paired intervals (Table 5), and Pysa prompt search breakdown (RQ6) |
+| `table3.py`, `table4.py`, `table5.py`, `table6.py` | plain-text tables: single-rewrite evasions per analyzer (Table 3), 4 further corpora (Table 4), restricted-pool LLM comparison with paired intervals (Table 5), and Pysa prompt search breakdown (Table 6) |
 | `rq1.py`, `rq2.py`, `rq3.py`, `rq4.py`, `rq5.py`, `rq6.py`, `lessons.py` | step-by-step calculations behind RQ1–RQ6 and the negative-results/lessons section (control rules, CodeQL additivity, Bandit, Semgrep taint, newer releases, Metropolis restarts, diagnostic ablation, Pysa pairs, repeats and witness-path probe) |
 | `extended_equivalence.py`, `cmd_equivalence.py`, `path_equivalence.py` | the behavior check of every distinct saved candidate on 20 SQL, 12 command and 14 path inputs |
 | `mechanism_*.py` | the added-model repairs and probes behind the causes in RQ5 |

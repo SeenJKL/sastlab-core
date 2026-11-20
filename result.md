@@ -131,7 +131,7 @@ Corpus built by `scripts/harvest.py` from the unmodified test files of the two r
 
 ### Pysa: singles, pairs and triples
 
-Third analyzer: Pysa (pyre-check 0.10.0) with the stock models at commit `d5614e0a` and its 2 SQL rules (5005 flow, 5051 string-combine); see README for the adapter. Runs (no model calls, no search; scripts `pysa_numbers.py` and `pysa_tables.py` compute every number below from the saved runs): `pysa-official-singles`, `pysa-main-singles`, `pysa-diverse-singles`, `pysa-official-pairs`, `pysa-main-pairs`. 4,716 evaluation rows, 3,994 distinct scanned candidates (606 single, 3,388 pair), 0 scan errors, 0 behavior-check differences (invalid, i.e. inapplicable, candidates are recorded separately). Scan time 5.2 s.
+Third analyzer: Pysa (pyre-check 0.10.0) with the stock models at commit `d5614e0a` and its 2 SQL rules (5005 flow, 5051 string-combine); see README for the adapter. Runs (no model calls, no search; scripts `analysis/table3.py` and `analysis/rq5.py` compute every number below from the saved runs): `pysa-official-singles`, `pysa-main-singles`, `pysa-diverse-singles`, `pysa-official-pairs`, `pysa-main-pairs`. 4,716 evaluation rows, 3,994 distinct scanned candidates (606 single, 3,388 pair), 0 scan errors, 0 behavior-check differences (invalid, i.e. inapplicable, candidates are recorded separately). Scan time 5.2 s.
 
 **Qualification.** 15 of 15 main seeds, 10 of 12 varied seeds, 9 of 9 official seeds (both rules fire and the exploit stays live). The 2 dropped varied seeds (`d08_like`, `d11_fetchone`) are flagged by Pysa, as by Semgrep and CodeQL, and dropped by the exploit check.
 
@@ -198,7 +198,7 @@ Third analyzer: Pysa (pyre-check 0.10.0) with the stock models at commit `d5614e
 
 ### Bandit
 
-Bandit 1.9.4 (`.sastlab/bandit-venv`, `requirements-bandit.lock`) is a per-file AST linter without taint tracking. Rules: B608 (SQL built by string formatting or concatenation, CWE-89) and B602 (`subprocess` with `shell=True`, CWE-78). Bandit has no default test for the path-traversal class, so that class is not run. All single and pair rewrites (`scripts/queue_bandit.sh`, configs `configs/bandit-*.json`, results `results/bandit-*-pairs`), 6 corpora, 50 seeds that Bandit flags before any rewrite, 7,700 candidates, 0 scan errors, 0 behavior differences, 1,166 silent (`bandit_numbers.py`):
+Bandit 1.9.4 (`.sastlab/bandit-venv`, `requirements-bandit.lock`) is a per-file AST linter without taint tracking. Rules: B608 (SQL built by string formatting or concatenation, CWE-89) and B602 (`subprocess` with `shell=True`, CWE-78). Bandit has no default test for the path-traversal class, so that class is not run. All single and pair rewrites (`scripts/queue_bandit.sh`, configs `configs/bandit-*.json`, results `results/bandit-*-pairs`), 6 corpora, 50 seeds that Bandit flags before any rewrite, 7,700 candidates, 0 scan errors, 0 behavior differences, 1,166 silent (`analysis/rq2.py`):
 
 | Corpus | Seeds | Candidates | Silent |
 | --- | ---: | ---: | ---: |
@@ -221,7 +221,7 @@ Operators are grouped by the taint-analysis weakness they stress (`TAXONOMY` in 
 
 `codeql-path-probe`: laundering rewrites inserted at each node of CodeQL's witness path (parameter, query definition, query at sink): 155/155 evade, 31/31 identity controls detected, so placement on the path gives no advantage over the function entry. Seeds d08 and d11 excluded (exploit not live under the oracle). Script: `scripts/path_probe.py`.
 
-`semgrep-controls-main` (`queue_pattern_singles.sh`): all 15 subsets of the 4 control rewrites on the 15 main seeds, pinned Semgrep 1.178.0, 225 candidates, 0 scan errors, 0 behavior differences. 60 evade, exactly the 4 subsets that contain both `format_swap` and `literal_slice` (15 of 15 seeds each); the other 11 subsets, with or without `rename` and `dead_padding`, never evade. Across all saved pinned-rule runs on SQL seeds, 134 of 473 distinct control-only candidates evade and every one contains `literal_slice` (`controls_main.py`).
+`semgrep-controls-main` (`queue_pattern_singles.sh`): all 15 subsets of the 4 control rewrites on the 15 main seeds, pinned Semgrep 1.178.0, 225 candidates, 0 scan errors, 0 behavior differences. 60 evade, exactly the 4 subsets that contain both `format_swap` and `literal_slice` (15 of 15 seeds each); the other 11 subsets, with or without `rename` and `dead_padding`, never evade. Across all saved pinned-rule runs on SQL seeds, 134 of 473 distinct control-only candidates evade and every one contains `literal_slice` (`analysis/rq1.py`, `analysis/lessons.py`).
 
 `codeql-diverse-*`, `semgrep-diverse-triples`: 12 structurally varied seeds (`seeds_diverse/`). CodeQL: evasion iff a flow operator is present, on all 10 qualifying seeds. Semgrep: depends on code shape.
 
@@ -319,11 +319,11 @@ Random: pattern 8.37 (66/90), data-flow 4.30 (30/30). Original prompt, 8B minus 
 
 ### More streams and repeats
 
-**More streams and repeats** (`scripts/queue_more_codeql.sh`, `scripts/queue_repeats.sh`, `more_streams.py`). CodeQL agent comparison on seeds `d01` and `d02` (30 streams per cell, 3 models, original and informed prompt, shared random and heuristic baselines in `codeql-more-base`): the 35B agents beat random choice with both prompts (about -1.6 to -2.8 attempts), the 8B agents are worse (+2.8 to +4.1), the coder agents beat random only in the diagnostic form with the original prompt (-1.70) and are worse with the informed prompt (+2.10, +1.40). Repeats with base seeds 7001 and 7002 (`semgrep-rep*`, `pysa-rep*`): the 6 pattern-rule cells stay within 0.4 attempts of the first run and are below random in all 18 runs, with the interval below 0 in 13 of them; on Pysa the coder diagnostic agent is below random in 3 of 3 runs (interval below 0 in 2; pooled -5.01 [-6.87, -3.04]), the coder history-only agent in 3 of 3 (interval below 0 in 1; pooled -2.26 [-4.03, -0.48]), the 35B history-only agent is worse (pooled +1.33 [+0.20, +2.56]) and the 8B diagnostic agent does not differ from random (pooled -1.04 [-2.59, +0.58]). The persistent scan cache (`scan_cache` config key) changes compute only.
+**More streams and repeats** (`scripts/queue_more_codeql.sh`, `scripts/queue_repeats.sh`, `analysis/table5.py`, `analysis/rq3.py`, `analysis/rq6.py`). CodeQL agent comparison on seeds `d01` and `d02` (30 streams per cell, 3 models, original and informed prompt, shared random and heuristic baselines in `codeql-more-base`): the 35B agents beat random choice with both prompts (about -1.6 to -2.8 attempts), the 8B agents are worse (+2.8 to +4.1), the coder agents beat random only in the diagnostic form with the original prompt (-1.70) and are worse with the informed prompt (+2.10, +1.40). Repeats with base seeds 7001 and 7002 (`semgrep-rep*`, `pysa-rep*`): the 6 pattern-rule cells stay within 0.4 attempts of the first run and are below random in all 18 runs, with the interval below 0 in 13 of them; on Pysa the coder diagnostic agent is below random in 3 of 3 runs (interval below 0 in 2; pooled -5.01 [-6.87, -3.04]), the coder history-only agent in 3 of 3 (interval below 0 in 1; pooled -2.26 [-4.03, -0.48]), the 35B history-only agent is worse (pooled +1.33 [+0.20, +2.56]) and the 8B diagnostic agent does not differ from random (pooled -1.04 [-2.59, +0.58]). The persistent scan cache (`scan_cache` config key) changes compute only.
 
 ### Metropolis restarts
 
-Found after the runs (review of the report): in every saved run except the two walk checks below, strategies 6 and 7 also restart from the seed, like strategies 1 to 5, when the current subset holds the last operator of the order. `Search.select` sets the mask to 0 before the strategy 6/7 branch, and the runner then recorded `restarted` only for strategies 1 to 5, so in the saved `attempts.jsonl` a restart shows only as a `parent_mask` that is not the last accepted mask (the runner now logs it). `analysis/metropolis_restarts.py` finds them in the saved rows and asserts that each one goes to the seed and happens exactly when no later operator is left.
+In every saved run except the two walk checks below, strategies 6 and 7 also restart from the seed, like strategies 1 to 5, when the current subset holds the last operator of the order. `Search.select` resets the mask to 0 before the strategy 6/7 branch; in the saved `attempts.jsonl`, a restart appears as a `parent_mask` that is not the last accepted mask (new runs also set `restarted: true`). `analysis/rq3.py` identifies these restarts in the saved rows and asserts that each one goes to the seed and happens exactly when no later operator is left.
 
 | Run | Attempts | Restarts | Restarts before the first evasion | Trajectories with one |
 | --- | ---: | ---: | ---: | ---: |
@@ -342,7 +342,7 @@ The full campaigns are unaffected, because attempts to the first evasion are cou
 | `semgrep-hard30-walk` | 90/90 | 5.28 | 90/90, 5.23 | +0.04 [-0.80, +0.78] | -0.19 [-1.42, +0.91] |
 | `pysa-hard-walk` | 36/45 | 9.27 | 33/45, 9.20 | +0.07 [-1.47, +1.93] | -0.87 [-4.00, +2.07] |
 
-The restart makes no measurable difference on either pool, and the walk without it still cannot be told apart from the heuristic. Intervals: paired over 30 and 15 streams, 5,000 resamples, the generator of `vs_heuristic.py`.
+The restart makes no measurable difference on either pool, and the walk without it still cannot be told apart from the heuristic. Intervals: paired over 30 and 15 streams, 5,000 resamples, the generator of `analysis/common.py` (`analysis/rq3.py`).
 
 ### Statistics
 
@@ -352,9 +352,9 @@ Intervals are 95% percentile bootstrap intervals with 5,000 resamples over strea
 
 | Check | Result |
 | --- | --- |
-| Unit and integration suite | 187 tests passed (181 passed and 6 skipped in the Docker image) on the current tree, which differs from the tree the early campaigns ran on ([validation record](docs/validation.md)) |
+| Unit and integration suite | 187 tests passed (181 passed and 6 skipped in the Docker image) ([validation record](docs/validation.md)) |
 | Behavior preservation | Every evaluated candidate in the saved campaigns matched the original on both inputs: 0 differences in 5,563 Semgrep candidates, 225 + 31 operator-check candidates and 5,250 CodeQL search attempts |
-| Verdict determinism | No (seed, subset) pair received two different verdicts in any saved run: 12,532 distinct Semgrep pairs (pinned 1.178.0, main, varied and official seeds, `controls_main.py`) and 3,945 distinct CodeQL pairs (same corpora, 26 runs, 3,780 without the 2 runs of CodeQL 2.27.3, `codeql_rule.py`) |
+| Verdict determinism | No (seed, subset) pair received two different verdicts in any saved run: 12,532 distinct Semgrep pairs (pinned 1.178.0, main, varied and official seeds, `analysis/rq1.py`) and 3,945 distinct CodeQL pairs (same corpora, 26 runs, 3,780 without the 2 runs of CodeQL 2.27.3, `analysis/rq1.py`) |
 | Scanner and oracle errors | 0 oracle failures in all campaigns; 0 scanner errors in every campaign except `codeql-hard-qwen` (2 timed-out scans of `d02_str_format`, strategy 5, not counted as evasions; its report card is `excluded`); `codeql-v6` has none after the rerun of its 3 timed-out scans |
 | Model requests | 0 fallbacks in the two full campaigns; 79 in the restricted runs, out of 76,045 distinct model decisions (73 with the 8B model: `semgrep-informed-8b` 37, `semgrep-rep1-8b` 25, `pysa-hard-informed-8b` 11; 6 with the 35B model: `pysa-rep1-35b`). Counted over all `results/*/llm.jsonl` records with `fallback: true` (1,525 model records in `codeql-v6`, 0 fallbacks) |
 

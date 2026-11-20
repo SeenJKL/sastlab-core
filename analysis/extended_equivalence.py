@@ -1,6 +1,6 @@
-"""Extended behavior-equivalence check: every unique candidate from every saved result is re-run on a richer database and
-20 inputs (the campaigns used 2 inputs, 3 rows). Candidate = regenerated from seed + mask (sha256 verified against the log)."""
-import contextlib, io, json, sqlite3, sys, collections as C, hashlib
+"""Extended behavior-equivalence check: every unique candidate from the saved SQL runs is re-run on a richer database
+and 20 inputs (the campaigns used 2 inputs, 3 rows). Candidate = regenerated from seed + mask."""
+import contextlib, io, json, sqlite3, sys, collections as C
 from pathlib import Path
 from common import ROOT
 code = ROOT; sys.path.insert(0, str(code))

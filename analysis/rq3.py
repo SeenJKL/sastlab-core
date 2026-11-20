@@ -147,9 +147,9 @@ def paragraph_1():
     claim("after 1.6 to 2.1 attempts on average", f"{min(semgrep_means):.2f} to {max(semgrep_means):.2f}")
     claim("on CodeQL the strategies without a model needed 2.00 to 2.80 attempts",
         f"{min(no_model):.2f} to {max(no_model):.2f}")
-    claim("while the 8B agents needed 3.64 and 4.20",
-        f"codeql-promptfix (shuffled definitions): {promptfix[3][2]:.2f} and {promptfix[5][2]:.2f}",
-        f"codeql-v6 (fixed definition order): {codeql[3][2]:.2f} and {codeql[5][2]:.2f}")
+    claim("while the 8B agents needed 5.04 and 7.84",
+        f"codeql-v6 (fixed definition order): {codeql[3][2]:.2f} and {codeql[5][2]:.2f}",
+        f"codeql-promptfix (shuffled definitions): {promptfix[3][2]:.2f} and {promptfix[5][2]:.2f}")
     claim("the static ranking succeeded in only 16 of 25 trajectories", f"{codeql[4][0]} of {codeql[4][1]}")
     claim("Both rules are therefore Weak", f"Semgrep {semgrep_class}, CodeQL {codeql_class}")
 

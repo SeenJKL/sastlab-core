@@ -10,7 +10,7 @@ witness-path-guided metamorphic transformation (as in TaintCC) exploits.
 Semgrep reports match spans, not paths, so this probe does not apply to it.
 
 Run from the code directory:
-  PYTHONPATH=. .sastlab/.venv/bin/python scripts/path_probe.py configs/codeql-diverse.json results/codeql-path-probe
+  .sastlab/.venv/bin/python scripts/path_probe.py configs/codeql-diverse.json results/codeql-path-probe
 """
 import ast
 import json
@@ -19,6 +19,7 @@ import sys
 import time
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from sastlab.oracle import Oracle
 from sastlab.runner import load_config, scanner_from
 

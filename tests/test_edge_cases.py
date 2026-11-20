@@ -1,4 +1,4 @@
-"""Regression tests for the defects found in the review of the published repository."""
+"""Tests for transform scope and docstring handling, target-rule filtering, exhaustive work_dir, CodeQL identity, and replay configs."""
 import json
 import random
 import sys

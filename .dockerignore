@@ -1,5 +1,8 @@
 results/
+runs/
+.git/
 .sastlab/
+analysis/out/
 .env
 .env.*
 __pycache__/

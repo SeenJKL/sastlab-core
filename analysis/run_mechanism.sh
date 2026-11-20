@@ -7,7 +7,8 @@ set -eu
 cd "$(dirname "$0")/.."
 out="${SASTLAB_OUT:-$PWD/analysis/out}/mechanism"
 mkdir -p "$out"
-py=.sastlab/.venv/bin/python
+py="${PYTHON:-.sastlab/.venv/bin/python}"
+[ -x "$py" ] || py=python3
 $py analysis/mechanism_pysa.py         > "$out/pysa.txt"
 $py analysis/mechanism_codeql.py       > "$out/codeql_library.txt"
 $py analysis/mechanism_codeql_flow.py  > "$out/codeql_flow.txt"

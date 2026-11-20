@@ -1,4 +1,4 @@
-"""Regression tests for defects found while reviewing the artifact as a stranger would use it from a clean checkout."""
+"""Tests for oracle temp-directory cleanup, inline-query seeds, CLI reporting, scan-cache keys, and equivalence checks."""
 import importlib.util
 import io
 import json
@@ -208,4 +208,4 @@ def test_scan_cache_key_follows_the_contents_of_the_pysa_models(tmp_path):
     assert key == scan_cache_settings(config, FakeScanner([str(tmp_path / "b")]))  # where the models are does not matter
     (tmp_path / "b" / "x.pysa").write_text("def g(): ...\n")
     assert key != scan_cache_settings(config, FakeScanner([str(tmp_path / "b")]))  # what they say does
-    assert len(scan_cache_settings({"engine": "semgrep"}, FakeScanner([]))) == 7  # engines without models keep the old key
+    assert len(scan_cache_settings({"engine": "semgrep"}, FakeScanner([]))) == 7  # engines without model files use the 7-field key
