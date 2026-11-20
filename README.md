@@ -7,15 +7,9 @@ SASTLab tests whether static application security testing (SAST) scanners keep f
 - **18 rewrite operators**, applied as deterministic AST transformations. No model writes code.
 - **7 search strategies** choose which rewrites to try next. Three of them ask a language model to pick an operator name from a fixed list.
 
-```
- seed ──► rewrite operators ──► candidate ──┬──► scanner ──────────┐
- (flagged,  (a subset of the                │                       ├──► evasion?
- exploitable) 18 operators)                 └──► behavior check ────┘
-   ▲
-   └─────────── search strategy picks the next subset ◄── verdict (and diagnostics)
+![Overview of the testing loop: the search strategy picks the next operator, the rewrite toolbox builds a candidate from the seed, and the scanner and the behavior check decide whether it is an evasion](docs/overview.png)
 
- evasion = scan succeeded  +  behavior unchanged  +  the rule that fired on the seed is silent
-```
+An evasion needs a scan that succeeded, unchanged behavior on the tested inputs, and silence from the rule that fired on the seed.
 
 ## What it found
 
