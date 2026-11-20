@@ -8,7 +8,7 @@ also start processes with the same exit statuses as its seed. The shell's own sy
 usage (from the repository root): .sastlab/.venv/bin/python analysis/cmd_equivalence.py"""
 import contextlib, json, os, subprocess, sys
 from pathlib import Path
-from _paths import ROOT
+from common import ROOT
 sys.path.insert(0, str(ROOT))
 from sastlab.transforms import OPERATORS, candidate
 

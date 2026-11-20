@@ -1,17 +1,17 @@
 #!/bin/sh
 # Recompute the tables and numbers of the report from the saved results.
 # No scanner and no model are needed: the scripts read results/ and re-execute candidates only for the behavior checks.
-# Output goes to analysis/out/ (or $SASTLAB_OUT): <script>.txt is what the script prints, and the LaTeX files
-# (\newcommand{\name}{value} number macros and table rows) are what it writes. Takes about 3 minutes.
+# Every script prints its analysis method and plain-text tables to stdout (no .tex files are generated);
+# run_all.sh saves each script's stdout to analysis/out/<script>.txt (or $SASTLAB_OUT). Takes about 3 minutes.
 # The mechanism checks rerun the scanners and are separate: analysis/run_mechanism.sh.
 set -eu
 cd "$(dirname "$0")/.."
 out="${SASTLAB_OUT:-$PWD/analysis/out}"
 mkdir -p "$out"
-py=.sastlab/.venv/bin/python
-for s in campaigns bandit_numbers codeql_rule controls_main extra_numbers informed_other more_streams official_numbers \
-         prompt_models prompt_search pysa_numbers pysa_search pysa_tables round2_analysis single_ops taint_numbers \
-         vs_heuristic metropolis_restarts extended_equivalence cmd_equivalence path_equivalence; do
+py="${PYTHON:-.sastlab/.venv/bin/python}"
+[ -x "$py" ] || py=python3
+for s in setup table3 table4 table5 table6 rq1 rq2 rq3 rq4 rq5 rq6 lessons \
+         extended_equivalence cmd_equivalence path_equivalence; do
   echo "== $s"
   $py "analysis/$s.py" > "$out/$s.txt" 2> "$out/$s.err"
   [ -s "$out/$s.err" ] || rm -f "$out/$s.err"

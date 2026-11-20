@@ -2,7 +2,7 @@
 20 inputs (the campaigns used 2 inputs, 3 rows). Candidate = regenerated from seed + mask (sha256 verified against the log)."""
 import contextlib, io, json, sqlite3, sys, collections as C, hashlib
 from pathlib import Path
-from _paths import ROOT, OUT_DIR
+from common import ROOT
 code = ROOT; sys.path.insert(0, str(code))
 from sastlab.transforms import candidate, OPERATORS
 R = code / "results"
@@ -89,8 +89,7 @@ for (sdir, seed, mask), ev in sorted(cand.items()):
     same = run(c) == b
     stats[("evading" if ev else "detected", "same" if same else "DIFFERENT")] += 1
     if not same: bad.append((sdir, seed, mask, ev))
-print("unique candidates:", len(cand), "| missing seed files:", sorted(missing_base)[:5])
-(OUT_DIR / "equiv_numbers.tex").write_text("\\newcommand{\\equivSqlCount}{%s}\n" % f"{len(cand):,}".replace(",", "{,}"))
+print("unique candidates:", f"{len(cand):,}", "| missing seed files:", sorted(missing_base)[:5])
 print(dict(stats))
 print("different-behavior candidates:", bad[:15], "total", len(bad))
 # is each baseline actually exploitable under the richer inputs? (injection input returns more rows than the nominal one)

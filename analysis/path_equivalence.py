@@ -4,7 +4,7 @@ exception type) must equal the baseline's.
 usage (from the repository root): .sastlab/.venv/bin/python analysis/path_equivalence.py"""
 import json, sys, tempfile
 from pathlib import Path
-from _paths import ROOT
+from common import ROOT
 code = ROOT; sys.path.insert(0, str(code))
 from sastlab.transforms import OPERATORS, candidate
 

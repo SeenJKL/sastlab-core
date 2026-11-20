@@ -4,7 +4,7 @@ usage (from the repository root): .sastlab/.venv/bin/python analysis/mechanism_c
 """
 import json, shutil, subprocess, sys
 from pathlib import Path
-from _paths import ROOT
+from common import ROOT
 
 code = ROOT
 sys.path.insert(0, str(code))

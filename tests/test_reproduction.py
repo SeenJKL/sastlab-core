@@ -50,17 +50,19 @@ def test_every_path_in_every_config_exists():
 
 def test_analysis_scripts_use_repository_paths():
     scripts = sorted((ROOT / "analysis").glob("*.py")) + sorted((ROOT / "analysis").glob("*.sh"))
-    assert len(scripts) > 25
+    assert len(scripts) >= 20
     for script in scripts:
         text = script.read_text()
         assert not re.search(r"parents\[2\]|\.\./\.\.|/home/|/tmp/", text), script.name  # nothing may point outside the repository
         if script.suffix == ".py":
+            assert ".tex" not in text, f"{script.name} should print plain-text analysis, not write .tex"
             compile(text, str(script), "exec")
 
 
 @needs_results
 def test_analysis_script_runs_from_another_directory(tmp_path):
     env = dict(os.environ, SASTLAB_OUT=str(tmp_path))
-    subprocess.run([sys.executable, str(ROOT / "analysis" / "bandit_numbers.py")], cwd=tmp_path, env=env, check=True,
-                   stdout=subprocess.DEVNULL)
-    assert "banditMainCand" in (tmp_path / "bandit_numbers.tex").read_text()
+    proc = subprocess.run([sys.executable, str(ROOT / "analysis" / "table4.py")], cwd=tmp_path, env=env, check=True,
+                          capture_output=True, text=True)
+    assert "Independent projects" in proc.stdout and "954" in proc.stdout
+    assert list(tmp_path.iterdir()) == []  # prints plain text to stdout, writes no .tex or other files

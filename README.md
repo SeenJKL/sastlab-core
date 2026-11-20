@@ -236,24 +236,23 @@ Raw scanner reports go to `.sastlab/runs/` (not committed). Delete that folder w
 
 ## Analysis
 
-`analysis/` holds the scripts behind the tables and numbers of the report. They read the saved results and call no model; paths are relative to the repository, so the scripts run from any directory.
+`analysis/` holds the scripts that show the analysis method and compute every table and number in the report from the saved results. They use only the standard library (plus `sastlab` for the behavior and mechanism checks), call no model, write no `.tex` files, and run from any working directory. Each script documents its inputs and method at the top and prints plain-text tables and per-claim breakdowns to stdout.
 
 ```sh
-analysis/run_all.sh        # the report's tables and numbers from results/ into analysis/out/ (about 3 minutes, no scanner)
+analysis/run_all.sh        # run all 15 offline analysis scripts and save plain-text stdout to analysis/out/ (about 3 minutes, no scanner)
 analysis/run_mechanism.sh  # why the evading rewrites work: re-scans with added models (about 15 minutes, needs the scanners)
 ```
 
 | Scripts | Compute |
 |---|---|
-| `campaigns.py` | the two full campaigns (RQ3), the scan times, the model fallbacks and the scan-cache runs |
-| `codeql_rule.py`, `controls_main.py`, `official_numbers.py`, `pysa_tables.py` (with `pysa_numbers.py` and `single_ops.py`) | RQ1 and RQ5: the per-rewrite table and the rules checked over all saved candidates |
-| `extra_numbers.py`, `bandit_numbers.py`, `taint_numbers.py` | RQ2: the further corpora, Bandit, Semgrep's taint rule and the newer releases |
-| `vs_heuristic.py`, `metropolis_restarts.py`, `informed_other.py`, `round2_analysis.py` | RQ3 and RQ4: attempts to the first evasion with paired intervals, the walk restarts, the informed prompt and the feedback ablation; `round2_analysis.py` also counts the path probe and the rewrite catalog |
-| `prompt_search.py`, `pysa_search.py`, `prompt_models.py`, `more_streams.py` | RQ6: the Pysa searches, prompts and repeats |
-| `extended_equivalence.py`, `cmd_equivalence.py`, `path_equivalence.py` | the behavior check of every distinct saved candidate on more inputs |
+| `common.py`, `candidates.py` | shared helpers: reading saved runs, evasion definitions, stream-paired bootstrap intervals (`5,000` resamples, seed `11`), candidate deduplication and AST query-shape classification |
+| `setup.py` | Table 2 (the 7 corpora), campaign budgets, minimal evading sets of restricted pools, CodeQL scan times, model fallbacks, scan-cache configs and the rewrite catalog |
+| `table3.py`, `table4.py`, `table5.py`, `table6.py` | plain-text tables: single-rewrite evasions per analyzer (Table 3), 4 further corpora (Table 4), restricted-pool LLM comparison with paired intervals (Table 5), and Pysa prompt search breakdown (RQ6) |
+| `rq1.py`, `rq2.py`, `rq3.py`, `rq4.py`, `rq5.py`, `rq6.py`, `lessons.py` | step-by-step calculations behind RQ1–RQ6 and the negative-results/lessons section (control rules, CodeQL additivity, Bandit, Semgrep taint, newer releases, Metropolis restarts, diagnostic ablation, Pysa pairs, repeats and witness-path probe) |
+| `extended_equivalence.py`, `cmd_equivalence.py`, `path_equivalence.py` | the behavior check of every distinct saved candidate on 20 SQL, 12 command and 14 path inputs |
 | `mechanism_*.py` | the added-model repairs and probes behind the causes in RQ5 |
 
-Each script prints its numbers, and most also write LaTeX number macros and table rows, to `analysis/out/`; set `SASTLAB_OUT` to write elsewhere. `scripts/path_probe.py` and `scripts/rewrite_catalog.py` produced `results/codeql-path-probe` and `results/codeql-rewrite-catalog` (usage in each docstring). The queue scripts that ran the experiments and the other check scripts named in the documents are not part of this repository; the `manifest.json` of each run records its configuration.
+Running any script directly (for example `python3 analysis/table3.py`) prints to stdout without writing files; `analysis/run_all.sh` saves each script's stdout as `analysis/out/<script>.txt` (set `SASTLAB_OUT` to write elsewhere). `scripts/path_probe.py` and `scripts/rewrite_catalog.py` produced `results/codeql-path-probe` and `results/codeql-rewrite-catalog` (usage in each docstring). The queue scripts that ran the experiments and the other check scripts named in the documents are not part of this repository; the `manifest.json` of each run records its configuration.
 
 ## Tests
 

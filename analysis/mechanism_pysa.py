@@ -5,9 +5,11 @@
 3. Unbound sink: does Pysa read type(cursor).execute(cursor, query) as a bound call and shift the arguments by 1? Three spellings of the same call.
 usage (from the repository root): .sastlab/.venv/bin/python analysis/mechanism_pysa.py
 """
-import json, sys
+import json, os, sys
 from pathlib import Path
-from _paths import ROOT, OUT_DIR
+from common import ROOT
+
+OUT_DIR = Path(os.environ.get("SASTLAB_OUT", ROOT / "analysis" / "out"))
 
 code = ROOT
 sys.path.insert(0, str(code))
