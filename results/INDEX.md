@@ -1,27 +1,27 @@
 # Saved Experiment Results
 
-Catalog of all **115** saved run folders in `results/`. All counts are read directly from the persisted files (nothing here is rescanned).
+List of all **115** saved run folders in `results/`. Every number below comes directly from the saved files (nothing here is re-scanned).
 
 ## How to Read Saved Runs
 
-- **Inspect a search run** (read-only summary recomputed from `attempts.jsonl`):
+- **View a search run** (prints a read-only summary from `attempts.jsonl`):
   ```sh
   ./run.sh report results/<folder>
   # or without run.sh:
   python3 -m sastlab report results/<folder>
   ```
-- **Inspect an exhaustive run**: read `summary.json` (per-seed totals) and `evaluations.jsonl` (one row per `(seed, mask)`).
-- **Reproduce all tables and claims** in [result.md](../result.md): run `analysis/run_all.sh` (offline, ~3 minutes).
+- **View a check-all run:** read `summary.json` (totals per seed) and `evaluations.jsonl` (one line per `(seed, mask)`).
+- **Re-check all report tables and numbers** in [result.md](../result.md): run `analysis/run_all.sh` (offline, takes about 3 minutes).
 
-## Naming Convention & Columns
+## Folder Names and Columns
 
-Run folders generally follow `<scanner>-<corpus>-<kind>` (e.g., `semgrep-main-pairs`, `codeql-v6`, `pysa-hard-informed`).
+Run folders usually follow `<scanner>-<corpus>-<kind>` (for example, `semgrep-main-pairs`, `codeql-v6`, `pysa-hard-informed`).
 
-- **Scanner**: `semgrep`, `codeql`, `pysa`, or `bandit` (`-` for validation/probe folders).
-- **Kind**:
-  - `search`: iterative strategy runs logged in `attempts.jsonl`. *Records* = logged attempts; *Evading* = behavior-equivalent, error-free scans where target rule(s) stopped firing.
-  - `exhaustive`: full subset enumerations logged in `evaluations.jsonl`. *Records* = enumerated `(seed, mask)` pairs; *Evading* = behavior-equivalent, error-free evaluations that silenced **at least one** target rule. (Exhaustive runs always record `scan_rules` and `bypassed_rules` for every rule regardless of `evasion: "all"`, so for Pysa SQL runs an "evading" row silenced 1 or 2 rules, whereas the "silent" counts in [result.md](../result.md) require **both** rules 5005 and 5051 to stop.)
-  - `other`: helper-script or validation output (`codeql-path-probe`, `codeql-rewrite-catalog`, `mechanism`, `official-validation`, `prompt-order-probe`).
+- **Scanner:** `semgrep`, `codeql`, `pysa`, or `bandit` (`-` for helper-script or validation outputs).
+- **Kind:**
+  - `search`: step-by-step strategy runs saved in `attempts.jsonl`. *Records* = total tries logged; *Evading* = valid same-behavior programs scanned without errors where target rule(s) stopped firing.
+  - `exhaustive`: runs that test every combination, saved in `evaluations.jsonl`. *Records* = total `(seed, mask)` pairs checked; *Evading* = valid same-behavior programs scanned without errors that silenced **at least one** target rule. (Check-all runs always log `scan_rules` and `bypassed_rules` for every rule even when `evasion: "all"`, so for Pysa SQL runs an "evading" row stopped 1 or 2 rules, while "silent" counts in [result.md](../result.md) require **both** rules 5005 and 5051 to stop.)
+  - `other`: helper-script or validation outputs (`codeql-path-probe`, `codeql-rewrite-catalog`, `mechanism`, `official-validation`, `prompt-order-probe`).
 
 ## Run Index
 
