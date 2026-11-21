@@ -81,27 +81,25 @@ less results/INDEX.md
 
 ```sh
 docker build -t sastlab .
-docker run --rm sastlab          # 181 passed, 6 skipped (image leaves out results/)
+docker run --rm sastlab                                          # 181 passed, 6 skipped (image leaves out results/)
+docker run --rm -v "$PWD/results:/opt/sastlab/results:ro" sastlab # 187 passed
 ```
 
 **Option 2 — Local Linux x86-64 setup (matches [Dockerfile](Dockerfile)):**
 
 ```sh
 python3.14 -m venv .sastlab/.venv       && .sastlab/.venv/bin/pip install -r requirements.lock
-python3.14 -m venv .sastlab/pysa-venv   && .sastlab/.venv/bin/pip install -r requirements-pysa.lock
-python3.14 -m venv .sastlab/bandit-venv && .sastlab/.venv/bin/pip install -r requirements-bandit.lock
+python3.14 -m venv .sastlab/pysa-venv   && .sastlab/pysa-venv/bin/pip install -r requirements-pysa.lock
+python3.14 -m venv .sastlab/bandit-venv && .sastlab/bandit-venv/bin/pip install -r requirements-bandit.lock
 
 mkdir -p .sastlab/tools && curl -fsSL -o /tmp/codeql.tar.zst \
   https://github.com/github/codeql-action/releases/download/codeql-bundle-v2.27.1/codeql-bundle-python-linux64.tar.zst \
+  && echo "ea86393c6c812542ae5a3a7122bcc760873707a50b25cc47d2fd7cfd514b0cb0  /tmp/codeql.tar.zst" | sha256sum -c - \
   && zstd -dc /tmp/codeql.tar.zst | tar -x -C .sastlab/tools && rm /tmp/codeql.tar.zst
 
-# Run all 187 tests (182 passed, 5 skipped outside Docker when optional scanner checks skip)
+# Run all 187 tests (187 passed with all scanners + results/; 182 passed, 5 skipped without pysa/bandit)
 PYTHONDONTWRITEBYTECODE=1 .sastlab/.venv/bin/python -m pytest -q -p no:cacheprovider
 ```
-
-*(Wait — let's make sure Option 2 didn't copy a typo: `.sastlab/pysa-venv/bin/pip` and `.sastlab/bandit-venv/bin/pip`, NOT `.sastlab/.venv/bin/pip`! Good catch checking as I write!)*
-
-Let's double check line 82 carefully and make sure those 3 venv commands are exact (`pysa-venv` and `bandit-venv`). Continuing carefully when calling `write_file`:
 
 ### Track C — Run Rewrites, Check-All Scans, and Non-LLM Search (No API Key)
 
@@ -208,7 +206,7 @@ Seed + Bitmask ──▶ transforms.py (fixed-order AST rewrite, bits 0..17)
 | `./run.sh exhaustive --config C --output D --seed-limit N` | Scans every non-empty rewrite subset without search or LLM (`--operators ...`, `--max-ops K`, `--resume`). |
 | `./run.sh transform SEED --mask M [--output F]` | Applies bitmask `M` to `SEED`, runs the behavior check, writes code to `F` (or stdout) and JSON check to stderr. |
 | `./run.sh report D [--write]` | Recomputes search summary from `attempts.jsonl` to stdout (`--write` updates `summary.json`). |
-| `./run.sh doctor [--config C]` | Verifies SoCLaaS API access/model serving and prints where all 4 scanners were found. |
+| `./run.sh doctor [--config C]` | Prints local paths for all 4 scanners and checks SoCLaaS model access (reports `"llm": {"error": ...}` if `SOCLAAS_API_KEY` is unset). |
 
 - **Resuming & fixing baseline errors:** `run --resume` drops incomplete walks (`discarded-partial.jsonl`) and restarts them cleanly so walks never mix across runs. If a baseline scan fails, `exhaustive` stops cleanly (continue with `--resume`), while `run` finishes other seeds, exits `1`, and fixes missed baselines with `--rerun-errors`.
 

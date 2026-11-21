@@ -207,7 +207,7 @@ Single and pair check-all scans across 6 test sets (`50` qualifying seeds, `7,70
 
 - **New 18-operator checks (`semgrep-newops`, `codeql-newops`):** Singles and pairs of bits 13–17 on `12` varied seeds had `0` behavior or scan errors; all `5` evade CodeQL on `10/10` qualifying seeds; the `3` sink operators evade Semgrep on `8/8`.
 - **Placing rewrites along the path (`codeql-path-probe`, [`scripts/path_probe.py`](scripts/path_probe.py)):** Laundering code inserted directly at CodeQL alert-path steps (parameter, query assignment, sink) evaded in `155/155` cases vs. `31/31` identity controls caught (`d08`, `d11` excluded); placing code mid-path gives no benefit over function entry.
-- **Control-only matrix (`semgrep-controls-main`, `analysis/rq1.py`, `analysis/lessons.py`):** All 15 combinations of `{rename, format_swap, literal_slice, dead_padding}` on 15 main seeds (`225` scans): only the `60` candidates containing both `format_swap` and `literal_slice` evade; across all pinned SQL runs, `134/473` unique control-only candidates evade (every one uses `literal_slice`).
+- **Control-only matrix (`semgrep-controls-main`, `analysis/rq1.py`, `analysis/lessons.py`):** All 15 combinations of `{rename, format_swap, literal_slice, dead_padding}` on 15 main seeds (`225` scans): only the `60` candidates containing both `format_swap` and `literal_slice` evade; across all 5 pinned SQL test sets, `134/479` unique control-only candidates evade (`117/399` across `main`, `varied`, and `official` in `analysis/lessons.py`; every one uses `literal_slice`).
 - **Rewrite catalog (`codeql-rewrite-catalog`, [`scripts/rewrite_catalog.py`](scripts/rewrite_catalog.py)):** `59` behavior-checked hand-written variants probing CodeQL limits that led to operators 14–18.
 
 ---

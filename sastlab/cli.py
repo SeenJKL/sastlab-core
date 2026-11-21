@@ -53,7 +53,14 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         if args.command == "doctor":
-            result = {"llm": model_from({"llm": {**load_config(args.config)["llm"], "timeout": 10}}).identity(),
+            config = load_config(args.config)
+            try:
+                if not config.get("llm"):
+                    raise ValueError("Config has no llm section")
+                llm_status = model_from({"llm": {**config["llm"], "timeout": 10}}).identity()
+            except (ValueError, OSError, RuntimeError) as exc:
+                llm_status = {"error": str(exc)}
+            result = {"llm": llm_status,
                       "scanners": {name: shutil.which(binary) or
                           next((str(SASTLAB_HOME / path) for path in (where,) if (SASTLAB_HOME / path).is_file()), None)
                           for name, (binary, where) in SCANNER_LOCATIONS.items()}}
@@ -89,6 +96,7 @@ def main(argv=None):
             oracle = Oracle()
             verification = oracle.compare(oracle.evaluate(source), result)
             if args.output:
+                args.output.parent.mkdir(parents=True, exist_ok=True)
                 args.output.write_text(result)
             else:
                 print(result)

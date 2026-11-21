@@ -41,7 +41,7 @@ Run locally with all scanner tools installed under `.sastlab/`:
 PYTHONDONTWRITEBYTECODE=1 .sastlab/.venv/bin/python -m pytest -q -p no:cacheprovider
 ```
 
-Total: **187 tests** (`182 passed, 5 skipped` when optional scanner binaries are absent or inside Docker without `results/`).
+Total: **187 tests** (`187 passed` with all scanners and `results/`; `182 passed, 5 skipped` without `pysa-venv` and `bandit-venv`; `181 passed, 6 skipped` in the default Docker image without `results/`, or `187 passed` with `results/` mounted read-only).
 
 | Test File | What It Checks |
 | --- | --- |
@@ -104,7 +104,7 @@ Note: Bandit runs (`bandit-*-pairs`) add `656` unique SQL candidates to `extende
 
 ### Command Matching and Re-running Past Checks
 
-- **Tracing runs to commands:** Every one of the `115` folders in `results/` matches a campaign run or helper script (`111` queue runs + `4` probe/validation/mechanism runs). Across all `110` manifest-backed runs, recorded settings match saved configs and identities (ignoring `config_dir`, `evasion`, and optional `scan_cache` added in later experiments).
+- **Tracing runs to commands:** Every one of the `115` folders in `results/` matches a campaign run or helper script (`111` queue runs + `4` probe/validation/mechanism runs). Across all `110` manifest-backed runs, recorded settings match saved configs and identities (ignoring `config_dir`, `evasion`, and optional `scan_cache` added in later experiments; `19` configs in `configs/` set `scan_cache` and `18` saved manifests record it, as `semgrep-rep1-8b` ran with in-memory `cache: true` before `scan_cache` was added to its config file, matching `analysis/setup.py`).
 - **Re-executed subsets:** Five check-all runs (`semgrep-official-qual` `7/7`, `codeql-flow-ops-seed01` `31/31`, `codeql-flow-ops-15seeds` `225/225` with 1 resume, first 3 seeds of `semgrep-diverse-singles` `26/26`, first 2 of `codeql-official-qual` `2/2`) re-ran with identical manifest identities (aside from operator count expanding 13 → 18) and `0` row differences. Three search configs (`semgrep-hard30`, `codeql-hard15` with `--seed-limit 1`, `codeql-v6-seed05-rerun`) match `configs/`.
 - **Offline scripts & mechanism checks:** All 15 scripts in `analysis/run_all.sh` exit `0` from any working directory and write only plain text (no `.tex`). `analysis/run_mechanism.sh` reproduces `results/mechanism/{pysa,pysa_callgraph,codeql_library,codeql_flow,codeql_probe}.txt` byte for byte.
 
